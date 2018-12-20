@@ -1,0 +1,33 @@
+<style type="text/css" xmlns="">
+        body{
+            margin: 0;
+            padding:0;
+            border:0;
+        }
+</style>
+<script>
+    document.getElementsByTagName('iframe')[0].height = document.documentElement.clientHeight-10;
+    /**
+     * 页面变化调整高度
+     */
+    window.onresize = function(){
+        var fm = document.getElementsByTagName("iframe")[0];
+        fm.height = window.document.documentElement.clientHeight-10;
+    }
+</script>
+<div ng-controller="pdfCtrl">
+
+    <div class="ibox-title no-borders col-md-12">
+        <div class="col-md-10 ">
+            <div class="col-md-3 btn-group tools-panel">
+                <button type="button" class="btn btn-secondary btn-sm"
+                        ng-click="back()">
+                    <i class="fa fa-undo"></i>返回
+                </button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="src!=null">
+        <iframe src="{{src}}" width="100%" frameborder="0" ></iframe>
+    </div>
+</div>

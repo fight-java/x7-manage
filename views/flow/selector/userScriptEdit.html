@@ -1,0 +1,17 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowUserScriptEditCtrl">
+	<div id="userTab" class="easyui-tabs">
+	<div id="tempTree"></div>
+			<div>
+				<a class="btn btn-primary btn-xs" ng-click="selectScript()">常用脚本</a>
+				<a class="btn btn-primary btn-xs" ng-click="selectConditionScript()">条件脚本</a>
+                            <a class="varTree btn btn-primary btn-xs" title="可选变量" id="selectVarBtnSS" ng-click="showFlowMenu('selectVarBtnSS')">可选变量</a>
+			</div>
+			<div style="border: 1px solid #D3D3D3;">
+				<input type="hidden" value="start" name="scriptType">
+				<textarea id="startScript" name="script" codemirror="true" mirrorheight="400px" rows="10" cols="80">{{code}}</textarea>
+			</div>
+		 </div>
+	<div>
+		描述：<input type="text" class="inputText" style="width: 400px" ng-model="description" />
+	</div>
+</div>

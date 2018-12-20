@@ -1,0 +1,103 @@
+<style type="text/css">
+div.icon {
+	border: 1px solid #868686;
+	line-height: 10px;
+	width: 10px;
+	height: 10px;
+	float: left;
+	overflow: hidden;
+	margin-top: 3px;
+}
+
+.target span {
+	margin: 0 10px 0 3px;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+div.qtip{
+	min-width:280px;
+}
+#taskImage{
+	margin:10px;
+	min-height:300px;
+	position:relative;
+}
+</style>
+<div ng-controller="taskImageCtrl" class="container-fluid" style="_height:380px;min-height:380px;">
+	<div class="row" style="margin: 10px 0 20px 10px;">
+		<div class="target">
+			<div class="icon" style="background: #FF0000;  "></div>
+			<span>待审批</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #F89800;"></div>
+			<span>提交</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #FFE76E;"></div>
+			<span>重新提交</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #00FF00;"></div>
+			<span>同意</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #C33A1F;"></div>
+			<span>挂起</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #0000FF;"></div>
+			<span>反对</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #8A0902;"></div>
+			<span>驳回</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #FFA500;"></div>
+			<span>驳回到发起人</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #023B62;"></div>
+			<span>撤销</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #F23B62;"></div>
+			<span>撤销到发起人</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #338848;"></div>
+			<span>会签通过</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #82B7D7;"></div>
+			<span>会签不通过</span>
+		</div>
+		<br/>
+		<div class="target">
+			<div class="icon" style="background: #EEAF97;"></div>
+			<span>人工终止</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #CCCCCC;"></div>
+			<span>驳回取消</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #4A4A4A;"></div>
+			<span>完成</span>
+		</div>
+		<div ng-if="parentInstId!=null&&parentInstId!=0" class="target">
+			<a style="cursor:pointer;" href="javascript:void(0);" ng-click="showFlowMap(parentInstId)"><i class='fa fa-map'></i>查看主流程图</a>
+		</div>
+	</div>
+	<div class="row" style="margin: 10px;">
+ 		<div id="taskImage" 
+ 			 style="width:{{bpmDefLayout.width}}px;height:{{bpmDefLayout.height}}px;background: url({{getImageBase64()}}) no-repeat;">
+			<div ng-if="layout.nodeType == 'CALLACTIVITY' && instId" ng-repeat="layout in bpmDefLayout.listLayout" class="flowNode"  ng-click="showFlowMap(instId,layout.nodeId,layout.nodeType,'subFlow')"  ht-bpm-image="{instId:instId,nodeId:layout.nodeId,nodeType:layout.nodeType}" style="position:absolute;left:{{layout.x}}px;top:{{layout.y}}px;width:{{layout.width}}px;height:{{layout.height}}px;"></div>
+			<div ng-if="layout.nodeType != 'CALLACTIVITY' && instId" ng-repeat="layout in bpmDefLayout.listLayout" class="flowNode" ht-bpm-image="{instId:instId,nodeId:layout.nodeId,nodeType:layout.nodeType}" style="position:absolute;left:{{layout.x}}px;top:{{layout.y}}px;width:{{layout.width}}px;height:{{layout.height}}px;"></div>
+		</div> 
+	</div> 
+</div>

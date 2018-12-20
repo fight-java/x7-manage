@@ -1,0 +1,25 @@
+<div ng-controller="queryGangedController">
+	<form  name="opinionForm">
+	<fieldset >
+	   	<table class="table-form">
+	   		<tr>
+				<th style="width: 50%;background-color: #F5F5F6;text-align: center;"><label>返回结果字段</label> </th>
+				<td style="background-color: #F5F5F6;text-align: center;"><label>绑定显示的属性</label></td>
+			</tr>
+		 	<tr ng-repeat="field in resultfield">
+				<th style="width: 50%;text-align: center;">{{field.comment}} </th>
+				<td>
+				
+					<select class="input-sm" style="width: 200px;" ng-model="prop[field.comment]">
+				          <optgroup label="{{fields.desc}}" ng-repeat="fields in chooseFiledList">
+						   		<option value="{{m.path}}.{{m.name}}" ng-selected="isSelect(field.comment,m)" ng-repeat="m in fields.children">{{m.desc}}</option>
+						  </optgroup>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</fieldset>	
+	
+	</form>
+</div>
+<link href="css/x5/tableForm.css" rel="stylesheet">

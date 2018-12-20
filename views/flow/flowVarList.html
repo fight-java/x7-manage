@@ -1,0 +1,52 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="flowVarListCtrl">
+	<div class="col-md-12 no-padding">
+		<div class="ibox" >
+		<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating('')">
+							<i class="fa fa-plus"></i> 新增
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-footer no-padding">
+				<table class="table table-bordered table-striped table-hover" >
+				    <thead>
+				      <tr>
+				       <th class="col-md-2">变量类型</th>
+				       <th class="col-md-1">变量名</th> 
+				       <th class="col-md-1">变量key</th> 
+				       <th class="col-md-1">数据类型</th>
+				       <th class="col-md-1">默认值</th>
+				       <th class="col-md-1">是否必需</th>
+				       <th class="col-md-2">操作</th>
+				      </tr>
+				    </thead>
+					<tbody>
+						<tr ng-repeat="row in VarList track by $index">
+							<td ng-if="row.nodeId ==''">全局变量</td>
+							<td ng-if="row.nodeId !=''">{{row.nodeId}}</td>
+							<td>{{row.name}}</td>
+							<td>{{row.varKey}}</td>
+							<td>{{row.dataType}}</td>
+							<td>{{row.defaultVal}}</td>
+							<td>
+								<span class="badge badge-primary" ng-if="row.required">必填</span>
+								<span class="badge badge-default" ng-if="!row.required">非必填</span>
+							</td>
+							<td width="150" title="操作">
+								<button class="btn btn-info btn-sm" ng-click="operating(row.varKey)"><i class="fa fa-edit"></i>编辑</button>
+								<button class="btn btn-danger btn-sm" ng-click="remove(row.varKey)"><i class="fa fa-remove"></i>删除</button>
+							</td>
+						</tr>
+						<tr class="no-row" ng-show="VarList.length==0">
+							<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

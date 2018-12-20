@@ -1,0 +1,87 @@
+<div ng-controller="templateCtrlfieldCtrl" ng-init="init()">
+	<form name="form">
+		<table class="table-form" cellspacing="0">
+			<tr>
+				<th>字段描叙</th>
+				<td>{{field.name}}</td>
+				<th>字段名称</th>
+				<td>{{field.fieldName}}</td>
+			</tr>
+			<tr>
+				<th>字段类型</th>
+				<td>{{field.ty}}</td>
+				<th>控件类型</th>
+				<td>
+					<select ng-model="field.ct" ng-options="m.k as m.v for m in controlTypes" disabled="disabled" class="form-control input-sm">
+					</select>
+				</td>
+			</tr>
+			<tr ng-if="field.ct=='select'||field.ct=='radio'||field.ct=='checkbox'">
+				<th>下拉框选项</th>
+				<td colspan="3">
+					<table class="table table-bordered table-hover" cellspacing="0">
+						<tr>
+							<td colspan="2">
+								<a class="btn btn-sm btn-primary fa-add" ng-click="field.controlContent.push({'optionKey':'','optionValue':''})">
+									<span>添加</span>
+								</a>
+							</td>
+						</tr>
+						<tr ng-repeat="item in field.controlContent track by $index">
+							<td style="width: 520px;">
+								值:
+								<input type="text" class="inputText" style="width: 40%;" ng-model="item.optionKey" ht-validate="{required:true}" />
+								选项:
+								<input type="text" class="inputText" style="width: 40%;" ng-model="item.optionValue" ht-validate="{required:true}" />
+							</td>
+							<td>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,field.controlContent)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,field.controlContent)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.del($index,field.controlContent)" class="btn btn-sm btn-default fa fa-trash"></a>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr ng-if="field.ct=='customDialog'">
+				<th>自定义对话框</th>
+				<td>
+					<select ht-validate-design="{required:true}" desc="对话框" ng-model="field.controlContent.alias" ht-select-ajax="{url:'${form}/form/customDialog/v1/getAll',field:'customDialogs',dataRoot:''}"
+						ng-click="changeCustDialog()" class="form-control input-sm">
+						<option value="">请选择</option>
+						<option value="{{m.alias}}" ng-repeat="m in customDialogs">{{m.name}}</option>
+					</select>
+				</td>
+				<th>返回字段</th>
+				<td>
+					<select ht-validate="{required:true}" ng-model="field.controlContent.resultField" ng-options="m.comment as m.comment for m in custDialogFields" class="form-control input-sm">
+					</select>
+				</td>
+			</tr>
+			<tr ng-if="field.ct=='dic'">
+				<th>数据字典</th>
+				<td>
+					<div ng-model="field.controlContent.alias" ht-tree-select='dicConfig'></div>
+				</td>
+				<th>返回字段</th>
+				<td>
+					<select ht-validate="{required:true}" ng-init="field.controlContent.resultField=='code'" ng-model="field.controlContent.resultField" class="form-control input-sm">
+						<option value="name" ng-selected="field.controlContent.resultField=='name'">字典名称</option>
+						<option value="code" ng-selected="field.controlContent.resultField=='code'">字典编码</option>
+					</select>
+				</td>
+			</tr>
+			<tr ng-if="field.ct=='date'">
+				<th>日期格式</th>
+				<td>
+					<select ht-validate="{required:true}" ng-model="field.dateFormat" class="inputText">
+						<option value="yyyy-MM-dd HH:mm:ss" ng-selected=" 'yyyy-MM-dd HH:mm:ss' == field.dateFormat " >yyyy-MM-dd HH:mm:ss</option>
+						<option value="yyyy-MM-dd HH:mm" >yyyy-MM-dd HH:mm</option>
+						<option value="yyyy-MM-dd HH" >yyyy-MM-dd HH</option>
+						<option value="yyyy-MM-dd" >yyyy-MM-dd</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

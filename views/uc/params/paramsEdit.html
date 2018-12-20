@@ -1,0 +1,83 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller=paramsEditCtrl>
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal"  ng-submit="save()">
+						<div class="form-group">								
+							<label class="col-sm-2 control-label">参数名称*:</label>
+							<div class="col-sm-10">
+								<input aria-required="true" required="" maxlength="30" class="form-control input-sm" type="text" ng-model="data.name"   ht-validate="{required:true,maxlength:30}"  class="form-control input-sm"/>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">参数编码*:</label>
+							<div class="col-sm-10">
+								<input aria-required="true" required="" ht-pinyin="data.name" maxlength="30" class="form-control input-sm" type="text" ng-model="data.code" ng-disabled="pageParam.action == 'edit'"  ht-validate="{required:true,maxlength:30,flowkeyrule:true}" class="form-control input-sm"/>
+							</div>	
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">参数类型*:</label>
+							<div class="col-sm-10">
+								<select class="form-control input-sm" required="" ng-disabled="pageParam.action == 'edit'" ng-model="data.type" class="form-control input-sm"> 
+									<option value="1" >用户参数</option>
+									<option value="2">组织参数</option>
+								</select>
+							</div>	
+						</div>
+						<div class="form-group">								
+							<label class="col-sm-2 control-label">控件类型*:</label>
+							<div class="col-sm-10">
+								<select class="form-control input-sm" ng-disabled="pageParam.action == 'edit'" ng-model="data.ctrType" class="form-control input-sm"> 
+									<option value="input" >手动输入</option>
+									<option value="select" >下拉框</option>
+									<option value="checkbox" >复选框</option>
+									<option value="radio" >单选按钮</option>
+									<option value="date" >日期</option>
+									<option value="number" >数字</option>
+								</select>
+							</div>	
+						</div>
+						<!--ng-if="data.ctrType == 'select' || data.ctrType == 'checkbox' || data.ctrType == 'radio'"  -->
+						<div class="form-group" ng-if="data.ctrType == 'select' || data.ctrType == 'checkbox' || data.ctrType == 'radio'" >								
+							<label class="col-sm-2 control-label">自定义选项</label>
+							<div class="col-sm-10">
+								<button class="btn btn-default btn-sm" type="button" ng-click="addItem()"><i class="fa fa-add"></i> 添加自定义选项</button>
+								<table>
+									<tbody>
+										<tr ng-repeat="item in data.json track by $index" class="ng-scope">
+											<th>选项：</th>
+											<td>
+												<input class="form-control input-sm" ng-model="item.key" ht-validate="{required:true,maxlength:150}" data-hasqtip="2" aria-describedby="qtip-2">
+											</td>
+											<th>值：</th>
+											<td>
+												<input class="form-control input-sm" ng-model="item.value" ht-validate="{required:true,maxlength:150}" data-hasqtip="3">
+											</td>
+											<th colspan="2" align="left">
+												<button class="btn btn-white" ng-click="changeItem($index,'up')" type="button" >上移</button>
+												<button class="btn btn-white" ng-click="changeItem($index,'down')" type="button">下移</button>
+												<button class="btn btn-danger" ng-click="changeItem($index,'delete')" type="button">删除</button>
+											</th>
+										</tr>
+									</tbody>
+								</table>
+							</div>	
+						</div>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit">保存</button>
+							<button class="btn btn-white" type="button" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

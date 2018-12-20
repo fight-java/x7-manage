@@ -1,0 +1,65 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll
+	ng-controller="fieldAuthEditCtrl">
+	<div class="ibox-title no-borders">
+		<form name="fieldAuthGetForm" class="form-horizontal m-t-md">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据源</label>
+				<div class="col-md-4">
+					{{data.dsAlias}}
+				</div>
+				<label class="control-label col-sm-2">表名</label>
+				<div class="col-md-4">
+					{{data.tableName}}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">表说明</label>
+				<div class="col-md-4">
+					{{data.desc}}
+				</div>
+				
+				<label class="col-sm-2 control-label">类名</label>
+				<div class="col-md-4">
+					{{data.className}}
+				</div>
+			</div>
+			<div class="row" full-scroll style="max-height: 420px;">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="condition-conds-div-right">
+						<div class="condition-conds-div-right-div">
+							<table id="displayFieldTbl"  class="table-form list-table">
+								<thead>
+									<tr>
+										<th style="width:5%">序号</th>
+										<th style="width:15%">列名</th>
+										<th style="width:20%">注释</th>
+										<th style="width:20%">
+											显示权限
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr var="displayFieldTr" ng-repeat="f in data.fieldList track by $index">
+										<td var="index">{{$index+1}}</td>
+										<td var="name">{{f.name}}</td>
+										<td >
+											<input type="text"  var="desc"  ng-model="f.desc" />
+										</td>
+										<td>
+											{{rightToDesc(f.right)}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			 <div class="text-center">
+                        <button class="btn" type="button" ng-click="close()">返回</button>
+             </div>
+		</form>
+	</div>
+</div>

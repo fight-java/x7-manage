@@ -1,0 +1,90 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="sysIndexToolsTypeCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${portal}/portal/sysIndexTools/sysIndexTools/v1/listJson">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-3 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating('','add')">
+						<i class="fa fa-plus"></i> 新增
+					</button>
+					<button class="btn btn-danger btn-sm remove"
+							ht-remove-array url="${portal}/portal/sysIndexTools/sysIndexTools/v1/remove">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称"
+						   title="通过名称" ht-quick-search="name">
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+  <div class="ibox-content" style="display:none;">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-1 control-label">名称</label>
+                    <div class="col-md-2">
+                        <input type="text" placeholder="名称" ht-query="name" 
+                               class="form-control input-sm">
+                    </div>
+                    <label class="col-md-1 control-label">创建时间</label>
+                    <div class="col-md-2">
+                        <input date-range-picker clearable="true" class="form-control input-sm date-picker" type="text"
+                               ht-query="createTime" ng-model="createTime" operation="between"/>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm" type="button" 
+                                ht-search><i class="fa fa-search"></i> 查询</button>
+                        <button class="btn btn-default btn-sm" type="button" 
+                                ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox">
+							<input type="checkbox" ht-select="row">
+							<label></label>
+						</div>
+					</td>
+					<td width="50" ng-bind="$index+1" title="序号"></td>
+					<td ht-field="row.name" title="名称" sortable="true"></td>
+					<td width="380" ht-field="row.url" title="链接" sortable="true"></td>
+					<td ht-field="row.type" title="类型" sortable="true"></td>
+					<td ng-switch="row.countMode" title="统计模式" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="0">不统计</span>
+						<span class="badge badge-primary" ng-switch-when="1">Service方法</span>
+						<span class="badge badge-primary" ng-switch-when="2">自定义查询</span>
+					</td>
+					<td width="200" ht-field="row.counting" title="统计算法" sortable="true"></td>
+					<td width="150" ht-field="row.createTime" title="创建时间" sortable="true"></td>
+					<td width="120" title="操作">
+						<div class="btn-group" uib-dropdown is-open="status.isopen">
+							<button id="split-button" type="button" class="btn btn-info" ng-click="operating(row.id, 'edit')">编辑</button>
+							<button type="button" class="btn btn-info" uib-dropdown-toggle>
+								<span class="caret"></span> <span class="sr-only">更多功能</span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+								aria-labelledby="split-button">
+								<li role="menuitem" ng-click="operating(row.id, 'get')"><a>明细</a></li>
+								<li role="menuitem" ng-click="setAuth(row.id, 'flow-filedAuthSetting')"><a>授权</a></li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="9"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

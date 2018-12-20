@@ -1,0 +1,123 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="layoutManageTypeCtrl">
+	<div class="col-md-2 border-right full-height no-padding-right">
+		<div class="full-height-scroll" full-scroll>
+			<select class="form-control input-sm" ng-model="currentDem.id" ng-change="layoutTypeChange()" 
+					ng-options="type.id as type.orgName + '---['+type.demName+']' for type in layoutTypes">
+			</select>
+	        <ul ht-tree="treeConfig" ng-model="orgTreeData" tree="treeInstance"
+	        	tree-events="onClick:tree_click;onExpand:orgTree_expand"></ul>
+	    </div>
+	</div>
+		<div class="col-md-10 no-padding">
+		<div class="ibox" ht-data-table="dataTable" url="${portal}/portal/sysIndexLayoutManage/sysIndexLayoutManage/v1/listJson">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-6 btn-group tools-panel">
+						<a ui-sref="m_portal.design({id:'', type: '0', orgId: orgId})"
+						   class="btn btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 添加
+						</a>
+						<a ui-sref="m_portal.design({id:'', type: '1', orgId: orgId})"
+						   class="btn btn btn-info btn-sm">
+							<i class="fa fa-plus"></i> 添加手机布局
+						</a>
+						<button class="btn btn-danger btn-sm remove" 
+								ht-remove-array url="${portal}/portal/sysIndexLayoutManage/sysIndexLayoutManage/v1/remove">
+							<i class="fa fa-trash"></i> 删除
+						</button>
+					</div>
+					<div class="input-group col-md-4 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="名称，描述"
+							   title="名称，描述" ht-quick-search="name,memo"> 
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display:none;">
+				<form class="form-horizontal">
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">名称</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="名称" ht-query="name" 
+	                    		   class="form-control input-sm">
+	                    </div>
+	                	<label class="col-md-1 control-label">类型</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="layoutType" operation="equal">
+	                    		<option value="">请选择</option>
+	                    		<option value="0">pc端</option>
+	                    		<option value="1">手机端</option>
+	                    	</select>
+	                    </div>
+	                    <div class="col-md-2">
+	                        <button class="btn btn-primary btn-sm" type="button" 
+	                        		ht-search><i class="fa fa-search"></i> 查询</button>
+	                        <button class="btn btn-default btn-sm" type="button" 
+	                        		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">描述</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="描述" ht-query="memo" class="form-control input-sm">
+	                    </div>
+	                    <label class="col-md-1 control-label">是否默认</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="isDef" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="1">是</option>
+	                    		<option value="0">否</option>
+	                    	</select>
+	                    </div>
+	                </div>
+	            </form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true">
+								<div class="checkbox">
+                                    <input type="checkbox" ht-select="row">
+                                    <label></label>
+                                </div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.name" title="布局名称" sortable="true"></td>
+							<td ht-field="row.memo" title="布局描述" sortable="true"></td>
+							<td ng-switch="row.isDef" title="是否默认" sortable="true">
+								<span class="badge badge-info" ng-switch-when="0">否</span>
+								<span class="badge badge-primary" ng-switch-when="1">是</span>
+							</td>
+							<td ng-switch="row.layoutType" title="模版类型" sortable="true">
+								<span class="badge badge-info" ng-switch-when="0">pc端</span>
+								<span class="badge badge-primary" ng-switch-when="1">手机端</span>
+							</td>
+							<td title="操作">
+							<div class="btn-group" uib-dropdown is-open="status.isopen">
+								<a class="btn btn-info" ui-sref="m_portal.design({id:row.id, type: row.layoutType, orgId: row.orgId})">编辑</a>
+								<button type="button" class="btn btn-info" uib-dropdown-toggle>
+									<span class="caret"></span> <span class="sr-only">更多功能</span>
+								</button>
+								<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+									<li role="menuitem" ng-if="row.isDef != 1" ng-click="changeDefaulte(row,'set')"><a>设为默认</a></li>
+									<li role="menuitem" ng-if="row.isDef == 1" ng-click="changeDefaulte(row,'cancel')"><a>取消默认</a></li>
+									<li role="menuitem" ng-click="setAuth(row.id, 'user-selector')"><a>授权</a></li>
+									<li role="menuitem" ng-click="preview(row.id)"><a>预览</a></li>
+								</ul>
+							</div>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="8"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

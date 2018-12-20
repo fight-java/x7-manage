@@ -1,0 +1,189 @@
+<div class="white-bg border-left animated fadeInRight"  ng-controller="flowTaskRemindCtrl">
+	  <form name="myForm">
+	<div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<div style="padding:0 10px">
+	     <div class="col-md-8 no-padding" style="float: left;height:100%">
+				<!----顶部工具栏---->
+			   <div class="redact-toolbar">
+					<div class="buttons" style="padding: 5px;"> 	
+						<a class="btn btn-primary btn-sm fa  fa-save" ng-click="save()"><span>保存</span></a>
+						<a ng-click="add()" type="submit" class="btn btn-primary btn-sm fa fa-arrow-right"><span>添加</span></a>
+						<a href="javascript:;" ng-click="close()" class="btn btn-primary btn-sm fa fa-close"><span>取消</span></a>
+				    </div>
+				</div>
+				<!-- -工具栏end- -->
+			      <uib-tabset>
+                     <uib-tab  heading="催办基本信息"> 
+                           <div style="height:550px;overflow-y: auto;">
+									<table class="table table-bordered">
+										<tr>
+											<th style="width: 18%;">名称:</th>
+											<td><input type="text" required="" aria-required="true" ng-model="reminder.name" class="form-control" ht-validate="{required:true,maxlength:128}"/></td>
+											<th style="width: 18%;"><span>日期类型:</span></th>
+												<td>
+													<select ng-model="reminder.dateType" class="form-control" >
+														<option value="caltime">日历日</option>
+														<option value="worktime">工作日</option>
+													</select>
+											</td>
+										</tr>
+										<tr>
+											<th style="width: 18%;"><span>相对节点:</span></th>
+											<td>
+												<select ng-model="reminder.relNodeId" class="form-control"  ng-options="node.nodeId as node.name for node in nodeList" ht-validate="{required:true}"
+													ht-select-ajax="{url:'${bpmModel}/flow/node/v1/getNodes?defId={{defId}}',field:'nodeList'}">
+												<option value="">请选择</option> 
+												</select> 
+											</td>
+											<th style="width: 18%;">节点事件:</th>
+											<td>
+												<select ng-model="reminder.relNodeEvent" class="form-control">
+													<option value="create">创建</option>
+													<option value="complete">完成</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<th>相对到期时间:</th>
+											<td colspan="3">
+												<span ht-times="reminder.dueTime" ng-model="reminder.dueTime" ht-validate="{required:true,number:true}"></span>
+											</td>
+										</tr>
+										<tr>
+											<th>到期动作:
+											</th>
+											<td colspan="3"><select ng-model="reminder.dueAction" class="form-control">
+													<option value="no-action" selected="selected">无动作</option>
+													<option value="auto-next">执行同意操作</option>
+													<option value="end-process">结束该流程</option>
+													<option value="call-method">调用指定方法</option>
+											</select>
+											</td>
+										</tr>
+										<tr ng-show="reminder.dueAction=='call-method'">
+											<th>执行脚本:</th>
+											<td colspan="3">
+												<div>
+												    <a class="btn btn-primary btn-xs" ng-click="selectScript('dueScript')">常用脚本</a>
+													<a class="varTree btn btn-primary btn-xs" broadcast="dueScript">可选变量</a> 
+												</div>  
+												<textarea id="dueScript" ng-model="reminder.dueScript" name="script" codemirror="true" mirrorheight="200px" rows="10" cols="60"></textarea>
+												<!-- <textarea ng-model="reminder.dueScript" ui-codemirror broadcast="dueScript" ></textarea> -->	 
+											</td>
+										</tr>	
+										<tr>
+											<th><a href="javascript:;" style="text-decoration: none;" class="fa fa-exclamation-circle"  ht-tip
+													title="return true,则执行该条催办；return talse,表示不执行该催办。如果表达式为空，将视为返回true。"></a>
+													条件表达式:</th>
+											<td colspan="3" >
+												<div>
+												    <a class="btn btn-primary btn-xs" ng-click="selectScript('condition')">常用脚本</a>
+													<a class="varTree btn btn-primary btn-xs" broadcast="condition">可选变量</a> <div id="tempTree"></div>
+												</div>
+												<textarea id="condition" ng-model="reminder.condition" name="script" codemirror="true" mirrorheight="200px" rows="10" cols="60"></textarea>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</uib-tab> 
+			           <uib-tab heading="消息设置"> 
+			              <div style="height:550px;overflow-y: auto;">
+							<table  class="table table-bordered" >
+								<tr>
+									<td colspan="5">
+										<span ht-boolean class="checkbox" text="催办期间定时发送消息" ng-model="reminder.isSendMsg"></span>
+									</td>
+								</tr>
+								<tr ng-if="reminder.isSendMsg">
+									<th>
+									发送相对时间:</th>
+									<td colspan="4">
+										<span ht-times="reminder.msgSendTime" ng-model="reminder.msgSendTime" ht-validate="{required:true,number:true}"></span>
+									</td>
+								</tr>
+								<tr ng-if="reminder.isSendMsg">
+									<th ><span>发送信息次数: </span></th>
+									<td colspan="4">
+										<select  ng-model="reminder.msgCount" class="form-control" ht-validate="{required:true}">
+											<option>请选择</option>
+											<option ng-repeat='s in sendMsgTimeArr' value='{{s}}'>{{s}}次</option>
+										</select>
+									</td>
+								</tr>
+								<tr ng-if="reminder.isSendMsg">
+									<th><span>发送消息间隔: </span></th>
+									<td colspan="4">
+										<span   ht-times length="5" ng-model="reminder.msgInterval" ht-validate="{required:true,number:true}"></span>
+									</td>
+								</tr>
+								<tr>
+									<th>消息类型: </th>
+									<td colspan="4">
+									   <label class="checkbox-inline" ng-repeat="(k,v) in handlerList track by $index">
+											<input type="checkbox" ht-checkbox ng-model="reminder.msgType" value="{{k}}" />{{v}}
+										</label>
+										<!-- <label ng-repeat="(k,v) in handlerList">
+										<input type="checkbox" ht-checkbox  ng-model="reminder.msgType" value="{{k}}" />{{v}}
+										</label> -->
+									</td>
+								</tr>
+								<tr>
+									<th>富文本模板:</th>
+									<td colspan="4">
+										<div>提示：可以用{title}来代表任务名称、用{time}来代表收到任务的时间。 </div>
+										<ht-editor ng-model="reminder.htmlMsg"  editorConfig = "editorConfig" style="width:430px"></ht-editor>
+									</td>
+								</tr>
+								<tr>
+									<th>普通文本内容:</th>
+									<td colspan="4">
+										<textarea ng-model="reminder.plainMsg" id="plainText" class="inputText" style="width:430px" cols="80" rows="5"></textarea>
+									</td>
+								</tr>
+							</table>
+							</div>
+						</uib-tab> 
+						<uib-tab  heading="预警配置"> 
+							<div class="toolbar-panel">
+								<a class="btn btn-sm  fa-add" ng-click="addWarningSet()">添加预警项</a>
+							</div>
+							<table class="table table-bordered">
+								<tr>
+									<th> 名称</th><th style="width: 270px;">期限</th><th style="width: 100px;">预警级别</th><th style="width: 45px;height: 23px;">管理</th>
+								</tr>
+								<tr ng-repeat="warnSet in reminder.warningSetList">
+									<td><input ng-model="warnSet.warnName" style="width:100%" class="inputText" ht-validate="{required:true}"/></td>
+									<td><span ht-times="warnSet.warnTime" ng-model="warnSet.warnTime" ht-validate="{required:true,number:true}"></span></td>
+									<td>
+										<select ng-model="warnSet.level" ng-options="w.level as w.name for w in warnSetting" class="inputText" ht-validate="{required:true}">
+										</select>
+									</td>
+									<td><a href="javascript:;" class="btn fa fa-remove btn-sm" ng-click="ArrayTool.del($index,reminder.warningSetList)" ></a></td>
+								</tr>
+							</table>
+						</uib-tab>
+                     </uib-tabset> 
+			</div>
+			<div class="col-md-4"  style="float: right;padding:0 0 0 5px">
+			 <div style="height: 30px;background: #e2e2e2;line-height: 30px;font-weight: bold;padding-left: 10px;">按钮编辑</div>
+				 <table class="table table-bordered"> 
+					<thead>
+						<tr>
+							<th width="120px">名称</th>
+							<th width="60px">操作</th>
+						</tr>
+					</thead>
+						<tr ng-repeat="r in reminders.reminderList">
+							<th ng-click="show(r)">{{r.name}}</th>
+							<th><a class="btn btn-sm fa fa-close" ng-click="ArrayTool.del($index,reminders.reminderList)"></a></th>
+					</tr>
+			</table>
+	     </div>
+	  </div>
+	  </form>
+</div>

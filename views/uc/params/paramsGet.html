@@ -1,0 +1,40 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller=paramsEditCtrl>
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<table class="table table-bordered table-striped table-hover">
+							<tr>								
+						<th>名称:</th>
+						<td> {{data.name}}</td>
+					</tr>
+					<tr>								
+						<th>编码:</th>
+						<td> {{data.code }}</td>
+					</tr>
+					<tr>								
+						<th>类型:</th>
+						<td ng-if="data.type == 1"> 用户参数</td>
+						<td ng-if="data.type == 2"> 组织参数</td>
+					</tr>
+					<tr>								
+						<th>控件类型:</th>
+						<td ng-if="data.ctrType == 'input'"> 手动输入</td>
+						<td ng-if="data.ctrType == 'select'"> 下拉框</td>
+						<td ng-if="data.ctrType == 'checkbox'"> 复选框</td>
+						<td ng-if="data.ctrType == 'radio'"> 单选按钮</td>
+						<td ng-if="data.ctrType == 'date'"> 日期</td>
+						<td ng-if="data.ctrType == 'number'"> 数字</td>
+					</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

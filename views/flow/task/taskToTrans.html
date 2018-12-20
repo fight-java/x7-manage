@@ -1,0 +1,230 @@
+<style type="text/css">
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	padding: 0 0.4em 1.4em 0.8em !important;
+}
+
+.fa-add {
+	margin-top: -30px;
+}
+
+.panel-tool a {
+	background-color: #fff;
+}
+</style>
+
+<div ng-controller="toTransCtrl">
+<ul  class="nav nav-tabs">
+	<li class="active">
+		<a href="javascript:#Flowsetting"  data-toggle="tab">
+			 流转设置
+		</a>
+	</li>
+	<li><a href="javascript:#circulation_history" data-toggle="tab">流转历史</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="Flowsetting">
+		<div class="toolbar-panel col-md-12">
+	<form id="transForm" action="saveTrans" method="post">
+	<table cellspacing="0" class="table-form">
+		<tr> 
+			<th width="23%">
+				<abbr ht-tip title="例如:需要所选流传人员半数以上同意,或者一票否决等规则">任务通过规则：</abbr>
+	 		</th>
+			<td colspan="3">
+				<div class="radio radio-info radio-inline">
+					<input type="radio" id="setVote(1)" name="type" checked="checked" ng-click="setVote(1)"/>
+					<label for="setVote(1)"> 全票通过</label>
+				</div> 
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type" id="type2" ng-click="setVote(2)"/>
+					<label for="type2"> 一票否决</label>
+				</div> 					
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type" id="setVote(3)"  value="agree"  ng-click="setVote(3)"/>
+					<label for="setVote(3)"> 一票同意</label>
+				</div> 					
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type"  id="setVote(4)" value="custom"  ng-click="setVote(4)"/>
+					<label for="setVote(4)"> 自定义</label>
+				</div> 	
+			</td>
+		</tr>
+		<tr class="hight" hidden="true">
+			<th>
+				<abbr class="pull-right" ht-tip 
+					  title="例如: 计票策略为 同意票，投票类型<br/>
+					  		为绝对票数，票数为3.<br/>
+							则当流转的任务有三个人同意时，流转<br/>
+							的任务通过，并结束。">计票策略：</abbr>
+			</th>
+			<td colspan="3">
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.decideType" name="decideType" id="decideType_agree" value="agree" validate="{required:true}" checked="checked"/>
+					<label for="decideType_agree"> 同意票</label>
+				</div> 	
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.decideType" name="decideType" id="decideType_refuse"  value="refuse" validate="{required:true}"/>
+					<label for="decideType_refuse"> 否决票</label>
+				</div> 
+			</td>
+		</tr>
+		<tr class="hight" hidden="true"> 
+			<th><span class="pull-right">投票类型：</span></th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.voteType" value="amount" id="voteType_amount"  ng-click="voteTypeChange(this)" name="voteType" validate="{required:true}"/>
+					<label for="voteType_amount"> 绝对票数</label>
+				</div> 
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.voteType"  value="percent" id="voteType_percent"   ng-click="voteTypeChange(this)" name="voteType" checked="checked" validate="{required:true}"/>
+					<label for="voteType_percent"> 百分比</label>
+				</div>
+			</td>
+			<th ><span class="pull-right">票数：</span></th>
+			<td>
+				<input type="text" name="voteAmount" ng-model="data.voteAmount" id="voteAmount" value="1" size="5" validate="{required:true,number:true}">
+				<span id="voteAmountUnit">%</span>
+			</td>
+		</tr>
+			<tr> 
+			<th>流转类型：</th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.signType" id="parallel" name="signType" value="parallel" validate="{required:true}" checked="checked" />
+					<label for="parallel"> 并行</label>
+				</div>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.signType" id="seq" name="signType" value="seq" validate="{required:true}" />
+					<label for="seq"> 串行</label>
+				</div>
+			</td>
+			<th>流转结束后的动作： </th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.action" id="submit" name="action" value="submit" validate="{required:true}" checked="checked"/>
+					<label for="submit"> 提交</label>
+				</div>
+				<div class="radio radio-info radio-inline">
+					<input type="radio"ng-model="data.action" id="back" name="action" value="back" validate="{required:true}"/>
+					<label for="back"> 返回</label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>通知方式：</th>
+			<td colspan="3">
+				<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+					<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.notifyType" value="{{k}}" />
+					<label for="{{k}}"> {{v}} </label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>流转人员：</th>
+			<td colspan="3">
+				<div>
+					<ul>
+						<li class="tags-li" ng-repeat="item in selectUsers track by $index">
+							<div class="tags-pan">
+							<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('selectUsers',item)"><i class="fa fa-close" ></i></a> 
+							<span  ng-bind="item.fullname"></span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<input type="hidden" id="receiverId" ng-model="data.userIds" name="receiverIds" value="">
+				<div>
+				<a  ng-click="selectUser()"  class="btn btn-default fa fa-user">选择人员</a>
+				</div>
+			</td>
+		</tr>
+		<tr> 
+			<th><span>通知内容：</span></th>
+			<td colspan="3" >
+				<textarea class="inputText" ng-model="data.opinion" name="opinion" rows="4"   cols="50" style="width: 492px;" validate="{required:true}"></textarea>
+			</td>
+		</tr>
+		</table>
+	</form> 
+	</div>
+	</div>
+	<div class="tab-pane fade" id="circulation_history">
+	<div class="text-center" id="not_circulation_history" ng-if="transRecordList.length == 0"  style="height: 292px;line-height:292px; text-align: center;" class="toolbar-panel col-md-12"  >
+	<em>无历史流程</em>
+	</div>
+		<div class="toolbar-panel col-md-12">
+		<table cellspacing="0" class="table-form">
+			<tbody ng-repeat="record in transRecordList">
+				<tr>
+					<th>流转时间:</th>
+					<td colspan="5">
+						{{record.transTime | date:'yyyy-MM-dd HH:mm:ss'}}
+					</td>
+				</tr>
+				<tr>
+					<th>计票策略:</th>
+					<td>
+						<span ng-if="record.decideType=='agree'">同意</span>
+						<span ng-if="record.decideType!='agree'">反对票</span>
+					</td>
+					<th>投票类型:</th>
+					<td>
+						<span ng-if="record.voteType=='amount'">绝对票数</span>
+						<span ng-if="record.voteType!='amount'">百分比</span>
+					</td>
+					<th>票数:</th>
+					<td>
+						{{record.voteAmount}}
+						<span ng-if="record.voteType=='percent'">%</span>
+					</td>
+				</tr>
+				<tr>
+					<th>流转类型：</th>
+					<td>
+						<span ng-if="record.signType=='parallel'">并行</span>
+						<span ng-if="record.signType!='parallel'">串行</span>
+					</td>
+					<th>流转结束后的动作:</th>
+					<td  colspan="3">
+						<span ng-if="record.action=='submit'">提交</span>
+						<span ng-if="record.action!='submit'">返回</span>
+					</td>
+				</tr>
+				<tr ng-if="item in record.receiverList">
+					<th>流转人员：</th>
+					<td>
+						{{item.receiver }}
+					</td>
+					<th>审批状态：</th>
+					<td>
+						<span ng-if="record.status == 2 && item.checkType == 0">撤销取消</span>
+						<span ng-if="item.checkType == 1">同意</span>
+						<span ng-if="item.checkType == 2">反对</span>
+						<span ng-if="item.checkType != 2 && item.checkType != 1 && item.checkType != 0">尚未审批</span>
+					</td>
+					<th>审批意见：</th>
+					<td>
+						<span ng-if="record.status == 2 && item.checkType == 0">撤销取消</span>
+						<span ng-if="item.checkType == 1 || item.checkType == 2">{{item.opinion }}</span>
+						<span ng-if="item.checkType != 2 && item.checkType != 1 && item.checkType != 0">尚未审批</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
+
+	
+	
+	<div class="toolbar-panel col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons" >
+			<a role="button" ng-click="saveTrans()" href="javascript:;" class="btn btn-primary btn-sm fa fa-save">确定</a>
+			<button ng-click="closeEdit();" class="btn btn-default btn-sm  fa fa-close">取消</button>
+		</div>
+	</div> 
+	</div>

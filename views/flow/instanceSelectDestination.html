@@ -1,0 +1,48 @@
+<div class="m-lg" ng-controller="instanceSelectDestinationCtrl">
+	<table class="table table-bordered table-striped table-hover">
+			<tr> 
+				<th style="width: 15%;">跳转类型</th>
+				<td colspan="3">
+						<label class="radio-inline"  ng-show="jumpTypeStr.indexOf('common')>-1" > 
+							<input type="radio" name="jumpType" ng-model="jumpType" value="common" ng-checked="jumpType=='common'"  />正常跳转
+						</label>
+						<label class="radio-inline" ng-show="jumpTypeStr.indexOf('select')>-1"> 
+							<input type="radio" name="jumpType" ng-model="jumpType" value="select" ng-checked="jumpType=='select'"  />选择路径跳转
+						</label>
+						<label class="radio-inline" ng-show="jumpTypeStr.indexOf('free')>-1">
+							<input type="radio" name="jumpType" ng-model="jumpType" value="free"   ng-checked="jumpType=='free'" />自由跳转
+						</label>
+				</td>
+			</tr>
+			<tr ng-if="jumpType=='select'">
+				<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;width: 15%;"><abbr ht-tip title="自由跳转的目标节点">目标节点</abbr></th>
+				<td style="width: 20%;"><select style="margin:6px;" class="inputText" ng-model="destination" name="destination" ht-validate="{'required':true}"
+				   ng-option="outcomeNodes.nodeId as outcomeNodes.name for  outcomeNodes in  data.outcomeNodes">
+						<option ng-repeat="out in data.outcomeNodes" value="{{out.nodeId}}"  nodeType="{{out.type}}">{{out.name}}</option>
+					</select>
+				</td>
+				<th  style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;;width: 15%;">选择执行人</th>
+				<td >
+					<div ng-repeat="(k,v) in data.outcomeUserMap" name="destinationDiv" ng-if="destination ==k">
+						<span name ="nodeUserSpan"></span>
+						<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="chooseUser()">选择</a>
+					</div>
+				</td>	
+			</tr>
+			<tr ng-if="jumpType=='free'">
+				<th width="15%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;;width: 15%;"><abbr ht-tip title="自由跳转的目标节点">目标节点</abbr></th>
+				<td style="width:20%;">
+					<select style="margin:6px;" class="inputText" ng-model="destination" name="destination"  ht-validate="{'required':true}">
+						<option ng-repeat="nodeDef in data.allNodeDef" value="{{nodeDef.nodeId}}"  nodeType="{{nodeDef.type}}">{{nodeDef.name}}</option>
+					</select>
+				</td>
+				<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;;width: 15%;">选择执行人</th>
+				<td>
+					<div ng-repeat="(k,v) in data.allNodeUserMap"  name="destinationDiv" ng-if="destination ==k">
+						<span name = "nodeUserSpan"></span>
+						<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="chooseUser()">选择</a>
+					</div>
+				</td>	
+			</tr>
+	</table>
+</div>

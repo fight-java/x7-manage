@@ -1,0 +1,36 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="sysCategoryTreeCtrl">
+    <div class="col-md-2 border-right full-height no-padding-right">
+        <select id="category" ng-model="data.sysCategory.id" ng-options="category.id as category.name for category in data.sysCategoryList"
+                ng-change="categoryChange()" class="form-control m-b" style="margin-left: -8px;margin-top: 5px;"></select>
+        <div class="full-height-scroll" full-scroll>
+            <ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance" tree-context-menu="contextMenu"  id="treeDemo"
+                tree-events="onClick:tree_click;" before-right-click="beforeRightClick(treeNode)" menu-click="menuClick(menu, treeNode)"></ul>
+        </div>
+    </div>
+    <div class="col-md-10 no-padding" id="categoryDisplay" style="display: none;">
+        <div class="ibox">
+            <div class="ibox-title no-borders">
+                <h5>{{title}}</h5>
+            </div>
+            <div class="ibox-content">
+                <form class="form-horizontal">
+                    <div class="form-group" style="display: none;" id="parentNodeDisplay">
+                        <label class="col-sm-2 control-label"> 父节点: *</label>
+                        <div class="col-sm-4"><input type="text" class="form-control" disabled ng-model="dataEdit.parentName"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">分类名称: *</label>
+                        <div class="col-sm-4"><input type="text" required="" aria-required="true" class="form-control" ng-model="dataEdit.sysType.name"></div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label"> 分类Key: *</label>
+                        <div class="col-sm-4"><input type="text" required="" ht-pinyin="dataEdit.sysType.name" aria-required="true" class="form-control" ng-model="dataEdit.sysType.typeKey"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

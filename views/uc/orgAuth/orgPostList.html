@@ -1,0 +1,67 @@
+<div class="white-bg animated fadeInRight full-height">
+	<div class="col-md-12 no-padding">
+		<div class="ibox" ht-data-table="orgPostTable" initialize="false" url="${uc}/api/org/v1/orgPosts/getOrgPostPage"  adjust="-50">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button ng-if="isIndex(currentAuthOrg.posPerms,'add')" type="button" class="btn btn-success btn-sm"
+								ng-click="addOrgPost()">
+							<i class="fa fa-plus"></i> 添加岗位
+						</button>
+						<button ng-if="isIndex(currentAuthOrg.posPerms,'delete')" class="btn btn-danger btn-sm remove" removekey="relCode" paramKey="postCodes" ht-remove-array url="${uc}/api/org/v1/orgPost/deleteOrgPost">
+							<i class="fa fa-trash"></i> 删除
+						</button>
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="通过名称"
+							   title="通过名称" ht-quick-search="relName">
+					</div>
+				</div>
+			</div>
+			<div class="ibox-footer no-padding">
+				<table class="table table-bordered table-striped table-hover" initialize="false" ht-table>
+					<tbody>
+						<tr ng-repeat="row in orgPostTable.rows track by $index">
+							<td width="30" class="center" selectable="true" single="pageParam.single">
+								<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+                                    <input type="checkbox" ht-select="row" ht-select-event="orgSelectEvent(row)">
+                                    <label></label>
+                                </div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.relName" title="岗位名称" sortable="true"></td>
+							<td ht-field="row.relCode" title="岗位编码" sortable="true"></td>
+							<td ht-field="row.jobName" title="职务名称" sortable="true"></td>
+							<td ng-switch="row.isCharge" title="是否主岗位" sortable="true">
+								<span class="badge badge-primary" ng-switch-when="1">是</span>
+								<span class="badge badge-primary" ng-switch-when="0">否</span>
+							</td>
+							<td title="操作">
+								<div class="btn-group" uib-dropdown is-open="status.isopen">
+									<button id="split-button" type="button" class="btn btn-info">操作按钮</button>
+									<button type="button" class="btn btn-info" uib-dropdown-toggle>
+										<span class="caret"></span> <span class="sr-only">带默认按钮的下拉菜单</span>
+									</button>
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+										aria-labelledby="split-button">
+										<li role="menuitem" ng-click="addOrgPost(row.relCode,'edit')" ng-if="isIndex(currentAuthOrg.posPerms,'edit')"><a>编辑</a></li>
+										<li role="menuitem" ng-click="toPostUserPage(row)"><a>分配人员</a></li>
+										<li role="menuitem" ng-if="row.isCharge == 0" ng-click="setMainPost(row,true)"><a>设置主岗位</a></li>
+										<li role="menuitem" ng-if="row.isCharge == 1" ng-click="setMainPost(row,false)"><a>取消主岗位</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="11"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

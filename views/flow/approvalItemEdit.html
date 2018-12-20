@@ -1,0 +1,55 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="approvalItemEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="col-md-10 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="save()">
+						<i class="fa fa-save"></i> 保存
+					</button>
+					<button class="btn btn-danger btn-sm remove"
+							ng-click="close()">
+						<i class="fa fa-undo"></i> 取消
+					</button>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-3 control-label"> 常用语类型: </label>
+						<div class="col-sm-9">
+						    <label class="radio-inline"><input type="radio" name="approType" id="approType1" ng-model="approval.type" value="1">全局设置</label>
+						    <label class="radio-inline"><input type="radio" name="approType" ng-model="approval.type" value="2">根据流程分类设置</label>
+						    <label class="radio-inline"><input type="radio" name="approType" ng-model="approval.type" value="3">根据流程设置</label>
+						</div>
+					</div>
+					
+					<div ng-show="approval.type=='2'"  class="form-group"><label class="col-sm-3 control-label"> 流程分类:</label>
+						<div class="col-sm-9">
+						   <div ng-model="approval.typeId" style="line-height: 30px;" ht-tree-select='dicConfig' ></div>
+						</div>
+					</div>
+					
+					<div ng-show="approval.type=='3'"  class="form-group"><label class="col-sm-3 control-label"> 流程定义:</label>
+						<div class="col-sm-9">
+							<span ng-repeat="flow in flowArray" >
+			    			<button class="btn btn-xs btn-default fa fa-trash-o" ng-click="removeDef($index)">{{flow.name}}</button>
+			    		     </span>
+						  <a class="btn btn-xs btn-primary" href="javascript:void(0);" ng-click="referDefinition()">选择流程</a>
+						</div>
+					</div>
+					
+					
+					<div class="form-group"><label class="col-sm-3 control-label"> 常用语:</label>
+						<div class="col-sm-9">
+							<textarea class="form-control"  ng-model="approval.expression"></textarea> 
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

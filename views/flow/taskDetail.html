@@ -1,0 +1,91 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="taskDetailCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-content" style="padding:15px 0 0 0 ">
+				<div class="tabs-container">
+					<uib-tabset>
+						<uib-tab heading="任务信息">
+							<div class="p-h-lg">
+								<table class="table table-bordered table-hover taskDetail-detail">
+									<tbody>
+										<tr>
+											<th width="200">任务名称</th>
+											<td ng-bind="taskDetail.name"></td>
+											<th width="280">待办事项标题</th>
+											<td ng-bind="taskDetail.subject"></td>
+										</tr>
+										<tr>
+											<th>流程实例ID(proInstId)</th>
+											<td ng-bind="taskDetail.procInstId"></td>
+											<th>任务id</th>
+											<td ng-bind="taskDetail.id"></td>
+										</tr>
+										<tr>
+											<th>节点执行ID</th>
+											<td ng-bind="taskDetail.execId"></td>
+											<th>任务节点ID</th>
+											<td ng-bind="taskDetail.nodeId"></td>
+										</tr>
+										<tr>
+											<th>流程定义ID(procDefId)</th>
+											<td ng-bind="taskDetail.procDefId"></td>
+											<th>流程名称</th>
+											<td ng-bind="taskDetail.procDefName"></td>
+										</tr>
+										<tr>
+											<th>任务所属人</th>
+											<td ng-bind="taskDetail.ownerName"></td>
+											<th>任务执行人</th>
+											<td ng-bind="taskDetail.assigneeName"></td>
+										</tr>
+										<tr>
+											<th>任务状态</th>
+											 <td ng-switch="taskDetail.status">
+												<span class="badge badge-success" ng-switch-when="NORMAL">普通</span>
+												<span class="badge badge-primary" ng-switch-when="ADDSIGN">加签</span>
+												<span class="badge badge-info" ng-switch-when="AGENT">代理</span>
+												<span class="badge badge-warning" ng-switch-when="DELIVERTO">转办</span>
+												<span class="badge badge-warning" ng-switch-when="TRANSFORMED">接收流转</span>
+												<span class="badge badge-info" ng-switch-when="COMMU">沟通</span>
+												<span class="badge badge-danger" ng-switch-when="TRANSFORMING">流转源</span>
+												<span class="badge badge-danger" ng-switch-when="BACK">被驳回</span>
+												<span class="badge badge-gray" ng-switch-default>未知</span>
+											</td>
+											<th>任务优先级</th>
+											<td ng-bind="taskDetail.priority"></td>
+										</tr>
+										<tr>
+											<th>是否挂起</th>
+											<td ng-switch="taskDetail.suspendState">
+												<span class="badge badge-success" ng-switch-when="0">正常</span>
+												<span class="badge badge-success" ng-switch-when="1">正常</span>
+												<span class="badge badge-primary" ng-switch-when="2">挂起</span>
+											</td>
+											<th>候选处理人</th>
+											<td>
+											  <span ng-repeat='identity in taskDetail.identityList'>{{identity.name}}&nbsp;</span>
+											</td>
+										</tr>
+										<tr>
+											<th>任务创建时间</th>
+											<td ng-bind="taskDetail.createTime" colspan="3"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					    </uib-tab> 
+					    <uib-tab heading="流程图" select="selectImage('views/flow/instanceFlowImage.html')">
+					    	<div ng-include="imageUrl"></div>
+						</uib-tab>
+						<uib-tab heading="审批历史" select="selectHistory('views/flow/instanceFlowOpinions.html')">
+							<div ng-include="historyUrl"></div>
+						</uib-tab>
+					</uib-tabset>
+					<a href="#/flow/flowTaskList" class="btn btn-danger btn-sm tab-return-btn">
+						<i class="fa fa-undo"></i> 返回
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

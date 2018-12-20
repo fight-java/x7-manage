@@ -1,0 +1,37 @@
+<form class="form-horizontal" ng-submit="saveOrg()">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">上级组织名称*:</label>
+		<div class="col-sm-10">
+			<input class="form-control input-sm" disabled="disabled"  type="text" ng-model="org.parentOrgName"  />
+		</div>	
+	</div>
+	<div class="form-group">						
+		<label class="col-sm-2 control-label">组织名称*:</label>
+		<div class="col-sm-10">
+			<input class="form-control input-sm" maxlength="30" required="" ng-disabled="orgDetail" type="text" ng-model="org.name" />
+		</div>
+	</div>
+	<div class="form-group">									
+		<label class="col-sm-2 control-label">组织编码*:</label>
+		<div class="col-sm-10">
+			<input class="form-control input-sm" ht-pinyin="org.name" maxlength="30" required="" ng-disabled="orgDetail || orgEdit"  type="text" ng-model="org.code"  />
+		</div>	
+	</div>
+	<div class="form-group">									
+		<label class="col-sm-2 control-label">排序号:</label>
+		<div class="col-sm-10">
+			<input class="form-control input-sm" ng-disabled="orgDetail"  type="text" ng-model="org.orderNo" />
+		</div>	
+	</div>
+	<div class="form-group">									
+		<label class="col-sm-2 control-label">级别:</label>
+		<div class="col-sm-10">
+			<input class="form-control input-sm" ng-disabled="orgDetail"  type="text" ng-model="org.grade"  />
+		</div>	
+	</div>
+	<div class="form-group" ng-if="!orgDetail">
+		<div class="col-sm-8 col-sm-offset-2" align="center">
+			<button class="btn btn-primary" type="submit">保存</button>
+		</div>
+	</div>
+</form>

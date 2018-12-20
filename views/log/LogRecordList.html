@@ -1,0 +1,103 @@
+<div class="wrapper wrapper-content animated fadeIn"
+	ng-controller="logCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="tabs-container">
+				<div class="panel-body no-padding">
+					<div class="ibox" ht-data-table="dataTableUser" url="${portal}/sys/sysLogs/v1/list" adjust="-70">
+						<div class="ibox-title no-borders">
+							<div class="col-md-10 ">
+								<div class="col-md-3 btn-group tools-panel">
+									<button class="btn btn-danger btn-sm remove" 
+										ht-remove-array url="${portal}/sys/sysLogs/v1/removes">
+									<i class="fa fa-trash"></i> 删除
+								</button>
+								</div>
+								<div class="input-group col-md-3 tools-panel">
+									<span class="input-group-addon">
+										<i class="fa fa-search"></i>
+									</span>
+									<input type="text" name="search" class="form-control input-sm" placeholder="操作名称，执行人，模块"
+										   title="操作名称，执行人，模块" ht-quick-search="opeName,executor,moduleType">
+								</div>
+							</div>
+							<div class="col-md-2" table-tools></div>
+						</div>
+						
+						<div class="ibox-content" style="display: none;">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label class="col-md-1 control-label">模块</label>
+									<div class="col-md-2">
+										<select class="form-control input-sm" ht-query="moduleType" operation="equal">
+											<option value="">全部</option>
+											<option value="uc-eureka">用户微服务</option>
+											<option value="portal-eureka">portal微服务</option>
+											<option value="form-eureka">表单微服务</option>
+											<option value="bpm-model-eureka">bpm-model微服务</option>
+											<option value="bpm-runtime-eureka">bpm-runtime微服务</option>
+										</select>
+									</div>
+									<label class="col-md-1 control-label">日志类型</label>
+									<div class="col-md-2">
+										<select class="form-control input-sm" ht-query="logType" operation="equal">
+											<option value="">全部</option>
+											<option value="操作日志">操作日志</option>
+											<option value="登录日志">登录日志</option>
+											<option value="异常日志">异常日志</option>
+										</select>
+									</div>
+									<label class="col-md-1 control-label">操作名称</label>
+									<div class="col-md-2">
+										<input type="text" placeholder="操作名称" ht-query="opeName"
+											class="form-control input-sm">
+									</div>
+									<div class="col-md-2">
+										<button class="btn btn-primary btn-sm" type="button" ht-search>
+											<i class="fa fa-search"></i> 查询
+										</button>
+										<button class="btn btn-default btn-sm" type="button" ht-reset>
+											<i class="fa fa-reply-all"></i> 重置
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="ibox-footer">
+							<table class="table table-bordered table-striped table-hover" ht-table>
+								<tbody>
+									<tr ng-repeat="row in dataTableUser.rows track by $index">
+										<td width="30" class="center" selectable="true">
+											<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+										</td>
+										<td width="50" ng-bind="$index+1" title="序号"></td>
+										<td ht-field="row.opeName" title="操作名称" sortable="true"></td>
+										<td ht-field="row.executionTime" title="执行时间"  sortable="true"></td>
+										<td ht-field="row.executor" title="执行人"  sortable="true"></td>
+										<td ht-field="row.ip" title="客户端请求IP"></td>
+										<td ht-field="row.reqUrl" title="请求地址"></td>
+										<td ht-field="row.logType" title="日志类型"></td>
+										<td ht-field="row.moduleType" title="模块类型"  sortable="true"></td>
+										<td width="100" title="操作" class="col-md-2" >
+											<div class="btn-group" uib-dropdown is-open="true">
+												<button id="split-button" type="button" class="btn btn-info" ng-click="logDetail(row.id)">查看明细</button>
+											</div>
+										</td>
+										
+									</tr>
+									<tr class="no-row">
+										<td colspan="10"><i class="fa fa-info-circle"></i>
+											没有查询到符合条件的记录
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div ht-pagination></div>
+						</div>
+					</div>
+				</div>
+					
+			</div>
+		</div>
+	</div>
+</div>

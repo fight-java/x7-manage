@@ -1,0 +1,71 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll
+	ng-controller="addSchedulerCtrl">
+	<div class="row wrapper">
+		<div class="panel">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-4">
+						<button class="btn btn-sm btn-success" ng-click="save()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+						<button class="btn btn-sm btn-warning" ng-click="close()">
+							<i class="fa fa-undo"></i> 返回
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="save()">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">任务名:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" ng-blur="isExist('jobName')" ng-model="data.jobName" required=""/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" uib-tooltip="例如：com.hotent.job.job.MyJob">任务类:<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control"  ng-model="data.className" ng-blur="isExist('className')">
+						</div>
+						<span class="pull-left btn btn-info btn-sm" ng-click="validClass();" title="验证任务类是否正确">验证</span>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">任务描述:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" ng-model="data.description"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="panel panel-default m-sm">
+				<div class="panel-heading">
+					<label class="fa fa-question-circle-o" tooltip-placement="right" uib-tooltip="任务参数">
+						<strong>对象属性管理：</strong>
+					</label>
+					<button class="btn btn-sm btn-info m-l-sm"  ng-click="addRow();">
+						<i class="fa fa-plus"></i> 添加
+					</button>
+				</div>
+				<div class="panel-body">
+					<table class="table table-bordered table-striped table-hover  no-padding">
+						<tr>
+							<th >参数名</th>
+							<th >参数类型</th>
+							<th >参数值</th>
+							<th class="col-md-1">删除</th>
+						</tr>
+						<tr ng-repeat="ent in data.parameterJson track by $index">
+							<td><input class="form-control" type="text" ng-model="ent.paraName"/></td>
+							<td><select class="form-control" ng-model="ent.paraType" ng-options="o.value as o.key for o in paraTypes"></select></td>
+							<td><input class="form-control" type="text" ng-model="ent.paraValue"/></td>
+							<td class="col-md-1">
+								<a  href="javaScript:void(0)" ng-click="del($index,data.parameterJson)" class="btn btn-sm btn-primary fa fa-remove"></a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+		</div>
+</div>

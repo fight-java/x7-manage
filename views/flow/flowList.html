@@ -1,0 +1,131 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="flowListCtrl">
+	<div class="col-md-2 border-right full-height no-padding-right">
+		<div class="full-height-scroll" full-scroll>
+	        <ul ht-tree="treeConfig" ng-model="treeData" tree="flowTypeTree" tree-events="onClick:flowTree_click"></ul>
+	    </div>
+	</div>
+	<div class="col-md-10 no-padding">
+		<div class="ibox" ht-data-table="dataTable" url="${bpmModel}/flow/def/v1/listJson">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-5 btn-group tools-panel">
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="edit('')">
+							<i class="fa fa-plus"></i> 新增
+							<button class="btn btn-danger btn-sm remove"
+								ht-remove-array url="${bpmModel}/flow/def/v1/removeByDefIds">
+								<i class="fa fa-trash"></i> 删除
+							</button>
+						 <button class="btn btn-success btn-sm" ng-click="handImport()">
+							<i class="fa fa-sign-in" ></i> 导入
+						</button>
+						
+						<button class="btn btn-success btn-sm" ng-click="handExport()">
+							<i class="fa fa-sign-out" ></i> 导出
+						</button> 
+						
+						<!-- <button class="btn btn-success btn-sm" >
+							<i class="fa fa-share-alt"></i> 设置分类
+						</button> -->
+						
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="名称，流程key"
+							   title="通过流程名称，流程key查询" ht-quick-search="name,defKey"> 
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display:none;">
+				<form class="form-horizontal">
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">流程名称</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="名称" ht-query="name" 
+	                    		   class="form-control input-sm">
+	                    </div>
+	                	<label class="col-md-1 control-label">流程key</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="流程key" ht-query="defKey" 
+	                    		   class="form-control input-sm">
+	                    </div>
+	                    <label class="col-md-1 control-label">流程状态</label>
+	                    <div class="col-md-2">
+	                        <select class="form-control input-sm" ht-query="status">
+								<option value="">全部</option>
+								<option value="deploy">已发布</option>
+								<option value="draft">未发布</option>
+							</select>
+	                    </div>
+	                    
+	                    <label class="col-md-1 control-label">生产状态</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="testStatus">
+								<option value="">全部</option>
+								<option value="test">测试</option>
+								<option value="run">正式</option>
+							</select>
+	                    </div>
+	                    <div class="col-md-2">
+	                        <button class="btn btn-primary btn-sm" type="button" 
+	                        		ht-search><i class="fa fa-search"></i> 查询</button>
+	                        <button class="btn btn-default btn-sm" type="button" 
+	                        		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+	                    </div>
+	                </div>
+	               
+	            </form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true">
+								<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td class="col-md-2"  ht-field="row.name" title="名称"></td>
+							<td class="col-md-2" ht-field="row.defKey" title="流程key" sortable="true"></td>
+							
+							<td class="col-md-2" ht-field="row.desc" sortable="true" title="流程描述">
+							</td>
+							<td class="col-md-1" ng-switch="row.status" sortable="true" title="状态">
+								<span class="badge badge-primary" ng-switch-when="deploy">已发布</span>
+								<span class="badge badge-default" ng-switch-when="draft">未发布</span>
+								<span class="badge badge-danger" ng-switch-when="forbidden">禁用</span>
+								<span class="badge badge-danger" ng-switch-when="forbidden_instance">禁止实例</span>
+							</td>
+							<td class="col-md-1" title="生产状态" sortable="true" ng-switch="row.testStatus">
+								<span class="badge badge-primary" ng-switch-when="test">测试</span>
+								<span class="badge badge-default" ng-switch-when="run">正式</span>
+							</td>
+							<td class="col-md-1" ht-field="row.version" sortable="true" title="版本号">
+							</td>
+							<td title="操作">
+							    <div class="btn-group" uib-dropdown is-open="status.isopen">
+									<button id="split-button" type="button" class="btn btn-primary" ng-click="edit(row,'edit')">编辑</button>
+									<button type="button" class="btn btn-primary" uib-dropdown-toggle>
+										<span class="caret"></span> <span class="sr-only">更多功能</span>
+									</button>
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu" style="min-width:150px" aria-labelledby="split-button">
+										<li role="menuitem" ng-if="row.status =='deploy'"><a herf='javaScript:void(0)' ng-click="startFlow(row.id)"> 启动</a></li>
+										<li role="menuitem" ng-if="row.status !='draft'"> <a ui-sref="flow.defInstanceDetail({defId:row.id})" href="javaScript:void(0)" >查看实例</a></li>
+										<li role="menuitem" ng-if="row.status =='deploy' && row.authorizeRight &&  row.authorizeRight.m_clean && row.testStatus != 'run'"><a herf='javaScript:void(0)' ng-click="cleanData(row.defId)"> 清除数据</a></li>
+									</ul>
+								</div>
+							
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

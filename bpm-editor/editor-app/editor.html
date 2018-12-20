@@ -1,0 +1,203 @@
+<div ng-controller="StencilController">
+  <div class="subheader editor-toolbar" id="editor-header">
+  	<div class="btn-group">
+	    <div class="btn-toolbar pull-left" ng-controller="ToolbarController" ng-cloak>
+        	<button id="{{item.id}}"
+                    title="{{item.title | translate}}"
+                    ng-repeat="item in items"
+                    ng-switch on="item.type"
+                    class="btn btn-inverse" ng-class="{'separator': item.type == 'separator'}"
+                    ng-disabled="item.type == 'separator' || item.enabled == false"
+                    ng-click="toolbarButtonClicked($index)">
+        		<i ng-switch-when="button" ng-class="item.cssClass" class="toolbar-button" data-toggle="tooltip" title="{{item.title | translate}}"></i>
+	            <div ng-switch-when="separator" ng-class="item.cssClass"></div>
+        	</button>
+  		  </div>
+        </div>
+  </div>
+  <div class="full">
+      <div class="row row-no-gutter">
+	      <div id="paletteHelpWrapper" class="col-md-2" style="max-width:190px!important;">
+	      	<div class="stencils" id="paletteSection">
+			    <div ng-if="stencilItemGroups.length > 1">
+                    <div ng-repeat="group in stencilItemGroups">
+
+                        <ul ng-if="group.visible && group.items" class="stencil-group"  ng-class="{collapsed: !group.expanded, 'first': $first}">
+                            <li ng-include="'editor-app/partials/stencil-item-template.html?version=4'"></li>
+                        </ul>
+
+                        <div ng-if="!group.items" ng-include="'editor-app/partials/root-stencil-item-template.html?version=4'"></div>
+
+                    </div>
+			    </div>
+			    <div ng-if="stencilItemGroups.length == 1">
+	                <ul class="stencil-group">
+	                    <li ng-repeat="item in stencilItemGroups[0].paletteItems" class="stencil-item"
+	                         id="{{item.id}}"
+	                         title="{{item.description}}"
+	                         ng-model="draggedElement"
+	                         data-drag="true"
+	                         jqyoui-draggable="{onStart:'startDragCallback', onDrag:'dragCallback'}"
+	                         data-jqyoui-options="{revert: 'invalid', helper: 'clone', opacity : 0.5}">
+	                         
+	                        <img ng-src="editor-app/stencilsets/bpmn2.0/icons/{{item.icon}}" width="16px;" height="16px;"/>
+	                        {{item.name}}
+	                    </li>
+                    </ul>
+			     </div>
+		      </div>
+	      </div>
+	      <div id="canvasHelpWrapper" class="col-md-8">
+	      	<div class="canvas-wrapper" id="canvasSection" 
+	      		ng-model="droppedElement"
+                  ng-model="droppedElement"
+                  data-drop="true"
+                  data-jqyoui-options
+                  jqyoui-droppable="{onDrop:'dropCallback',onOver: 'overCallback', onOut: 'outCallback'}"> 
+            	<div class="canvas-message" id="model-modified-date"></div>
+            	<div class="Oryx_button" 
+            	     id="delete-button" 
+            	     title="{{'BUTTON.ACTION.DELETE.TOOLTIP' | translate}}"
+            	     ng-click="deleteShape()"
+            	     style="display:none">
+            	    <img src="editor-app/images/delete.png"/>
+            	</div>
+            	<div class="Oryx_button" 
+            	     id="morph-button"
+            	     title="{{'BUTTON.ACTION.MORPH.TOOLTIP' | translate}}"
+            	     ng-click="morphShape()"
+            	     style="display:none">
+            	    <img src="editor-app/images/wrench.png"/>
+            	</div>
+            	<div class="Oryx_button"
+            		 ng-repeat="item in quickMenuItems"
+	                 id="{{item.id}}"
+	                 title="{{item.description}}"
+	                 ng-click="quickAddItem(item.id)"
+            	     ng-model="draggedElement"
+	                 data-drag="true"
+	                 jqyoui-draggable="{onStart:'startDragCallbackQuickMenu', onDrag:'dragCallbackQuickMenu'}"
+	                 data-jqyoui-options="{revert: 'invalid', helper: 'clone', opacity : 0.5}"
+	                 style="display:none">
+	             	<img ng-src="editor-app/stencilsets/bpmn2.0/icons/{{item.icon}}"/>
+	             </div>
+	         </div>
+           </div>
+           <div id="propertiesHelpWrapper" class="col-md-2" style="min-width:calc(33% - 190px);overflow: auto;">
+            	<div class="propertySection" id="propertySection">
+	                <div class="selected-item-section">
+						<div class="panel panel-default" style="margin:3px 5px 3px 3px;">
+							<div class="panel-heading"><b>流程信息</b></div>
+							<div class="panel-body">
+								<table class="table table-condensed prop-table">
+									<tr>
+										<th width="58">分类</th>
+										<td>
+											<div class="input-group">
+												<input type="text" ng-model="modelData.typeName"
+													style="height: 32px; margin-top: 1px;" class="form-control"
+													spellcheck="false" auto-focus
+													ng-keypress="enterPressed($event)" readonly="readonly" /> <span
+													class="input-group-btn">
+													<button class="btn btn-default" ng-click="selectType()"
+														type="button">选择</button>
+												</span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th>名称</th>
+										<td>
+											<input type="text"
+											ng-model="modelData.name" class="form-control"
+											spellcheck="false" auto-focus ng-blur="pinyin()"
+											ng-keypress="enterPressed($event)" maxlength="32" />
+										</td>
+									</tr>
+									<tr>
+										<th>KEY</th>
+										<td>
+											<input type="text"
+											ng-model="modelData.defKey" ht-pinyin="modelData.name" spellcheck="false"
+											class="form-control" ng-readonly="modelData.defId"
+											ng-blur="inputBlurred()" ng-keypress="enterPressed($event)"
+											maxlength="32" />
+										</td>
+									</tr>
+									<tr>
+										<th>描述</th>
+										<td>
+											<textarea auto-focus="" ng-model="modelData.desc"
+											spellcheck="false" class="form-control ng-pristine ng-valid"
+											ng-model="property.desc" maxlength="192"></textarea>
+										</td>
+									</tr>
+									<tr ng-if="modelData.defId">
+										<th>修改原因</th>
+										<td>
+											<textarea auto-focus="" ng-model="modelData.reason"
+											spellcheck="false" class="form-control ng-pristine ng-valid"
+											ng-model="property.desc" maxlength="192"></textarea>
+										</td>
+									</tr>
+									<tr ng-if="modelData.defId" >
+										<th>版本号</th>
+										<td>
+											<input type="text"
+											ng-model="modelData.version" spellcheck="false"
+											class="form-control" ng-readonly="modelData.defId"
+											ng-blur="inputBlurred()" ng-keypress="enterPressed($event)" />
+										</td>
+									</tr>
+									<tr ng-if="modelData.defId">
+										<td colspan="2">
+											<button type="button" class="btn btn-primary fa-save" ng-disabled="btnDisable.save"
+													ng-click="saveModel(false)">保存修改</button>
+											<button type="button" class="btn btn-default fa-cloud-upload"
+													ng-disabled="btnDisable.save" ng-click="saveModel(true)">发布新版</button>
+										</td>
+									</tr>
+									<tr ng-if="!modelData.defId">
+										<td>
+											<button type="button" class="btn btn-primary fa-save" ng-disabled="btnDisable.save"
+													ng-click="saveModel(false)">保存</button>
+										</td>
+										<td>
+											<button type="button" class="btn btn-default fa-cloud-upload"
+													ng-disabled="btnDisable.save" ng-click="saveModel(true)">发布</button>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+						<div class="panel panel-default" ng-if="selectedItem" style="margin: 3px 5px 10px 3px;">
+							<div class="panel-heading">
+								<abbr title="点击属性值可对其进行修改"><b>节点信息</b></abbr>
+							</div>
+							<div class="panel-body">
+								<table class="table table-condensed prop-table">
+									<tbody ng-click="propertyBlur()">
+										<tr style="height:45px;" ng-repeat="property in selectedItem.properties">
+											<th ng-bind="property.title" width="70"></th>
+											<td ng-click="propertyClicked($index, $event)">
+											<!-- 	<ng-include src="getPropertyTemplateUrl($index)"
+															ng-if="!property.hasReadWriteMode"></ng-include> -->
+											<!-- 	<ng-include src="getPropertyReadModeTemplateUrl($index)"
+															ng-if="property.hasReadWriteMode && property.mode == 'read'"></ng-include> -->
+												<ng-include src="getPropertyWriteModeTemplateUrl($index)"
+															></ng-include>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>     
+    			</div>  
+            	
+            	      
+            </div>
+         </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="ibox-title no-borders">
+	<div class="form-horizontal m-t-md">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">表单别名:</label>
+			<div class="col-md-9">
+				<input type="text" class="form-control" ng-model="data.formKey" ht-validate="{required:true}" readonly="readonly" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">绑定流程:</label>
+			<div class="col-md-9">
+				<input type="text" class="form-control" style="width: 50%;display: inline-block;" disabled="disabled" name="subjectName" ng-model="data.subject" class="inputText" validate="{required:false,maxlength:192}" />
+				<button type="button" class="btn btn-sm btn-info" ng-click="selectFlow()"><i class="fa fa-plus"></i> 选择流程</button>
+				<button type="button" class="btn btn-sm btn-warning" ng-click="flowClean()"><i class="fa fa-rotate-left"></i> 清除</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否分页:</label>
+			<div class="col-md-9">
+				<label><input type="radio" ng-model="data.needPage" value="0" >
+				不分页</label>
+				<label>
+				<input type="radio" ng-model="data.needPage" value="1" >
+				分页</label>
+				<span style="color:red;" ng-if="data.needPage==1">
+					分页大小：
+					<select ng-model="data.pageSize" >
+						<option value="5" ng-selected="data.pageSize==5">5</option>
+						<option value="10" ng-selected="data.pageSize==10">10</option>
+						<option value="15" ng-selected="data.pageSize==15">15</option>
+						<option value="20" ng-selected="data.pageSize==20">20</option>
+						<option value="50" ng-selected="data.pageSize==50">50</option>
+					</select>
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">是否需要初始化模板:</label>
+			<div class="col-md-9">
+				<select class="form-control" ng-init="data.resetTemp==1" ng-model="data.resetTemp"  ht-validate="{required:true}" class="inputText">
+					<option value="1" ng-selected="!data.id">是</option>
+					<option value="0" ng-selected="data.id">否</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">数据模板:</label>
+			<div class="col-md-9">
+				<select  ng-model="data.templateAlias" class="form-control" ht-validate="{required:true}">
+					<option>请选择</option>
+					<option ng-repeat='template in jsonObject.templates' ng-selected="data.templateAlias==template.alias" value='{{template.alias}}'>{{template.templateName}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>

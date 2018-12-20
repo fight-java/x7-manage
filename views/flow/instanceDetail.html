@@ -1,0 +1,77 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="instanceDetailCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-content" style="padding:15px 0 0 0 ;overflow: hidden;">
+				<div class="tabs-container">
+					<uib-tabset>
+						<uib-tab heading="实例信息">
+							<div class="p-h-m">
+								<table class="table table-bordered table-hover instance-detail">
+									<tbody>
+										<tr>
+											<th width="200">实例标题</th>
+											<td ng-bind="instance.subject"></td>
+											<th width="280">是否正式数据</th>
+											<td ng-switch="instance.isFormmal">
+												<span class="badge badge-success" ng-switch-when="Y">是</span>
+												<span class="badge badge-primary" ng-switch-when="N">否</span>
+											</td>
+										</tr>
+										<tr>
+											<th>流程实例ID(proInstId)</th>
+											<td ng-bind="instance.id"></td>
+											<th>BPMN流程实例ID(bpmnInstId)</th>
+											<td ng-bind="instance.bpmnInstId"></td>
+										</tr>
+										<tr>
+											<th>流程定义ID(procDefId)</th>
+											<td ng-bind="instance.procDefId"></td>
+											<th>BPM流程定义ID(bpmnDefId)</th>
+											<td ng-bind="instance.bpmnDefId"></td>
+										</tr>
+										<tr>
+											<th>流程定义KEY(procDefKey)</th>
+											<td ng-bind="instance.procDefKey"></td>
+											<th>流程名称</th>
+											<td ng-bind="instance.procDefName"></td>
+										</tr>
+										<tr>
+											<th>关联数据的业务主键</th>
+											<td ng-bind="instance.bizKey"></td>
+											<th>创建人</th>
+											<td ng-bind="instance.creator"></td>
+										</tr>
+										<tr>
+											<th>创建时间</th>
+											<td ng-bind="instance.createTime"></td>
+											<th>结束时间</th>
+											<td ng-bind="instance.endTime"></td>
+										</tr>
+										<tr>
+											<th>审批用时</th>
+											<td ng-bind="instance.duration | htDuration"></td>
+											<th>父实例ID</th>
+											<td ng-bind="instance.parentInstId"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					    </uib-tab> 
+					    <uib-tab heading="流程图" select="selectImage('views/flow/instanceFlowImage.html')">
+					    	<div ng-include="imageUrl"></div>
+						</uib-tab>
+						<uib-tab heading="审批历史" select="selectHistory('views/flow/instanceFlowOpinions.html')">
+							<div ng-include="historyUrl"></div>
+						</uib-tab>
+						<uib-tab heading="流程表单" select="selectForm('views/flow/instanceForm.html')">
+							<div ng-include="formUrl"></div>
+						</uib-tab>
+					</uib-tabset>
+					<a ng-click="back()" class="btn btn-danger btn-sm tab-return-btn">
+						<i class="fa fa-undo"></i> 返回
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

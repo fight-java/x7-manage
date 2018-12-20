@@ -1,0 +1,41 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="authorizationEditCtrl">
+    <nav class="navbar white-bg border-bottom">
+        <div class="m-sm ">
+        	<button class="btn btn-primary btn-sm" type="button" ng-click="save()"><i class="fa fa-save"></i>保存</button>
+        	<button class="btn btn-info btn-sm" type="button" ng-click="back()"><i class="fa fa-undo"></i> 返回</button>
+		</div>
+    </nav>
+    <div class="col-md-2 ibox border-top p-w-sm no-padding-right" >
+   		<div style="overflow:auto;height:{{autoHeight}}px" >
+       		<ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+                    tree-events="onClick:treeClik;onCheck: zTreeOnCheck"></ul>
+  		</div>
+    </div>
+    
+    <div class="col-md-10 no-padding">
+		<div class="ibox" ht-data-table="dataTable" url="${portal}/sys/sysMenu/v1/getAllMethodByRoleAlias?roleAlias={{roleAlias}}">
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows | filter:{menuAlias:search} ">
+							<td width="30" class="center">
+								<div class="checkbox">
+									<input type="checkbox" ng-model="row.isSelected" ng-true-value="1" ng-false-value="0" ht-select="row">
+									<label></label>
+								</div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td width="120" class="col-md-1" ht-field="row.alias" title="别名"></td>
+							<td width="100"  ht-field="row.name" title="名称"></td>
+							<td width="180" class="col-md-1" ht-field="row.requestUrl" title="请求地址"></td>
+							<td width="100" title="数据权限设置">
+								<button id="split-button" type="button" class="btn btn-info" ng-click="setDataPermission(row)">编辑</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+    
+</div>

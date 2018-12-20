@@ -1,0 +1,25 @@
+<div class="animated fadeInRight full-height flow-start-container" ng-controller="flowStartCtrl">
+	<div class="row wrapper no-margins no-padding">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>启动流程</h5>
+				<button class="btn btn-danger btn-sm remove" style="float: right;margin-right: 20px;margin-top: -5px;"  ng-click="close()">
+					<i class="fa fa-undo"></i> 返回
+				</button>
+			</div>
+			<div class="ibox-content">
+				<div class="srcoll-panel">
+					<div class="gray-div">
+						<div class="toolbar-panel noprint">
+							<div class="buttons" style="margin-left:10px;">
+								<div ht-bpm-buttons></div>
+							</div>
+						</div>
+						
+						<div ht-bpm-manager="{defId:{{defId}}}" style="margin-top: 10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

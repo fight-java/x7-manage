@@ -1,0 +1,28 @@
+<!-- Wrapper-->
+<div id="wrapper">
+	<!-- Navigation -->
+	<div ng-include="'views/common/navigation.html'"></div>
+	<!-- Page wraper -->
+	<!-- ng-class with current state name give you the ability to extended customization your view -->
+	<div id="page-wrapper" class="gray-bg {{$state.current.name}}" fit-height>
+
+		<!-- Page wrapper -->
+		<div ng-include="'views/common/topnavbar.html'"></div>
+
+		<div class="animated fadeInRight" full-scroll="calc(100% - 50px)" ng-controller="myHomeCtrl">
+			<div ng-if="isAuth" ht-bind-html="html" class="index-page"></div>
+			<div ng-if="!isAuth">
+				<div title="未授权任何系统">
+	            	<div class="alert alert-danger" role="alert">没有任何授权资源</div>
+	            </div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<div ng-include="'views/common/footer.html'"></div>
+
+	</div>
+	<!-- End page wrapper-->
+
+</div>
+<!-- End wrapper-->

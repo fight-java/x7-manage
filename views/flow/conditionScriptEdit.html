@@ -1,0 +1,99 @@
+<div class="animated fadeInRight full-height-scrol" ng-controller="conditionScriptEditCtrl">
+	<div class="ibox-title no-borders">
+		<form class="form-horizontal m-t-md">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">脚 本 类型:</label>
+				<div class="col-md-10">
+					<label class="radio-inline"><input type="radio" ng-model="data.type" ng-click="changeType(1)" value=1 ng-checked="data.type==1"/>条件脚本</label>
+					<label class="radio-inline"><input type="radio" ng-model="data.type" ng-click="changeType(2)" value=2 ng-checked="data.type==2"/>人员脚本</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">脚 本 所 在 类 名:</label>
+				<div class="col-md-10">
+					<select ng-model="data.className" class="form-control" ng-change="onChangeClassName(data.className)" >
+							<option ng-selected="data.className==implClass" ng-repeat="implClass in implClasses">{{implClass}}</option>
+						</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">类实例名:</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" readonly  ng-model="data.classInsName" name="classInsName" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">方法名称:</label>
+				<div class="col-md-10">
+					<select ng-model="data.methodName" class="form-control">
+							<option ng-repeat="method in methods" ng-selected="{{data.methodName==method.methodName}}">{{method.methodName}}</option>
+						</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">方法描述:</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" ng-model="data.methodDesc"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">返回值类型:</label>
+				<div class="col-md-10">
+					<input type="text" readonly class="form-control" ng-model="data.returnType"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">参数信息:</label>
+				<div class="col-md-10">
+					<table cellspacing="0" class="table-form">
+						<tbody>
+							<tr>
+								<th style="width: 70px;"><span>参数信息</span></th>
+								<th style="width: 80px;"><span>参数类型</span></th>
+								<th style="width: 120px;"><span>参数说明</span></th>
+								<th style="width: 120px;"><span>选择器</span></th>
+								<th><span>绑定字段</span></th>
+							</tr>
+							<tr ng-repeat="para in data.argument">
+								<td>
+									{{para.paraName}}
+								</td>
+								<td>
+									{{para.paraType}}
+								</td>
+								<td>
+									<input type="text" class="form-control" ng-model="para.paraDesc"/>
+								</td>
+								<td>
+									<select ng-model="para.paraCt" class="form-control" ng-change="onChangeSelector(para.paraCt)">
+										<option  value ="">请选择</option>
+										<optgroup ng-repeat="group in optionJson" label="{{group.lable}}">
+										    <option ng-repeat="option in group.option" value ="{{option.value}}">{{option.name}}</option>
+										</optgroup>
+									</select>
+								</td>
+								<td>
+									<div>
+										<select ng-model="para.paraCtBindKey" style="width: 110px;" ng-change="onChangeField(para.paraCtBindKey,para)">
+											 <option ng-repeat="field in currentFields[para.paraCt]" value="{{field.field}}">{{field.field}}</option>
+										</select>
+										<label class="checkbox-inline" style="float: right;"><input type="checkbox" ng-model="para.multiSelect" ng-init="para.multiSelect=false">多选</label>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否有效:</label>
+				<div class="col-md-10">
+					<select ng-model="data.enable" ng-init="data.enable=1" class="form-control">
+						<option value=0>否</option>
+						<option value=1 ng-selected="data.enable==1">是</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<div ng-controller="toCopyToCtrl">
+	<div class="toolbar-panel col-md-12">
+	<form>
+		<table cellspacing="0" class="table-form">
+		<tr>
+			<th>通知方式：</th>
+			<td>
+				<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+					<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.messageType" value="{{k}}" />
+					<label for="{{k}}"> {{v}} </label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>人员：</th>
+			<td>
+				<div>
+				<ul>
+					<li class="tags-li" ng-repeat="item in selectUsers track by $index">
+						<div class="tags-pan">
+						<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('selectUsers',item)"><i class="fa fa-close" ></i></a> 
+						<span  ng-bind="item.fullname"></span>
+						</div>
+					</li>
+				</ul>
+				</div>
+				<input type="hidden" id="userId" ng-model="data.userId" name="userId"  >
+				<a role="button" href="javascript:void(0)" ng-click="selectUser()"  class="btn btn-primary btn-sm fa fa-user">选择人员</a>
+			</td>
+		</tr>
+		<tr> 
+			<th>原因：</th>
+			<td><textarea name="opinion" ng-model="data.opinion" rows="4" cols="50" style="width: 380px; margin:5px"  class="inputText"></textarea></td>
+		</tr>
+		</table>
+	</form>
+	</div> 
+	<div class="toolbar-panel col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons">
+			<a role="button" ng-click="saveCopyToType();" href="javascript:void(0);" class="btn btn-primary btn-sm fa fa-save">确定</a>
+			<button ng-click="closeEdit();" class="btn btn-default btn-sm  fa fa-close">取消</button>
+		</div>
+	</div>
+</div>

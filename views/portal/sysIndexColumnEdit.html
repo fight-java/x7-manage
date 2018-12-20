@@ -1,0 +1,159 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="sysIndexColumnEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-2 control-label">栏目名称:*</label>
+						<div class="col-sm-10"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label" uib-tooltip="别名在系统中不能重复">栏目别名:*<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-10"><input type="text" class="form-control" required="" ht-pinyin="data.name" aria-required="true" ng-model="data.alias"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">栏目分类:</label>
+						<div class="col-sm-10">
+						<div  ht-sys-type type-id="data.catalog" type-name="formTypeData.typeName" group-key="INDEX_COLUMN_TYPE">
+						</div>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label" uib-tooltip="这个是识别栏目是通过什么类型展示数据。">栏目类型:<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-10">
+						<select class="form-control" ng-model="data.colType">
+								<option value="">--请选择--</option>
+								<option value="0" ng-selected="!data.colType||data.colType==0">一般类型栏目</option>
+								<option value="1">图表类型栏目</option>
+								<option value="2">日历类型栏目</option>
+								<option value="3">滚动类型栏目</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">更多路径:</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.colUrl">
+						</div>
+					</div>	
+					<div class="form-group"><label class="col-sm-2 control-label">展示效果:</label>
+						<div class="col-sm-10">
+						<select class="form-control" ng-model="data.showEffect">
+								<option value="">--请选择--</option>
+								<option value="0" ng-selected="!data.showEffect||data.showEffect==0">默认效果</option>
+								<option value="1">走马灯</option>
+								<option value="2">幻灯片</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group"><label class="col-sm-2 control-label">数据加载方式:</label>
+						
+						<div class="col-sm-10"> 
+						<div class="radio radio-info radio-inline" ng-init="data.dataMode=1">
+								<input type="radio" id="dataMode1" class="radio-inline" ng-model="data.dataMode"  value="1" />
+								<label for="dataMode1"> 自定义查询方式 </label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="dataMode2" class="radio-inline" ng-model="data.dataMode"  value="2" />
+								<label for="dataMode2"> webservice方法</label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="dataMode3" class="radio-inline" ng-model="data.dataMode"  value="3" />
+								<label for="dataMode3"> RESTful接口 </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" ng-if="data.dataMode==3"><label class="col-sm-2 control-label">请求类型:</label>
+						<div class="col-sm-10">
+						<div class="radio radio-info radio-inline">
+								<input type="radio" id="requestType1" class="radio-inline" ng-model="data.requestType" ng-checked="!data.requestType ||data.requestType=='POST'" value="POST" />
+								<label for="requestType1"> POST</label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="requestType2" class="radio-inline" ng-model="data.requestType"  value="GET" />
+								<label for="requestType2"> GET </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label" uib-tooltip="填写格式:1、service+“.”+方法名,service为spring的service名称。如果为webservice方法，格式为：方法路径+“?”+方法名，而且必须添加参数：namespace（名称空间）。（注意：路径中不能接参数，需点击“设置参数”按钮添加参数）">方法路径:<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-9">
+						<input type="text" class="form-control" ng-model="data.dataFrom">
+						</div>
+						<div ng-if="data.dataMode==3||data.dataMode==2">
+						<span class="pull-left btn btn-info btn-sm" ng-click="showSetParamDialog()">参数设置</span>
+						</div>
+						<div ng-if="data.dataMode==1||!data.dataMode">
+						<span class="pull-left btn btn-info btn-sm" ng-click="selectQuery()">选 择...</span>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">栏目使用平台:</label>
+						<div class="col-sm-10">
+						<div class="radio radio-info radio-inline" ng-init="data.isPublic=0" >
+								<input type="radio" id="isPublic1" class="radio-inline" ng-model="data.isPublic" value="0"  />
+								<label for="isPublic1"> PC端</label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="isPublic2" class="radio-inline" ng-model="data.isPublic" value="1" />
+								<label for="isPublic2"> 手机端 </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label" uib-tooltip="如果不填写，默认320。">栏目高度:<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.colHeight">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">是否支持刷新:</label>
+						<div class="col-sm-10">
+						<div class="radio radio-info radio-inline" ng-init="data.supportRefesh=0">
+								<input type="radio" id="supportRefesh1" class="radio-inline" ng-model="data.supportRefesh"  value="1"/>
+								<label for="supportRefesh1"> 是</label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="supportRefesh2" class="radio-inline" ng-model="data.supportRefesh"  value="0"  />
+								<label for="supportRefesh2"> 否 </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label" uib-tooltip="时间计算是以秒为单位。如果选择支持刷新，默认刷新时间是5秒。">刷新时间:<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.refeshTime" placeholder="请输入数字，谢谢!">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">描述:</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.memo">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">首页分页:</label>
+						<div class="col-sm-10">
+						 <div class="radio radio-info radio-inline" ng-init="data.needPage=0">
+								<input type="radio" id="needPage1" class="radio-inline" ng-model="data.needPage"  value="0"  />
+								<label for="needPage1"> 不分页</label>
+							</div>
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="needPage2" class="radio-inline" ng-model="data.needPage"  value="1" />
+								<label for="needPage2"> 分页 </label>
+							</div> 
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">栏目模版:*</label>
+						<div class="col-sm-10">
+						<div ui-codemirror ui-codemirror-opts="editorOptions" 
+							 ng-model="data.templateHtml" required="" aria-required="true">
+                        </div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="left">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

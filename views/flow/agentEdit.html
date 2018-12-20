@@ -1,0 +1,159 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll>
+	<div class="row wrapper">
+		<div class="ibox" ng-controller="agentEditCtrl">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="col-md-10 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="save()">
+						<i class="fa fa-save"></i> 保存
+					</button>
+					<button class="btn btn-danger btn-sm remove"
+							ng-click="close()">
+						<i class="fa fa-undo"></i> 取消
+					</button>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<input type="hidden" ng-model="data.isMgr">
+					<div class="form-group"><label class="col-sm-2 control-label"> 代理类型: </label>
+						<div class="col-sm-10">
+							<label class="radio-inline"><input type="radio" ng-model="data.type" value=1 ng-checked="data.type==1"/>全权代理</label>
+							<label class="radio-inline"><input type="radio" ng-model="data.type" value=2 ng-checked="data.type==2"/>部分代理</label>
+							<!-- <label class="radio-inline"><input type="radio" ng-model="data.type" value=3 ng-checked="data.type==3"/>条件代理</label> -->
+						</div>
+					</div>
+					
+					<div class="form-group"><label class="col-sm-2 control-label"> 标题: </label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="data.subject" class="inputText input-width-50" validate="{required:true,maxlength:192}" />
+						
+						</div>
+					</div>
+					
+					<div ng-if="data.isMgr=='1'" class="form-group"><label class="col-sm-2 control-label"> 授权人姓名: </label>
+						<div class="col-sm-10">
+							<input type="hidden" id="authId" name="authId" ng-model="data.authId" class="inputText" validate="{required:true,maxlength:192}" />
+							<input type="text" id="authName" disabled="disabled" name="authName" ng-model="data.authName" class="inputText" validate="{required:true,maxlength:192}" />
+							<a href="javaScript:void(0)" class="btn btn-sm btn-info  fa-search-plus selectUser" selectId="authId" selectName="authName">
+								选择
+							</a>
+						</div>
+					</div>
+					
+					<div class="form-group"><label class="col-sm-2 control-label"> 开始日期: </label>
+						<div class="col-sm-10">
+							<input type="datetime" date-time="" view="date" min-view="minutes" format="YYYY-MM-DD HH:mm:ss" class="form-control" ng-model="data.startDate" ht-validate="{required:false,maxlength:150}">
+						</div>
+					</div>
+					
+					<div class="form-group"><label class="col-sm-2 control-label"> 结束日期: </label>
+						<div class="col-sm-10">
+							<input type="datetime" date-time="" view="date" min-view="minutes" format="YYYY-MM-DD HH:mm:ss" class="form-control" ng-model="data.endDate" ht-validate="{required:false,maxlength:150}">
+						</div>
+					</div>
+					
+					<div class="form-group"><label class="col-sm-2 control-label"> 是否有效: </label>
+						<div class="col-sm-10">
+							<label class="radio-inline"><input type="radio" ng-model="data.isEnabled" value="Y"/>启用</label>
+							<label class="radio-inline"><input type="radio" ng-model="data.isEnabled" value="N"/>禁止</label>
+						</div>
+					</div>
+						
+					<div ng-if="data.type==1||data.type==2" class="form-group"><label class="col-sm-2 control-label"> 代理人: </label>
+						<div class="col-sm-10">
+							<input type="hidden" id="agentId" name="agentId" ng-model="data.agentId" class="inputText" />
+							<input type="text" name="agent" ng-model="data.agent" class="inputText" disabled="disabled" />
+							<button type="button" ng-click="selectUser()" class="btn btn-sm btn-info" electId="agentId" selectName="agent"><i class="fa fa-plus-circle"></i> 选择</button>
+						</div>
+					</div>
+					
+					<!-- 条件代理，设置流程 -->
+					<div ng-if="data.type==3" class="form-group"><label class="col-sm-2 control-label"> 代理设置: </label>
+						<div class="col-sm-10">
+							<input type="hidden" id="conditionFlowKey" name="flowKey" ng-model="data.flowKey" />
+							<input type="text" id="conditionFlowName" name="flowName" ng-model="data.flowName" class="inputText input-wh-8" disabled="disabled" />
+							&nbsp;
+							<button type="button" class="btn btn-sm btn-info" selectId="conditionFlowKey" selectName="conditionFlowName"><i class="fa fa-plus-circle"></i> 选择</button>
+							<button type="button" class="btn btn-sm btn-info"><i class="fa fa-share-alt-square"></i> 设置代理条件</button>
+						</div>
+					</div>
+						
+					<!-- 部分代理，设置流程 -->
+					<div id="partFlow" ng-if="data.type==2">
+						<div class="toolbar-panel">
+							<div class="buttons">
+								<button type="button" ng-click="selectFlows()" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> 新增</button>
+							</div>
+						</div>
+						<table class="table table-bordered table-striped table-hover">
+							<thead>
+								<tr>
+									<th>流程名称</th>
+									<th>管理</th>
+								</tr>
+							</thead>
+							<tbody id="bpmAgentItem">
+								<tr ng-if="data.defList!=null&&data.defList!=''" ng-repeat="agentItem in data.defList track by $index" type="subdata">
+									<td>
+										<input type="hidden" name="flowKey" ng-model="agentItem.flowKey" />
+										<input type="hidden" name="flowName" ng-model="agentItem.flowName">
+										<span>{{agentItem.flowName}}</span>
+									</td>
+									<td>
+										<button type="button" ng-click="removeAgentFlow($event,agentItem)" class="btn btn-sm btn-info"><i class="fa fa-remove remove-flow"></i> 删除</button>
+									</td>
+								</tr>
+								<tr ng-if="data.defList==null||data.defList==''" id="firstRow">
+									<td colspan="2" align="center">
+										<font color='red'>还未选择流程</font>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- 条件代理，设置条件 -->
+					<div id="agentConditionDiv" style="display: none">
+						<table id="condition" type="sub">
+							<tr ng-repeat="condition in data.conditionList track by $index" type="subdata">
+								<input type="hidden" name="condition" ng-model="conditionItem.condition">
+								<input type="hidden" name="conditionDesc" value="conditionItem.conditionDesc">
+								<input type="hidden" name="agentId" value="conditionItem.agentId">
+								<input type="hidden" name="agentName" value="conditionItem.agentName">
+							</tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<textarea id="tableRowTemplate" style="display: none;">
+			<tr id="def_#defKey" type="subdata">
+				<td>
+					<input type="hidden" name="flowKey" value="#defKey">
+					<input type="hidden" name="flowName" value="#name">
+					<a href="${ctx}/flow/def/get?defKey=#defKey" target="_blank">#name</a>
+				</td>
+				<td>
+					<a href="javaScript:void(0)" class="btn btn-sm btn-danger fa-remove remove-flow">删除</a>
+				</td>
+			</tr>
+		</textarea>
+	
+		<textarea id="agentConditionTableRowTemplate" style="display: none;">
+			<tr type="subdata">
+				<td>
+					<input type="hidden" name="condition" value="#condition">
+					<input type="hidden" name="conditionDesc" value="#conditionDesc">
+					<input type="hidden" name="agentId" value="#agentId">
+					<input type="hidden" name="agentName" value="#agentName">
+				</td>
+			</tr>
+		</textarea>
+		
+	</div>
+</div>

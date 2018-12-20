@@ -1,0 +1,97 @@
+<div class="col-md-12" ng-controller="taskToAgreeCtrl">
+	<div style="padding:0;" data-options="fit:true,border:false">
+		<div tabid="agreeForm" title="审批">
+			<form id="agreeForm" name="agreeForm">
+				<table cellspacing="0" class="table-form">
+					<tr ng-if="actionName == 'agree' || actionName == 'oppose'" ng-show="isContains(jumpType,'select')||isContains(jumpType,'free')||isContains(jumpType,'common')"> 
+						<th>跳转类型</th>
+						<td colspan="3">
+								<label class="radio-inline"  ng-show="isContains(jumpType,'common')" > 
+									<input type="radio" name="jumpType" ng-model="jumpType" value="common" ng-checked="jumpType=='common'"  />正常跳转
+								</label>
+								<label class="radio-inline" ng-show="isContains(jumpType,'select')"> 
+									<input type="radio" name="jumpType" ng-model="jumpType" value="select" ng-checked="jumpType=='select'"  />选择路径跳转
+								</label>
+								<label class="radio-inline" ng-show="isContains(jumpType,'free')">
+									<input type="radio" name="jumpType" ng-model="jumpType" value="free"   ng-checked="jumpType=='free'" />自由跳转
+								</label>
+						</td>
+					</tr>
+					<tr ng-if="jumpType=='common' && !isGoNextJustEndEvent && !actionName == 'opposeTrans'">
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;">选择执行人</th>
+						<td>
+							<div name="destinationDiv">
+								<span name = "nodeUserSpan">
+								</span>
+								<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="chooseUser()">选择</a>{{isGoNextJustEndEvent}}
+							</div>
+						</td>	
+					</tr>
+					<tr ng-if="jumpType=='select'">
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;"><abbr ht-tip title="自由跳转的目标节点">目标节点</abbr></th>
+						<td><select style="margin:6px;" class="inputText" ng-model="destination" name="destination" ht-validate="{'required':true}">
+								<option ng-repeat="outcomeNode in outcomeNodes" value="{{outcomeNode.nodeId}}"  nodeType="{{outcomeNode.type}}">{{outcomeNodes.name}}</option>
+							</select>
+						</td>
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;">选择执行人</th>
+						<td>
+							<div ng-repeat="(key,value) in outcomeUserMap" name="destinationDiv" ng-if="destination == key">
+								<span name = "nodeUserSpan">
+									<label ng-repeat="user in value" class="checkbox-inline" ><input  type="checkbox" ng-model="nodeUser" name="nodeUser" checked="checked" value="{{user.id}},{{user.name}},{{user.type}}" />{{user.name}}</label>
+								</span>
+								<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="chooseUser()">选择</a>
+							</div>
+						</td>	
+					</tr>
+					<tr ng-if="jumpType=='free'">
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;"><abbr ht-tip title="自由跳转的目标节点">目标节点</abbr></th>
+						<td>
+							<select style="margin:6px;" class="inputText" ng-model="destination" name="destination"  ht-validate="{'required':true}">
+									<option ng-repeat="nodeDef in allNodeDef " value="nodeDef.nodeId"  nodeType="nodeDef.type">{{nodeDef.name}}</option>
+							</select>
+						</td>
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;">选择执行人</th>
+						<td>
+							<div ng-repeat="(key,value) in allNodeUserMap" name="destinationDiv" ng-if="destination =={{key}}">
+								<span name = "nodeUserSpan">
+									<label ng-repeat="user in value" class="checkbox-inline" ><input  type="checkbox" name="nodeUser" checked="checked" value="{{user.id}},{{user.name}},{{user.type}}" />{{user.name}}</label>
+								</span>
+								<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="chooseUser()">选择</a>
+							</div>
+						</td>	
+					</tr>
+					<tr name="nomalTaskAgree">
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px;">
+								<span ng-if="actionName == 'oppose'">反对意见</span>
+								<span ng-if="actionName == 'abandon'">弃权原因见</span>
+								<span ng-if="actionName == 'agree' || actionName == 'agreeTrans' || actionName == 'opposeTrans'">审批意见</span>
+						</th>
+						<td colspan="3">
+						<textarea id ="opinion" ng-model="opinion" name="opinion" cols="60" rows="5" class="inputText input-width-80" style="margin:6px;"></textarea></td>
+					</tr>
+					<tr name="nomalTaskAgree">
+						<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; padding-top:10px; padding-bottom:10px;">常用语</th>
+						<td colspan="3">
+						   <abbr ng-repeat="item in approvalItem" ht-tip title='{{item}}'><a style="margin-bottom: 5px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" class="btn btn-default fa" ng-click="setOpinion(item)">{{item}}</a></abbr>
+						</td>
+					</tr>
+					
+				</table>
+			</form>
+		</div>
+		<div ng-if="urlForm!=null && urlForm!=''" title="业务表单">
+			<iframe id="bussinessFrom" onload="loadIframe(this)" style="width: 100%; height: 100%; "  frameborder="no" marginwidth="0" marginheight="0" scrolling="auto" allowtransparency="yes" src="{{urlForm }}" pane-src="0"></iframe>
+		</div>
+	</div>
+	<div class="toolbar-panel " style="text-align:right;">
+		<div class="buttons" >
+			<a href="javascript:;" ng-click="submit()" class="btn btn-primary fa fa-save">确定</a> 
+			<a href="javascript:;" ng-click="cancel();" class="btn btn-default fa fa-close">取消</a>
+			<div ng-if="directHandlerSign" class="checkbox-inline">
+				  <label ht-tip title="您拥有会签特权，可以对会签任务进行直接处理。">
+					<input type="checkbox" name="directHandlerSign" value="true" />特权：直接处理
+				  </label>
+			</div>
+		</div>
+	</div>
+</div>

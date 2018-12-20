@@ -1,0 +1,29 @@
+.left-label{
+  width: 22%;
+  text-align: right;
+ }
+ 
+.right-operation{
+  display: inline-block; 
+ }
+ 
+ div.form-inline{
+    margin: 5px 0;
+ }
+ 
+ div.well{
+    padding: 10px;
+    width: 100%;
+    display: inline-block;
+ }
+ 
+ div.alert-info{
+    padding: 10px;
+    width: 100%;
+    display: inline-block;
+ }
+ 
+ div > code{
+    white-space: normal;
+    word-break: break-all;
+ }

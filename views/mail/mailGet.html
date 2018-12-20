@@ -1,0 +1,52 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll
+	ng-controller="mailGetCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">主题:</label>
+					<div class="col-sm-10">
+					<input ng-model="data.subject" class="form-control" readonly="readonly">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">发件人:</label>
+					<div class="col-sm-10">
+					<input ng-model="data.senderAddress" class="form-control" readonly="readonly">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">收件人地址:</label>
+					<div class="col-sm-10">
+					<input ng-model="data.receiverAddresses" class="form-control" readonly="readonly">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">日期:</label>
+					<div class="col-sm-10">
+					<input ng-model="data.sendDate" class="form-control" readonly="readonly">
+					</div>
+				</div>
+				<div style="border:solid 1px #7babcf;margin:2px;padding:4px;height: 430px;overflow: auto;">
+				<h2 ng-if="data.mailAttachments.length!=0">附件（{{data.mailAttachments.length}}个）</h2>
+				<div  ng-repeat="file in data.mailAttachments track by $index" style="font-size:15px;">
+					<font color="green">{{file.fileName}}</font>
+					<a ng-click="downLoadAttach(file.id)">下载此附件</a>
+	   			</div>
+				<hr>
+				<br>
+				<div id="content" style="width: 100%;padding: 5px;margin-bottom: 15px;">
+				</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,104 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="paramsListCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${uc}/api/params/v1/params/getParamsPage">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-3 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating('', 'add')">
+						<i class="fa fa-plus"></i> 新增
+					</button>
+					<button class="btn btn-danger btn-sm remove" 
+							ht-remove-array url="${uc}/api/params/v1/param/deleteParamsByIds">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="通过名称"
+						   title="通过名称" ht-quick-search="name">
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+  <div class="ibox-content" style="display:none;">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-1 control-label">参数名称</label>
+                    <div class="col-md-2">
+                        <input type="text" placeholder="名称" ht-query="name" 
+                               class="form-control input-sm">
+                    </div>
+                    <label class="col-md-1 control-label">类型</label>
+                    <div class="col-md-2">
+                   	 	<select class="form-control input-sm" ht-query="type" operation="equal">
+                            <option value="">全部</option>
+                            <option value="1">用户参数</option>
+                            <option value="2">组织参数</option>
+                        </select>
+                    </div>
+                    <label class="col-md-1 control-label">控件类型</label>
+                    <div class="col-md-2">
+                   	 	<select class="form-control input-sm" ht-query="ctlType" operation="equal">
+                            <option value="">全部</option>
+                            <option value="input">手动输入</option>
+                            <option value="select">下拉框</option>
+                            <option value="checkbox">复选框</option>
+                            <option value="radio">单选按钮</option>
+                            <option value="date">日期</option>
+                            <option value="number">数字</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm" type="button" 
+                                ht-search><i class="fa fa-search"></i> 查询</button>
+                        <button class="btn btn-default btn-sm" type="button" 
+                                ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox">
+                            <input type="checkbox" ht-select="row">
+                            <label></label>
+                        </div>
+					</td>
+					<td width="50" ng-bind="$index+1" title="序号"></td>
+					<td ht-field="row.name" title="名称" sortable="true"></td>
+					<td ht-field="row.code" title="编码" sortable="true"></td>
+					
+					<td ng-switch="row.type" title="类型" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="1">用户参数</span>
+						<span class="badge badge-primary" ng-switch-when="2">组织参数</span>
+					</td>
+					<td ng-switch="row.ctlType" title="控件类型" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="input">手动输入</span>
+						<span class="badge badge-primary" ng-switch-when="select">下拉框</span>
+						<span class="badge badge-primary" ng-switch-when="checkbox">复选框</span>
+						<span class="badge badge-primary" ng-switch-when="radio">单选按钮</span>
+						<span class="badge badge-primary" ng-switch-when="date">日期</span>
+						<span class="badge badge-primary" ng-switch-when="number">数字</span>
+					</td>
+					<td title="操作">
+						<button class="btn btn-info btn-sm" ng-click="operating(row.code, 'edit')"><i class="fa fa-edit"></i> 修改</button>
+						<button class="btn btn-info btn-sm" ng-click="operating(row.code, 'get')"><i class="fa fa-file-text"></i> 明细</button>
+						<button class="btn btn-info btn-sm" ng-if="row.isDefault == 0" ng-click="setDefault(row)"><i class="fa fa-file-text"></i> 设置为默认</button>
+						<button class="btn btn-info btn-sm" ng-click="remove(row.id)">
+							<i class="fa fa-remove"></i> 删除</button>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

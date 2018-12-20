@@ -1,0 +1,787 @@
+<link href="css/design/formDesign.css" rel="stylesheet">
+<link href="css/design/custom.css" rel="stylesheet">
+<div class="animated fadeInRight" ng-controller="formDesignCtrl" class="total-container">
+	 <nav class="navbar white-bg border-bottom">
+        <div class="m-sm ">
+        	<button class="btn btn-primary btn-sm" type="button" ng-click="save()"><i class="fa fa-save"></i> 保存</button>
+        	<button class="btn btn-success btn-sm" type="button" ng-click="preview()"><i class="fa fa-archive"></i> 预览</button>
+        	<button class="btn btn-info btn-sm" type="button" ng-click="back()"><i class="fa fa-undo"></i> 返回</button>
+		</div>
+    </nav>
+	
+	<div class="full-width p-xs no-padding-top">
+		<div class="row">
+		    <div class="col-md-2 field-lib-container">
+		        <div uib-accordion close-others="true" class="affix" style="min-width:200px;width:15%;">
+		            <uib-accordion-group is-open="status.isBasicOpen">
+		                <uib-accordion-heading>
+		                  	  基本字段
+		                  	 <i class="pull-right fa" ng-class="{'fa-chevron-down': status.isBasicOpen, 'fa-chevron-right': !status.isBasicOpen,}"></i>
+		                </uib-accordion-heading>
+		                <div class="row">
+		                    <div class="col-md-6 dragfrom">
+		                        <div class="field-item" ng-repeat="field in fieldLib.basic | oddeven:true" 
+		                             type="{{field.ctrlType}}" not-suport-sub="{{field.notSuportSub}}">
+		                            <i class="fa fa-{{field.icon}} fa-fw"></i>
+		                            <span ng-bind="field.name"></span>
+		                        </div>
+		                    </div>
+		                    <div class="col-md-6 dragfrom last-container">
+		                        <div class="field-item" ng-repeat="field in fieldLib.basic | oddeven:false"
+		                        type="{{field.ctrlType}}" not-suport-sub="{{field.notSuportSub}}">
+		                            <i class="fa fa-{{field.icon}} fa-fw"></i>
+		                            <span ng-bind="field.name"></span>
+		                        </div>
+		                    </div>
+		                </div>
+		            </uib-accordion-group>
+		            <uib-accordion-group is-open="status.isFlowOpen">
+		                <uib-accordion-heading>
+		                    	流程字段
+		                    <i class="pull-right fa" ng-class="{'fa-chevron-down': status.isFlowOpen, 'fa-chevron-right': !status.isFlowOpen}"></i>
+		                </uib-accordion-heading>
+		                <div class="row">
+		                    <div class="col-md-6 dragfrom">
+		                        <div class="field-item" ng-repeat="field in fieldLib.flow | oddeven:true" 
+		                             type="{{field.ctrlType}}" not-suport-sub="{{field.notSuportSub}}">
+		                            <i class="fa fa-{{field.icon}} fa-fw"></i>
+		                            <span ng-bind="field.name"></span>
+		                        </div>
+		                    </div>
+		                    <div class="col-md-6 dragfrom last-container">
+		                        <div class="field-item" ng-repeat="field in fieldLib.flow | oddeven:false" 
+		                             type="{{field.ctrlType}}" not-suport-sub="{{field.notSuportSub}}">
+		                            <i class="fa fa-{{field.icon}} fa-fw"></i>
+		                            <span ng-bind="field.name"></span>
+		                        </div>
+		                    </div>
+		                </div>
+		            </uib-accordion-group>
+		        </div>
+		    </div>
+		    <div class="col-md-7" >
+		        <div class="ibox">
+		            <div class="ibox-title">
+		                <h5 ng-bind="form.name"></h5>
+		            </div>
+		            <div class="ibox-content" full-scroll ng-model="contentHeight">
+		                <div id="fieldListBox" class="dropto initContentSize">
+		                    <div class="field-item {{field.widthClass}}" ng-class="{'selected':editingField===field}" ng-repeat="field in fieldList" ng-click="selectField(field)">
+		                        <div class="field-group" ng-if="field.ctrlType!='sub'">
+							        <label ng-bind="field.desc" class="control-label lable-left"></label>
+							        <div class="content-right">
+							        	<div field-template="field" uuid="{{field.uuid}}" itemtype="{{field.ctrlType}}" templates="templates"></div>
+							        </div>
+							    </div>
+							    
+							    <div uuid="{{field.uuid}}" sub-template="field" ng-if="field.ctrlType=='sub'" templates="templates"></div>
+							    <div ng-if="editingField===field" class="tooltip-container">
+							    	<a  class="btn btn-danger fa fa-trash-o" title="移除" ng-click="removeField(field)"></a>
+							    </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="col-md-3">
+		    	<div class="tabs-container affix" style="width:23%;">
+	                <uib-tabset>
+	                    <uib-tab heading="字段属性">
+	                        <div class="panel-body" full-scroll ng-model="contentHeight">
+	                            <div class="ibox-content no-top-border">
+					                <div name="formDef" class="form-horizontal" ng-if="editingField">
+					                	<div class="form-group">
+										    <label>标题</label>
+										    <input type="text" ng-model="editingField.desc" class="form-control input-sm">
+										</div>
+										<div class="form-group" ng-if="isHideDIVByRule('sub,opinion,htbpmflowimage,history,')">
+										    <label>绑定属性</label>
+										    <select class="form-control input-sm" ng-change="chooseField(this)" desc="属性名称" 
+										    		ht-validate-design="{required:true}" ng-model="editingField.fieldPath">
+										          <optgroup label="{{fields.desc}}" ng-repeat="fields in chooseFiledList">
+												   		<option value="{{m.path}}.{{m.tableName}}.{{m.name}}" ng-repeat="m in fields.children">{{m.desc}}</option>
+												  </optgroup>
+											</select>
+										</div>
+										<div class="form-group" ng-if="editingField.ctrlType=='sub'">
+										    <label>绑定对象</label>
+										    <select class="form-control input-sm" ng-change="chooseField(this)" desc="对象名称" 
+										    		ht-validate-design="{required:true}" ng-model="editingField.tableName">
+												   	<option value="{{table.name}}" ng-repeat="table in BoDataList | filter:{type:'sub'}">{{table.desc}}</option>
+											</select>
+										</div>
+										<div class="form-group" ng-if="!isOneColumnField(editingField)">
+											<div class="hr-line-dashed"></div>
+											<label class="default-value-label">宽度</label>
+											<div class="btn-group pull-right">
+				                                <label ng-repeat="column in columnTemplates" class="btn btn-default btn-sm"
+				                                	   ng-model="editingField.widthClass" uib-btn-radio="'{{column.width}}'" uncheckable>{{column.fname}}</label>
+				                            </div>
+										</div>
+										<div class="form-group" ng-if="editingField.ctrlType=='sub'">
+											<div class="hr-line-dashed"></div>
+											<label class="default-value-label">子表布局</label>
+											<div class="btn-group pull-right">
+				                                <label ng-repeat="column in subColumnTemplates" class="btn btn-default btn-sm"
+				                                	   ng-model="editingField.defaultColumn" uib-btn-radio="'{{column.width}}'" uncheckable>{{column.name}}</label>
+				                            </div>
+										</div>
+										<!-- 富文本  start-->
+										 <div ng-if="editingField.ctrlType=='multitext' && form.formType != 'mobile'" class="form-group">
+											<div class="hr-line-dashed"></div>
+											<div class="col-md-12" style="padding:0">
+												<label class="no-margins"><input type="checkbox" ng-model="editingField.isEditor"
+																  		  		 class="js-switch" ui-switch="{color:'#1AB394'}" /> 富文本</label>
+											</div>
+											<div class="col-md-6" ng-if="editingField.isEditor">
+												<input type="text" touch-spin spin-options="spinOption2" ht-validate-design="{'posinteger':true}"
+													   ng-model="editingField.option.initialFrameHeight" ng-init="editingField.option.initialFrameHeight?'':editingField.option.initialFrameHeight=150">
+										        <p class="touch-input-desc">高度(px)</p>
+											</div>
+											<div class="col-md-6" ng-if="editingField.isEditor">
+												<input type="text" touch-spin spin-options="spinOption2" ht-validate-design="{'posinteger':true}" 
+													   ng-model="editingField.option.initialFrameWidth" ng-init="editingField.option.initialFrameWidth?'':editingField.option.initialFrameWidth=500">
+										        <p class="touch-input-desc">宽度(px)</p>
+											</div>
+										</div>
+										<!-- 富文本  end-->
+										<!-- 数字格式化显示  begin -->
+										<div class="form-group" ng-if="editingField.ctrlType=='onetext'&&editingField.type=='number'" >
+											<div class="hr-line-dashed"></div>
+											<label>格式</label>
+											<div class="row setting-container">
+												<div class="col-sm-6">
+													<label><input type="checkbox" ng-model="editingField.option.numberFormat.isShowComdify"
+																  ng-disabled="editingField.option.numberFormat.isShowCoin" class="js-switch" ui-switch="{color:'#1AB394'}" /> 千分位</label>
+												</div>
+												<div class="col-sm-6">
+													<label><input type="checkbox" ng-model="editingField.option.numberFormat.capital"
+																  class="js-switch" ui-switch="{color:'#1AB394'}" /> 金额大写</label>
+												</div>
+											</div>
+											<div class="row setting-container">
+												<div class="col-sm-6">
+													<label><input type="checkbox" ng-model="editingField.option.numberFormat.isShowCoin"
+																  class="js-switch" ui-switch="{color:'#1AB394'}" /> 货币</label>
+												</div>
+												<div class="col-sm-6" ng-if="editingField.option.numberFormat.isShowCoin">
+													<span id="spanCoinType">
+														<select class="form-control input-sm" id="CoinType" ng-model="editingField.option.numberFormat.coinValue">
+															<option value="">请选择</option>
+															<option value="￥">人民币(￥)</option>
+															<option value="$">美元($)</option>
+														</select>
+													</span>
+												</div>
+											</div>
+											<div class="hr-line-dashed"></div>
+											<label>精度</label>
+											<div class="row setting-container">
+												<div class="col-sm-6">
+													<input type="text" touch-spin spin-options="spinOption2" ht-validate-design="{'posinteger':true}" desc="整数位"
+														   ng-model="editingField.option.numberFormat.intValue" ng-disabled="editingField.option.numberFormat.isShowComdify">
+						                            <p class="touch-input-desc">整数位</p>
+												</div>
+												<div class="col-sm-6">
+													<input type="text" touch-spin spin-options="spinOption2" ht-validate-design="{'posinteger':true}"
+														   ng-model="editingField.option.numberFormat.decimalValue" ng-disabled="editingField.option.numberFormat.isShowComdify">
+						                            <p class="touch-input-desc">小数位</p>
+												</div>
+											</div>
+											<div class="hr-line-dashed"></div>
+							                <label>范围</label>
+											<div class="row setting-container">
+						                          <div class="col-sm-6">
+						                              <input id="demo2" type="text" name="demo1" touch-spin spin-options="spinOption2" ng-model="editingField.validRule.minvalue">
+						                              <p class="touch-input-desc">最小值</p>
+						                          </div>
+						                          <div class="col-sm-6">
+						                              <input id="demo1" type="text"  name="demo1" touch-spin spin-options="spinOption2" ng-model="editingField.validRule.maxvalue">
+						                              <p class="touch-input-desc">最大值</p>
+						                          </div>
+											</div>
+										</div>
+										<!-- 数字格式化显示  end -->
+										
+										<!-- 文件上传  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('fileupload')">
+											<div class="hr-line-dashed"></div>
+											<label class="default-value-label">文件上传</label>
+											<br />
+											<label class="m-t"><input type="checkbox" ng-model="editingField.option.file.isSingle"
+																  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 是否单选</label>
+										</div>
+										<!-- 文件上传  end -->
+										
+										<!-- 下拉复选单选  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('select,checkbox,radio,multiselect')">
+											<div class="hr-line-dashed"></div>
+											<label class="default-value-label">选项配置</label>
+											
+											<div class="btn-group pull-right" ng-if="isShowDIVByRule('select,multiselect')">
+				                                <label class="btn btn-default btn-sm"
+				                                	   ng-model="editingField.option.choiceType" uib-btn-radio="'static'" uncheckable>固定选项</label>
+		                                	    <label class="btn btn-default btn-sm"
+				                                	   ng-model="editingField.option.choiceType" uib-btn-radio="'dynamic'" uncheckable>动态选项</label>
+				                            </div>
+				                            
+				                            <div class="row setting-container" ng-if="editingField.option.choiceType=='static'">
+												<ul class="agile-list setting-container-ul">
+													<li ng-repeat="opt in editingField.option.choice">
+														<div class="row">
+															<div class="col-sm-4" ng-class="{'btn-group':!$first}" class="setting-btn">
+																<a class="btn btn-default btn-sm fa fa-plus" title="添加" ng-click="addOption()"></a>
+																<a class="btn btn-default btn-sm fa fa-trash-o" ng-hide="$first" title="移除" ng-click="removeOption(opt)"></a>
+															</div>
+															<div class="col-sm-4" class="setting-value-div">
+																<input class="form-control input-sm" ng-if="editingField.ctrlType!='number'" type="text"  placeholder="选项值" ng-model="opt.key" ht-validate-design="{required:true,maxlength:{{editingField.attrLength?editingField.attrLength:30}}}" />
+																<input class="form-control input-sm" ng-if="editingField.ctrlType=='number'" type="text" placeholder="选项值" ng-model="opt.key" ht-validate-design="{number:true,required:true,maxIntLen:{{editingField.attrLength?editingField.attrLength:10}},maxDecimalLen:{{editingField.decimalLen?editingField.decimalLen:2}}}" />
+															</div>
+															<div class="col-sm-4" class="setting-label-div">
+																<input class="form-control input-sm" type="text" ng-model="opt.value" placeholder="选项标签" ht-validate-design="{required:true,maxlength:30}" />
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+											
+											<select ng-if="editingField.option.choiceType=='dynamic'"  ng-model="editingField.option.customQuery.alias" ng-change="setCurrentCustomQuery()" 
+													ht-select-ajax="{url:'${form}/form/customQuery/v1/list',field:'customQuerys',dataRoot:'rows'}" class="form-control input-sm m-t">
+												<option value="">请选择</option>
+												<option value="{{m.alias}}" ng-repeat="m in customQuerys">{{m.name}}</option>
+											</select>
+											
+											<label class="m-t" ng-if="editingField.option.bind.length > 0" tooltip-placement="right" uib-tooltip="自定义查询需要的参数传入"><i class="fa fa-question-circle-o"></i>参数绑定</label>
+											<div ng-repeat="s in editingField.option.bind" style="margin-top:5px;">
+												<div class="input-group">
+													<span class="input-group-addon">{{s.comment}}</span>
+													<select class="form-control input-sm"
+															ng-model="s.fieldPath" desc="自定义查询绑定的参数"
+															ng-change="chooseSelectorBind(this,s)"
+															ht-validate-design="{required:true}">
+														<optgroup label="{{fields.desc}}"
+															ng-repeat="fields in BoDataList">
+															<option ng-if='!m.children' value="{{m.path}}.{{m.name}}"
+																ng-repeat="m in fields.children">{{m.desc}}</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+											
+											<label class="m-t" ng-if="editingField.option.choiceType=='dynamic'" tooltip-placement="right" uib-tooltip="返回值作为选项时的绑定"><i class="fa fa-question-circle-o"></i>选项绑定</label>
+											<div class="row setting-container" ng-if="editingField.option.choiceType=='dynamic'">
+												<div class="col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon">值</span>
+														<select class="form-control input-sm"
+																ng-model="editingField.option.customQuery.valueBind"
+																desc="自定义查询回填值" ht-validate-design="{required:true}">
+																<option
+																	ng-repeat="field in editingField.option.customQuery.resultfield"
+																	ng-selected="editingField.option.customQuery.valueBind==field.comment"
+																	value="{{field.comment}}">{{field.comment}}</option>
+														</select>
+                                					</div>
+												</div>
+                               					<div class="col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon">标签</span>
+														<select  class="form-control input-sm" ng-model="editingField.option.customQuery.labelBind" 
+																 desc="自定义查询回填标签" ht-validate-design="{required:true}">
+															<option ng-repeat="field in editingField.option.customQuery.resultfield" ng-selected="editingField.option.customQuery.labelBind==field.comment" value="{{field.comment}}">{{field.comment}}</option>
+														</select>
+                                					</div>
+												</div>
+											</div>
+										</div>
+										<!-- 下拉复选单选  end -->
+										
+										<!-- 选择器设置  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('selector,customdialog')">
+											<div class="hr-line-dashed"></div>
+											<label class="default-value-label">选择器设置</label>
+											
+											<select ng-change="changeFieldBind()" ng-options="(m.alias) as m.name for m in selectors"
+													class="form-control input-sm" ng-model="editingField.option.selector.type.alias">
+													<option value="">请选择</option>
+											</select>
+											
+											<label class="m-t">
+												<input type="checkbox" ng-model="editingField.option.selector.isSingle" ng-if="editingField.option.selector.type.alias"
+													   class="js-switch" ui-switch="{color:'#1AB394'}" /> 单选</label>
+								  		    <label class="m-t m-l" ng-if="'user-selector'==editingField.option.selector.type.alias">
+								  		    	<input type="checkbox" ng-model="editingField.option.selector.selectCurrent"
+													   class="js-switch" ui-switch="{color:'#1AB394'}" /> 当前用户</label>
+										   	<label class="m-t m-l" ng-if="'org-selector'==editingField.option.selector.type.alias">
+								  		    	<input type="checkbox" ng-model="editingField.option.selector.selectCurrent"
+													   class="js-switch" ui-switch="{color:'#1AB394'}" /> 当前组织</label>
+											<label class="m-t m-l" ng-if="'pos-selector'==editingField.option.selector.type.alias">
+								  		    	<input type="checkbox" ng-model="editingField.option.selector.selectCurrent"
+													   class="js-switch" ui-switch="{color:'#1AB394'}" /> 当前岗位</label>
+											<br />
+											<label class="m-t" ng-if="isShowDIVByRule('selector,customdialog')||(isShowDIVByRule('customdialog')&&!objectIsEmpty(editingField.option.bind))" 
+												   tooltip-placement="right" uib-tooltip="选择器的返回值绑定的属性"><i class="fa fa-question-circle-o"></i>返回值</label>
+											<div ng-repeat="s in editingField.option.bind" style="margin-top:5px;" 
+												ng-if="isShowDIVByRule('selector,customdialog')||(isShowDIVByRule('customdialog')&&!objectIsEmpty(editingField.option.bind))">
+												<div class="input-group">
+													<span class="input-group-addon">{{s.value}}</span>
+													<select class="form-control input-sm"
+															ng-model="s.jsonPath" ng-change="chooseSelectorBind(this,s)">
+														<option  value="">请选择</option>
+														<optgroup label="{{fields.desc}}" ng-repeat="fields in BoDataList">
+															<option ng-if='!m.children' value="{{m.path}}.{{m.name}}"
+																	ng-repeat="m in fields.children">{{m.desc}}</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+										</div>
+										<!-- 选择器设置  end -->
+										
+										<!-- 数据字典设置  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('office,dic,websign')" >
+											<div class="hr-line-dashed"></div>
+											<label>数据字典</label>
+											<div class="form-group">
+												<div ng-model="editingField.option.dic" ht-tree-select='dicConfig' ></div>
+											</div>
+											
+											<div class="input-group m-t">
+										    	<span class="input-group-addon">名称</span>
+										        <select class="form-control input-sm"  ng-model="editingField.bindDicPath" ng-change="chooseDicBind(this)">
+												     <optgroup label="{{fields.desc}}" ng-repeat="fields in BoDataList">
+													   		<option ng-if='!m.children' value="{{m.path}}.{{m.name}}"   ng-repeat="m in fields.children">{{m.desc}}</option>
+													  </optgroup>
+												</select>	
+											</div>
+										</div>
+										<!-- 数据字典   end -->
+										
+									 	<!-- 对话框设置 begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('dialog')">
+											<div class="hr-line-dashed"></div>
+											
+											<label> 对话框设置 </label>
+											<button class="btn btn-default btn-sm pull-right" type="button" 
+													ng-if="editingField.customDialogjson.custDialog.alias" ng-click="setCustDialogRes()">设置返回值<i class="fa fa-navicon"></i></button>
+											<br/>	
+											<label class="m-t" tooltip-placement="right" uib-tooltip="所选择的自定义查询作为选项时的绑定"><i class="fa fa-question-circle-o"></i>选择对话框</label>
+				                            
+											<select ht-validate-design="{required:true}" desc="对话框" ng-model="editingField.customDialogjson.custDialog.alias" ng-change="changeCustDialog('custDialogTree')" 
+													ht-select-ajax="{url:'${form}/form/customDialog/v1/getAll',field:'customDialogs',dataRoot:''}" class="form-control input-sm">
+												<option value="">请选择</option>
+												<option value="{{m.alias}}" ng-repeat="m in customDialogs">{{m.name}}</option>
+											</select>
+													
+											<label class="default-value-label">按钮名称</label>
+					                        <input ht-validate-design="{required:true}" desc="按钮名称" type="text" ng-model="editingField.customDialogjson.name" class="form-control input-sm">
+					                        
+					                        <label class="m-t" class="default-value-label">按钮图标</label><i style="margin-left: 15px;" title="{{editingField.customDialogjson.icon}}" class="fa {{editingField.customDialogjson.icon}}"></i>
+					                        <span  class="btn-group pull-right m-t">
+					                                <button type="button" class="btn btn-default btn-sm" ng-click="selectIcon()"><i class="fa fa-search-plus"></i>选择</button>
+					                          </span>
+					                          <br/>
+										
+											
+											<label class="m-t" ng-if="editingField.customDialogjson.custDialog.conditions.length > 0" tooltip-placement="right" uib-tooltip="自定义查询需要的参数传入"><i class="fa fa-question-circle-o"></i>参数绑定</label>
+											
+											  <table class="table" style="border: solid 1px #e7eaec;" ng-if="editingField.customDialogjson.custDialog.conditions.length>0">
+								   				<tbody>
+								   				<thead>
+								   				<tr>
+								   					<th style="border: solid 1px #e7eaec;">参数名</th>
+								   					<th style="width:37%;border: solid 1px #e7eaec;">取值对象</th>
+								   					<th style="width: 38%;border: solid 1px #e7eaec;">默认值</th>
+								   				</tr>
+								   				</thead>
+								   				<tr ng-repeat="condition in editingField.customDialogjson.custDialog.conditions">
+								   				<td style="border: solid 1px #e7eaec;padding: 0;">{{condition.comment}}</td>
+								   				<td style="border: solid 1px #e7eaec;padding: 0;">
+								   					<select style="padding: 0;" class="form-control input-sm w70 " ng-model="condition.bind" >
+									   					 <optgroup label="{{bo.desc}}" ng-repeat="bo in chooseFiledList" ng-if="bo.path==currentSubTable ||('main'==bo.type && !currentSubTable)">
+								   							<option value="{{bo.path}}.{{attr.name}}" ng-repeat="attr in bo.children">{{attr.desc}}</option>
+									   					</optgroup> 
+													</select>
+												</td>
+												<td style="border: solid 1px #e7eaec;padding: 0;">
+													<input type="text"  ng-model="condition.defaultValue" placeholder="默认值" class="form-control input-sm w70">
+													<label><input type="checkbox" name="isScript{{$index}}" ng-model="condition.isScript"></input>脚本取值</label>
+												</td>
+								   				</tr>
+								   				</tbody>
+							   				</table>
+											
+										</div>
+										<!-- 对话框设置  end -->
+										
+										<!-- 字段验证  start-->
+										<div class="form-group" ng-if="isHideDIVByRule('sub,opinion,htbpmflowimage,history,')">
+											<div class="hr-line-dashed"></div>
+											<label>字段验证</label>
+											<table class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>
+															<select class="form-control input-sm initial" ng-model="commonRule" ng-change="selectCommonRule(commonRule)">
+																<option value="">常用验证</option>
+																<option ng-repeat="m in common_ruleList" value="{{m.text}}" title="{{m.msg}}">{{m.name}}</option>
+															</select>
+														</th>
+														<th width="120">
+															<label class="no-margins"><input type="checkbox" ng-model="editingField.validRule.required"
+																  		  ng-disabled="editingField.required" class="js-switch" ui-switch="{color:'#1AB394'}" /> 必填</label>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="rule in editingField.validRule.rules">
+														<td align="center">
+															<span style="font-weight:bold;" ng-class="{'no-click':rule.isDefault}">{{rule.name}}</span>
+														</td>
+														<td>
+															<a class="btn btn-danger btn-sm fa fa-trash-o" title="删除" 
+															   ng-click="ArrayTool.del($index,editingField.validRule.rules)"></a>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<!-- 字段验证  end-->
+										
+										<!-- 函数统计  start-->
+										<div class="form-group" ng-if="isShowDIVByRule('onetext,multitext,hidtext')" >
+											<div class="hr-line-dashed"></div>
+											<label>统计函数</label>
+											<div class="input-group">
+												<input type="text" class="form-control" ng-model="editingField.option.statFun" readonly="readonly">
+												<span class="input-group-btn" ng-if="editingField.option.statFun">
+													<button type="button" ng-click="delAttr('editingField.option.statFun')" class="btn btn-danger">清除</button>
+												</span>
+												<span class="input-group-btn">
+													<button type="button" ng-click="statFun()" class="btn btn-primary">设置</button>
+												</span>
+											</div>
+										</div>
+										<!-- 函数统计 end -->
+										
+										<!-- 日期计算 start -->
+										<div class="form-group" ng-if="isShowDIVByRule('onetext,multitext,hidtext')">
+											<div class="hr-line-dashed"></div>
+											<label><input type="checkbox" ng-model="editingField.datecalc" id="__datecalc" ng-change="delAttr('editingField.option.datecalc')"
+																  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 日期计算</label>
+											<div ng-if="editingField.datecalc">
+											    <div class="input-group">
+											       <span class="input-group-addon">开始日期：</span>
+											        <select  class="form-control inline-block w70"  desc="开始日期"  ht-validate-design="{'required':true}" ng-model="editingField.option.datecalc.start"
+											         ng-disabled="!editingField.datecalc" ng-options="(a.path+'.'+a.name) as a.desc for a in getDateTargets(editingField)">
+													    <option value="">请选择</option>
+													  </select>	
+												 </div>
+												  <div class="input-group"  style="margin-top: 10px;">
+											       <span class="input-group-addon">结束日期：</span>
+											        <select  class="form-control inline-block w70" desc="结束日期"  ht-validate-design="{'required':true}" ng-model="editingField.option.datecalc.end"
+											           ng-disabled="!editingField.datecalc" ng-options="(a.path+'.'+a.name) as a.desc for a in getDateTargets(editingField)">
+													    <option value="">请选择</option>
+													  </select>	
+												 </div>
+												   <div class="input-group"  style="margin-top: 10px;">
+											       <label>计算周期</label>
+											        	<div ng-model="editingField.option.datecalc.diffType" desc="计算周期"  ht-validate-design="{'required':true}" >
+															<label style="padding-left: 20px;" class="radio-inline"> <input type="radio" icheck value="month" ng-model="editingField.option.datecalc.diffType"> 月份 </label>
+															<label style="padding-left: 10px;" class="radio-inline"> <input type="radio" icheck value="day" ng-model="editingField.option.datecalc.diffType"> 天数 </label>
+															<label style="padding-left: 10px;" class="radio-inline"> <input type="radio" icheck value="hour" ng-model="editingField.option.datecalc.diffType"> 小时 </label>
+															<label style="padding-left: 10px;" class="radio-inline"> <input type="radio" icheck value="minute" ng-model="editingField.option.datecalc.diffType"> 分钟 </label>
+															<label style="padding-left: 10px;" class="radio-inline"> <input type="radio" icheck value="second" ng-model="editingField.option.datecalc.diffType"> 秒数 </label>
+														</div>
+												 </div>
+											</div>
+										</div>
+										<!-- 日期计算 end -->
+										<!-- 日期选项  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('date')" >
+											<div class="hr-line-dashed"></div>
+											<label>日期格式</label>
+										    <div class="row setting-container">
+										    	<div class="col-sm-6">
+										    		<label><input type="checkbox" ng-model="editingField.option.showCurrentDate"
+														  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 当前时间</label>
+										    	</div>
+										    	<div class="col-sm-6">
+										    		<select ng-model="editingField.option.dataFormat" class="form-control input-sm" ng-disabled="editingField.option.unmodifiable">
+														<option value="">请选择格式类型</option>
+														<option value="yyyy-MM-dd">yyyy-MM-dd</option>
+														<option value="yyyy-MM-dd HH:mm:ss">yyyy-MM-dd HH:mm:ss</option>
+														<option value="HH:mm:ss">HH:mm:ss</option>
+													</select>
+										    	</div>
+										    </div>
+										    
+											<label>日期校验</label>
+											<div class="row setting-container">
+												<div class="col-sm-6">
+					                                <label><input type="checkbox" ng-model="editingField.validRule.daterangestart" id="__daterangestart" ng-change="delAttr('editingField.validRule.daterangestart')"
+														  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 大于等于</label>
+										  		  	<label><input type="checkbox" ng-model="editingField.validRule.datemorethan" id="__datemorethan" ng-change="delAttr('editingField.validRule.datemorethan')"
+														  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 大于</label>
+										  		</div>
+										  		<div class="col-sm-6">
+										  		  	<label><input type="checkbox" ng-model="editingField.validRule.daterangeend" id="__daterangeend" ng-change="delAttr('editingField.validRule.daterangeend')"
+														  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 小于等于</label>
+										  		  	<label><input type="checkbox" ng-model="editingField.validRule.datelessthan" id="__datelessthan" ng-change="delAttr('editingField.validRule.datelessthan')"
+														  		  class="js-switch" ui-switch="{color:'#1AB394'}" /> 小于</label>
+					                            </div>
+											</div>
+											<select ng-model="editingField.validRule.datevalidTarget" class="form-control input-sm"  ng-disabled="ckeckedDatevalidType =='' "
+											        ng-change="changeDatevalidTarget()"
+													ng-options="a.dateName as a.desc for a in getDateTargets(editingField)">
+													<option value="">请选择</option>
+											</select>
+										</div>
+										<!-- 日期选项  end -->
+										
+										<!-- 意见  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('opinion')" >
+											<br />
+											<button type="button" class="btn btn-default btn-sm" ng-click="opinionSet()">意见设置 <i class="fa fa-navicon"></i></button>
+										</div>
+										<!-- 意见  end -->
+										
+										<!-- 控件大小 begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('htbpmflowimage,history')">
+											<div class="col-md-6">
+												<div class="input-group">
+													<span class="input-group-addon">高</span>
+													<input ht-validate="{'posinteger':true}" ng-model="editingField.option.height" size="4" style="height:29px;width:55px;"
+													class="form-control" type="text" ng-init="editingField.option.height?'':editingField.option.height=150"/>
+													<span class="input-group-addon">px</span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="input-group">
+													<span class="input-group-addon">宽</span>
+													<input ht-validate="{'posinteger':true}" ng-model="editingField.option.width" size="4" style="height:29px;width:55px;"
+													class="form-control" type="text" ng-init="editingField.option.width?'':editingField.option.width=500"/>
+													<span class="input-group-addon">px</span>
+												</div>
+											</div>
+										</div>
+										<!-- 控件大小 end -->
+										<!-- 关联数据  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('customQuery')">
+											<div class="hr-line-dashed"></div>
+											<label>关联数据</label>
+											
+											<button class="btn btn-default btn-sm pull-right" type="button" 
+													ng-if="editingField.option.customQuery.alias" ng-click="queryGanged()">设置返回值<i class="fa fa-navicon"></i></button>
+											
+											<select ng-model="editingField.option.customQuery.alias" ng-change="setCurrentCustomQuery()" 
+													ht-select-ajax="{url:'${form}/form/customQuery/v1/list',field:'customQuerys',dataRoot:'rows'}" class="form-control input-sm m-t">
+												<option value="">请选择</option>
+												<option value="{{m.alias}}" ng-repeat="m in customQuerys">{{m.name}}</option>
+											</select>
+											
+											<label class="m-t" ng-if="editingField.option.bind.length > 0" tooltip-placement="right" uib-tooltip="自定义查询需要的参数传入"><i class="fa fa-question-circle-o"></i>参数绑定</label>
+											<div ng-repeat="s in editingField.option.bind" style="margin-top:5px;">
+												<div class="input-group">
+													<span class="input-group-addon">{{s.comment}}</span>
+													<select class="form-control input-sm"
+															ng-model="s.fieldPath" desc="自定义查询绑定的参数"
+															ng-change="chooseSelectorBind(this,s)"
+															ht-validate-design="{required:true}">
+														<optgroup label="{{fields.desc}}"
+															ng-repeat="fields in BoDataList">
+															<option ng-if='!m.children' value="{{m.path}}.{{m.name}}"
+																ng-repeat="m in fields.children">{{m.desc}}</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+											
+											<label class="m-t" tooltip-placement="right" uib-tooltip="返回值作为选项时的绑定"><i class="fa fa-question-circle-o"></i>选项绑定</label>
+											<div class="row setting-container">
+												<div class="col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon">值</span>
+														<select class="form-control input-sm"
+																ng-model="editingField.option.customQuery.valueBind"
+																desc="自定义查询回填值" ht-validate-design="{required:true}">
+																<option
+																	ng-repeat="field in editingField.option.customQuery.resultfield"
+																	ng-selected="editingField.option.customQuery.valueBind==field.comment"
+																	value="{{field.comment}}">{{field.comment}}</option>
+														</select>
+                                					</div>
+												</div>
+                               					<div class="col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon">标签</span>
+														<select  class="form-control input-sm" ng-model="editingField.option.customQuery.labelBind" 
+																 desc="自定义查询回填标签" ht-validate-design="{required:true}">
+															<option ng-repeat="field in editingField.option.customQuery.resultfield" ng-selected="editingField.option.customQuery.labelBind==field.comment" value="{{field.comment}}">{{field.comment}}</option>
+														</select>
+                                					</div>
+												</div>
+											</div>
+										</div>
+										<!-- 关联数据  end -->
+										
+										<!-- 子表回填  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('sub')">
+											<div class="hr-line-dashed"></div>
+											
+											<label class="fa fa-question-circle-o" tooltip-placement="right" uib-tooltip="需先配置自定义对话框，实现效果：配置子表回填后会在子表上显示配置的按钮，点击后弹出对话框，选择数据将已选数据回填到子表中。">
+												<input type="checkbox" ng-init="editingField.isSubCustDialog==false" ng-model="editingField.isSubCustDialog"></input>
+											子表回填</label>
+											<div class="form-group" ng-if="editingField.isSubCustDialog">
+												<button class="btn btn-default btn-sm pull-right" type="button" 
+														ng-if="editingField.customDialogjson.custDialog.alias" ng-click="setCustDialogRes()">设置返回值<i class="fa fa-navicon"></i></button>
+												<br/>	
+												<label class="m-t" tooltip-placement="right" uib-tooltip="所选择的自定义查询作为选项时的绑定"><i class="fa fa-question-circle-o"></i>选择对话框</label>
+					                            
+												<select ht-validate-design="{required:true}" desc="对话框" ng-model="editingField.customDialogjson.custDialog.alias" ng-change="changeCustDialog('custDialogTree')" 
+														ht-select-ajax="{url:'${form}/form/customDialog/v1/getAll',field:'customDialogs',dataRoot:''}" class="form-control input-sm">
+													<option value="">请选择</option>
+													<option value="{{m.alias}}" ng-repeat="m in customDialogs">{{m.name}}</option>
+												</select>
+														
+												<label class="default-value-label">按钮名称</label>
+						                        <input ht-validate-design="{required:true}" desc="按钮名称" type="text" ng-model="editingField.customDialogjson.name" class="form-control input-sm">
+						                        
+						                        <label class="m-t" class="default-value-label">按钮图标</label><i style="margin-left: 15px;" title="{{editingField.customDialogjson.icon}}" class="fa {{editingField.customDialogjson.icon}}"></i>
+						                        <span  class="btn-group pull-right m-t">
+						                                <button type="button" class="btn btn-default btn-sm" ng-click="selectIcon()"><i class="fa fa-search-plus"></i>选择</button>
+						                          </span>
+						                          <br/>
+											
+												
+												<label class="m-t" ng-if="editingField.customDialogjson.custDialog.conditions.length > 0" tooltip-placement="right" uib-tooltip="自定义查询需要的参数传入"><i class="fa fa-question-circle-o"></i>参数绑定</label>
+												
+												  <table class="table" style="border: solid 1px #e7eaec;" ng-if="editingField.customDialogjson.custDialog.conditions.length>0">
+									   				<tbody>
+									   				<thead>
+									   				<tr>
+									   					<th style="border: solid 1px #e7eaec;">参数名</th>
+									   					<th style="width:37%;border: solid 1px #e7eaec;">取值对象</th>
+									   					<th style="width: 38%;border: solid 1px #e7eaec;">默认值</th>
+									   				</tr>
+									   				</thead>
+									   				<tr ng-repeat="condition in editingField.customDialogjson.custDialog.conditions">
+									   				<td style="border: solid 1px #e7eaec;padding: 0;">{{condition.comment}}</td>
+									   				<td style="border: solid 1px #e7eaec;padding: 0;">
+									   					<select style="padding: 0;" class="form-control input-sm w70 " ng-model="condition.bind" >
+										   					 <optgroup label="{{bo.desc}}" ng-repeat="bo in chooseFiledList" ng-if="bo.path==currentSubTable ||('main'==bo.type && !currentSubTable)">
+									   							<option value="{{bo.path}}.{{attr.name}}" ng-repeat="attr in bo.children">{{attr.desc}}</option>
+										   					</optgroup> 
+														</select>
+													</td>
+													<td style="border: solid 1px #e7eaec;padding: 0;">
+														<input type="text"  ng-model="condition.defaultValue" placeholder="默认值" class="form-control input-sm w70">
+														<label><input type="checkbox" name="isScript{{$index}}" ng-model="condition.isScript"></input>脚本取值</label>
+													</td>
+									   				</tr>
+									   				</tbody>
+								   				</table>
+								   			</div>
+										</div>
+										<!-- 子表回填  end -->
+										
+										<!-- 绑定按钮  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('onetext,onetextBtn')">
+											<div class="hr-line-dashed"></div>
+											
+											<label class="fa fa-question-circle-o" tooltip-placement="right" uib-tooltip="目前只添加系统中需使用到的事件，如果不满足需求，需自行扩展事件。">
+												<input type="checkbox" ng-init="editingField.isBindBtn==false" ng-change="onChangeIsBindBtn()" ng-model="editingField.isBindBtn"></input>
+											绑定按钮</label>
+											<div class="form-group" ng-if="editingField.isBindBtn">
+												<br/>
+												<label class="fa fa-question-circle-o" style="margin-left: 15px;" tooltip-placement="right" uib-tooltip="需设置自定义脚本，当点击按钮时将执行自定义脚本。"><input type="checkbox" ng-change="onChangeBindBtnisDiy()" ng-model="editingField.bindEventjson.isDiy"></input>
+												自定义事件</label>
+												<button class="btn btn-default btn-sm pull-right" type="button" 
+														ng-if="editingField.bindEventjson.isDiy" ng-click="setBindEventDiy()">设置自定义脚本<i class="fa fa-navicon"></i></button>
+												<br/>	
+												
+												<label ng-if="!editingField.bindEventjson.isDiy" class="m-t" tooltip-placement="right" uib-tooltip="所选择的事件作为按钮触发事件"><i class="fa fa-question-circle-o"></i>选择按钮事件</label>
+												<select ng-if="!editingField.bindEventjson.isDiy" ht-validate-design="{required:true}" desc="触发事件" ng-model="editingField.bindEventjson.alias" ng-change="changeBindEvent()" 
+														 class="form-control input-sm">
+													<option value="">请选择</option>
+													<option value="{{m.alias}}" ng-repeat="m in bindEvents">{{m.name}}</option>
+												</select>
+														
+												<label class="default-value-label">按钮名称</label>
+						                        <input ht-validate-design="{required:true}" desc="按钮名称" type="text" ng-model="editingField.bindEventjson.name" class="form-control input-sm">
+						                        
+						                        <label class="m-t" class="default-value-label">按钮图标</label><i style="margin-left: 15px;" title="{{editingField.bindEventjson.icon}}" class="fa {{editingField.bindEventjson.icon}}"></i>
+						                        <span  class="btn-group pull-right m-t">
+						                                <button type="button" class="btn btn-default btn-sm" ng-click="selectEventIcon()"><i class="fa fa-search-plus"></i>选择</button>
+						                          </span>
+						                          <br/>
+								   			</div>
+										</div>
+										<!-- 绑定按钮  end -->
+										
+										<!-- 绑定流水号  begin -->
+										<div class="form-group" ng-if="isShowDIVByRule('onetext')">
+											<div class="hr-line-dashed"></div>
+											
+											<label class="fa fa-question-circle-o" tooltip-placement="right" uib-tooltip="流程启动时生成流水号">
+											<input type="checkbox" ng-init="editingField.isBindIdentity==false" ng-change="onChangeIsBindIdentity()" ng-model="editingField.isBindIdentity"></input>
+											绑定流水号</label>
+											<div style="margin-left: 15px;" class="form-group" ng-if="editingField.isBindIdentity">
+												<label class="m-t" tooltip-placement="right">选择流水号</label>
+												<select ht-validate-design="{required:true}" desc="流水号" ng-model="editingField.bindIdentityjson.alias"
+														ht-select-ajax="{url:'${portal}/sys/identity/v1/getAll',field:'identitys',dataRoot:''}" class="form-control input-sm">
+													<option value="">请选择</option>
+													<option value="{{m.alias}}" ng-repeat="m in identitys">{{m.name}}</option>
+												</select>
+												<br/>
+												<label tooltip-placement="right" ><input type="checkbox" ng-model="editingField.bindIdentityjson.isEdit"></input>
+												允许编辑</label>
+								   			</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<!-- 绑定流水号  end -->
+					                 </div>
+					            </div>
+	                        </div>
+	                    </uib-tab>
+	                    <uib-tab heading="表单属性">
+	                        <div class="panel-body">
+	                        	<div class="ibox-content no-top-border">
+		                            <div class="form-horizontal">
+							            <div class="form-group">
+											<label>表单名称</label>
+											<input type="text" class="form-control input-sm" ng-model="form.name" ht-validate-design="{required:true,maxlength:300}" />
+										</div>
+									    <div class="form-group">
+											<label>表单标识</label>
+											<input type="text" class="form-control input-sm" ng-model="form.formKey" ng-readonly="form.formKey" ht-validate-design="{required:true,varirule:true,maxlength:300}">
+										</div>
+										<!-- <div class="form-group" >
+											<label class="default-value-label">表单联动</label>
+					                        <span class="btn-group pull-right">
+					                                <button type="button" class="btn btn-default btn-sm" ng-click="openGanged()"><i class="fa fa-group"></i>联动设置</button>
+					                        </span>
+										</div> -->
+										<div class="form-group" >
+					                        <span class="btn-group pull-left">
+					                                <button type="button" class="btn btn-default btn-sm" ng-click="includdingFile()"><i class="fa fa-file-code-o"></i> 引入脚本\样式</button>
+					                        </span>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group">
+											<label class="default-value-label">布局</label>
+											<div class="btn-group pull-right">
+				                                <label ng-repeat="column in columnTemplates" class="btn btn-default btn-sm"
+				                                	   ng-model="status.defaultColumnTemp" uib-btn-radio="'{{column.width}}'" uncheckable>{{column.name}}</label>
+				                            </div>
+										</div>
+						            </div>
+					            </div>
+	                        </div>
+	                    </uib-tab>
+	                </uib-tabset>
+	            </div>
+		    </div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,115 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="sysIndexColumnTypeCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${portal}/portal/sysIndexColumn/sysIndexColumn/v1/listJson">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-3 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating('', 'add')">
+						<i class="fa fa-plus"></i> 新增
+					</button>
+					<button class="btn btn-danger btn-sm remove"
+							ht-remove-array url="${portal}/portal/sysIndexColumn/sysIndexColumn/v1/remove">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称，别名"
+						   title="通过名称，别名" ht-quick-search="name,alias">
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+  <div class="ibox-content" style="display:none;">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-1 control-label">栏目名称</label>
+                    <div class="col-md-2">
+                        <input type="text" placeholder="名称" ht-query="name" 
+                               class="form-control input-sm">
+                    </div>
+                    <label class="col-md-1 control-label">栏目别名</label>
+                    <div class="col-md-2">
+                       <input type="text" placeholder="别名" ht-query="alias" 
+                               class="form-control input-sm">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm" type="button" 
+                                ht-search><i class="fa fa-search"></i> 查询</button>
+                        <button class="btn btn-default btn-sm" type="button" 
+                                ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-1 control-label">是否支持刷新</label>
+                    <div class="col-md-2">
+                        <select class="form-control input-sm" ht-query="supportRefesh" operation="equal">
+                            <option value="">全部</option>
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                    <label class="col-md-1 control-label">栏目类型</label>
+                    <div class="col-md-2">
+                        <select class="form-control input-sm" ht-query="isPublic" operation="equal">
+                            <option value="">全部</option>
+                            <option value="0">PC端</option>
+                            <option value="1">手机端</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox">
+							<input type="checkbox" ht-select="row">
+							<label></label>
+						</div>
+					</td>
+					<td width="50" ng-bind="$index+1" title="序号"></td>
+					<td ht-field="row.name" title="栏目名称" sortable="true" align="center"></td>
+					<td ht-field="row.alias" title="栏目别名" sortable="true" align="center"></td>
+					<td ng-switch="row.dataMode" title="数据加载方式" sortable="true" align="center">
+						<span class="badge badge-primary" ng-switch-when="1">自定义查询方式</span>
+						<span class="badge badge-primary" ng-switch-when="2">webservice方法</span>
+						<span class="badge badge-primary" ng-switch-when="3">RESTful接口</span>
+					</td>
+					<td width="260" ht-field="row.dataFrom" title="方法路径" sortable="true" align="center"></td>
+					<td ht-field="row.colUrl" title="更多路径" sortable="true"></td>
+					<td ng-switch="row.isPublic" title="栏目使用平台" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="0">PC端</span>
+						<span class="badge badge-primary" ng-switch-when="1">手机端</span>
+					</td>
+					<td ng-switch="row.supportRefesh" title="是否支持刷新" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="0">否</span>
+						<span class="badge badge-primary" ng-switch-when="1">是</span>
+					</td>
+					<td title="操作">
+					<div class="btn-group" uib-dropdown is-open="status.isopen">
+							<button id="split-button" type="button" class="btn btn-info" ng-click="operating(row.id, 'edit')">编辑</button>
+							<button type="button" class="btn btn-info" uib-dropdown-toggle>
+								<span class="caret"></span> <span class="sr-only">带默认按钮的下拉菜单</span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+								aria-labelledby="split-button">
+								<li role="menuitem" ng-click="previewTemplate(row.id, row.name, row.isPublic, row.alias)"><a>预览</a></li>
+								<li role="menuitem" ng-click="setAuth(row.id, 'user-selector')"><a>授权</a></li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

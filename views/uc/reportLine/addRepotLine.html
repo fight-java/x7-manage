@@ -1,0 +1,33 @@
+<div class="ibox-title no-borders" ng-controller="addReportLineCtrl">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">用户组类型:</label>
+			<div class="col-sm-9">
+				<label class="radio-inline" > 
+					<input type="radio" name="nodeType" ng-model="nodeType" value="user" ng-checked="nodeType=='user'"  />用户
+				</label>
+				<label class="radio-inline"> 
+					<input type="radio" name="nodeType" ng-model="nodeType" value="org" ng-checked="nodeType=='org'"  />组织
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="nodeType" ng-model="nodeType" value="pos"   ng-checked="nodeType=='pos'" />岗位
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="nodeType" ng-model="nodeType" value="role"   ng-checked="nodeType=='role'" />角色
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label" ng-if="nodeType=='user'">用户:</label>
+			<label class="col-sm-3 control-label" ng-if="nodeType=='org'">组织:</label>
+			<label class="col-sm-3 control-label" ng-if="nodeType=='pos'">岗位:</label>
+			<label class="col-sm-3 control-label" ng-if="nodeType=='role'">角色:</label>
+			<div class="col-sm-9">
+				{{selectName}}
+				<a href="javaScript:void(0)" class="btn btn-sm btn-info fa fa-search-plus" ng-click="toSelector()">
+					选择
+				</a>
+			</div>
+		</div>
+	</form>	
+</div>

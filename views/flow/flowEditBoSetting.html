@@ -1,0 +1,97 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll
+	ng-controller="flowEditBoSettingCtrl">
+	<div class="panel-body">
+			<div class="col-md-12 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+						ng-click="save()">
+						<i class="fa fa-save"></i> 保存
+					</button>
+					<button class="btn btn-danger btn-sm remove" ng-click="close()">
+						<i class="fa fa-undo"></i> 重置
+					</button>
+					<label><input class="ace ng-valid ng-dirty"
+						type="checkbox" name="isClear" ng-model="isClearForm">清空已配置的表单</label>
+				</div>
+				<uib-tabset> <uib-tab heading="BO绑定">
+					<table class="table table-bordered">
+							<thead>
+								<tr>
+									<td colspan="3">业务数据保存方式: <!-- <c:choose>
+										<c:when test="${empty param.topDefKey}"> --> <label
+										class="radio-inline"> <input type="radio"
+											ng-model="data.bodef.boSaveMode" value="database">
+											业务表
+									</label> <label class="radio-inline"> <input type="radio"
+											ng-model="data.bodef.boSaveMode" value="boObject">
+											实例表
+									</label>
+										<button type="button" class="btn btn-success btn-sm"
+											ng-click="addBoDef()">
+											<i class="fa fa-plus"></i> 添加
+										</button> <!-- </c:when> --> <!-- <c:otherwise>
+											<span ng-if="data.bodef.boSaveMode=='database'"><b>业务表</b></span>
+											<span ng-if="data.bodef.boSaveMode=='boObject'"><b>实例表</b></span>
+										</c:otherwise>
+									</c:choose> -->
+									</td>
+								</tr>
+								<tr>
+									<th>描叙</th>
+									<th>别名</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="bo in data.bodef.boDefs track by $index">
+									<td>{{bo.description}}</td>
+									<td>{{bo.alias}}</td>
+									<td>
+										<button class="btn btn-danger fa fa-remove"
+											ng-click="reMoveBo(bo)">删除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				</uib-tab>
+			   <uib-tab heading="节点设置">
+				<table class="table table-bordered">
+					<thead>
+						<td colspan="2">请选择节点：
+						  <select class="inputText" ng-model="selectedNode" ng-options="m as m.name for m in nodeDefList">
+						 </select>
+						 <button type="button" class="btn btn-success btn-sm" ng-click="editNodeSet()">
+								<i class="fa fa-plus"></i> 添加
+						</button>
+						
+						<button type="button" class="btn btn-success btn-sm" ng-click="editNodeBoMapping()">
+								<i class="fa fa-edit"></i> BO映射
+						</button>
+						</td>
+					</thead>
+					<tr ng-repeat="(key, value) in nodeSetMap"
+						ng-show="value.length>0">
+						<th>{{getDesc(key)}}</th>
+						<td>
+							<table class="table-form" cellspacing="0">
+								<thead>
+									<th>序号</th>
+									<th>描述</th>
+									<th>操作</th>
+								</thead>
+								<tr ng-repeat="item in value">
+									<td>{{$index+1}}</td>
+									<td>{{item.description}}</td>
+									<td><a href="javaScript:void(0)"
+										ng-click="editNodeSet(item,key)"
+										class="btn btn-sm btn-default fa-edit"></a> <a
+										href="javaScript:void(0)"
+										ng-click="ArrayTool.del($index,value)"
+										class="btn btn-sm btn-default fa-times"></a></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				</uib-tab> </uib-tabset>
+		</div>
+</div>

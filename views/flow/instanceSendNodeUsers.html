@@ -1,0 +1,30 @@
+<div class="m-lg" ng-controller="instanceSendNodeUsersCtrl">
+	<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th  width="150px">节点名称</th>
+					<th width="250px">人员</th>
+					<th width="120px">选择</th>
+				</tr>
+			</thead>
+			<tbody id="listResult">
+					<tr  ng-repeat="node in data">
+						<td>
+							{{node.name}}
+						</td>
+						<td>
+							<input  type="hidden" ng-model="node.executors" value="" />
+						 <spa>{{node.userNames}}</span>
+						</td>
+						<td>
+							<a href="javaScript:void(0)" ng-click="selectUser(node)" class="btn btn-sm btn-success fa fa-search">选择</a>
+						</td>
+					</tr>
+					<tr ng-if="data.length==0" id="firstRow">
+						<td colspan="2" align="center">
+							<font color='red'>找不到后续节点</font>
+						</td>
+					</tr>
+			</tbody>
+	</table>
+</div>

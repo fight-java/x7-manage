@@ -1,0 +1,121 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="editOrgAuthCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal"  ng-submit="saveOrgAuth()" ng-model="data">
+					 <div class="form-group">								
+						<label class="col-sm-2 control-label">组织管理员:</label>
+						<div class="col-sm-4">
+							<input disabled="disabled" class="form-control input-sm" type="text" id="userName" ng-model="data.userName" />
+						</div>
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="addAuthUser()">
+							<i class="fa fa-plus"></i> 选择管理员
+						</button>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">组织管理权限:</label>
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-inline">
+                                   <input type="checkbox"  ht-checkbox ng-model="data.orgPerms" ng-checked="isSelected(data.orgPerms,'add')"  name="orgPerm"  value="add" >
+                                   <label>增加</label>
+                               </div>
+                               <div class="checkbox checkbox-inline">
+                                   <input type="checkbox" ht-checkbox ng-model="data.orgPerms" ng-checked="isSelected(data.orgPerms,'delete')"  name="orgPerm"  value="delete" >
+                                   <label>删除</label>
+                               </div>
+                               <div class="checkbox checkbox-inline">
+                                   <input type="checkbox" ht-checkbox ng-model="data.orgPerms" ng-checked="isSelected(data.orgPerms,'edit')"  name="orgPerm"  value="edit" >
+                                   <label>修改</label>
+                               </div>
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">用户管理权限:</label>
+						<div class="col-sm-10">
+							 <div class="checkbox checkbox-inline">
+                                  <input type="checkbox" ht-checkbox ng-model="data.userPerms" ng-checked="isSelected(data.userPerms,'add')" name="userPerm"  value="add" >
+                                  <label>增加</label>
+                              </div>
+                              <div class="checkbox checkbox-inline">
+                                  <input type="checkbox" ht-checkbox ng-model="data.userPerms" ng-checked="isSelected(data.userPerms,'delete')" name="userPerm"  value="delete" >
+                                  <label>删除</label>
+                              </div>
+                              <div class="checkbox checkbox-inline">
+                                  <input type="checkbox" ht-checkbox ng-model="data.userPerms" ng-checked="isSelected(data.userPerms,'edit')" name="userPerm"  value="edit" >
+                                  <label>修改</label>
+                              </div>
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">岗位管理权限:</label>
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.posPerms" ng-checked="isSelected(data.posPerms,'add')" name="postPerm"  value="add" >
+                                 <label>增加</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.posPerms" ng-checked="isSelected(data.posPerms,'delete')" name="postPerm"  value="delete" >
+                                 <label>删除</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.posPerms" ng-checked="isSelected(data.posPerms,'edit')" name="postPerm"  value="edit" >
+                                 <label>修改</label>
+                             </div>
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">分级管理员权限:</label>
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.orgauthPerms" ng-checked="isSelected(data.orgauthPerms,'add')" name="orgAuthPerm"  value="add" >
+                                 <label>增加</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.orgauthPerms" ng-checked="isSelected(data.orgauthPerms,'delete')" name="orgAuthPerm"  value="delete" >
+                                 <label>删除</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.orgauthPerms" ng-checked="isSelected(data.orgauthPerms,'edit')" name="orgAuthPerm"  value="edit" >
+                                 <label>修改</label>
+                             </div>
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">布局管理员权限:</label>
+						<div class="col-sm-10">
+							 <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.layoutPerms" ng-checked="isSelected(data.layoutPerms,'add')" name="layoutPerm"  value="add" >
+                                 <label>增加</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.layoutPerms" ng-checked="isSelected(data.layoutPerms,'delete')" name="layoutPerm"  value="delete">
+                                 <label>删除</label>
+                             </div>
+                             <div class="checkbox checkbox-inline">
+                                 <input type="checkbox" ht-checkbox ng-model="data.layoutPerms" ng-checked="isSelected(data.layoutPerms,'edit')" name="layoutPerm"  value="edit">
+                                 <label>修改</label>
+                             </div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

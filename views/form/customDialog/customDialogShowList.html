@@ -1,0 +1,54 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="customDialogShowListCtrl">
+	<div class="ibox" ht-data-table="customDialogDataTable" request-type="{{requestType}}" dialog="{{customDialog}}" url="{{queryUrl}}" target="layui-layer-content" adjust="7">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-3 btn-group tools-panel">
+					 <button class="btn btn-primary btn-sm" type="button" ht-search><i class="fa fa-search"></i> 查询</button>
+                      <button class="btn btn-default btn-sm" type="button" ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+		<div class="ibox-content">
+            <form class="form-horizontal">
+                <div class="form-group">
+                	<span ng-repeat="params in  conditionParams">
+                		<span ng-if="params.controllerType==1" >
+		                    <label class="col-md-1 control-label" ng-bind="params.comment" ></label>
+		                    <div class="col-md-2">
+		                        <input ng-if="params.dbType=='varchar'" type="text" placeholder="通过{{params.comment}}查询" ht-query="{{params.field}}" 
+		                               class="form-control input-sm">
+		                    </div>
+                		</span>
+                	</span>
+                </div>
+            </form>
+       	</div>
+			
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in customDialogDataTable.rows track by $index">
+					<td width="30" class="center" selectable="true" single="pageParam.single">
+						<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+							<input type="checkbox" ht-select="row" ht-select-event="htSelectEvent(row)">
+							<label></label>
+						</div>
+					</td>
+					<td width="50" class="center" title="序号">{{ $index+1}}</td>
+					<td title="{{field.comment}}" ng-repeat="field in displayfield">
+						{{row[field.field]}}
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="{{4+displayfield.length}}"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<!--<pre>
+				{{customDialog.needPage|json}}
+			</pre>-->
+			<div ng-if="customDialog.needPage" ht-pagination></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,63 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="flowVarEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div ng-model="data" ht-load="${bpmModel}/flow/var/v1/defVarEdit?defId={{defId}}&varKey={{varKey}}" class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-4 control-label"> 节点:*</label>
+						<div class="col-sm-8">
+							<select class="form-control" ng-model="data.bpmVariableDef.nodeId" >
+								<option value="">全局变量</option>
+								<option value="{{node.nodeId}}" ng-select="node.nodeId == data.bpmVariableDef.nodeId" ng-repeat="node in data.nodeDefList">{{node.name}}({{node.nodeId}})</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 变量名:*</label>
+						<div class="col-sm-8"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.bpmVariableDef.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 变量key:*</label>
+						<div class="col-sm-8"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.bpmVariableDef.varKey"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 数据类型:</label>
+						<div class="col-sm-8">
+						  <select class="form-control" ng-model="data.bpmVariableDef.dataType" >
+							<option value="string" >字符串</option>
+							<option value="int" >整形</option>
+							<option value="float" >浮点型</option>
+							<option value="double" >双精度</option>
+						</select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 是否必需:</label>
+						<div class="col-sm-8">
+							<select  ng-model="data.bpmVariableDef.required" class="form-control" >
+								<option  value="true">是</option>
+								<option  value="false">否</option>
+							</select>
+						
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 缺省值:</label>
+						<div class="col-sm-8"><input type="text" class="form-control"   ng-model="data.bpmVariableDef.defaultVal"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label"> 变量描述:</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" ng-model="data.bpmVariableDef.description">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12 col-sm-offset-8">
+							<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

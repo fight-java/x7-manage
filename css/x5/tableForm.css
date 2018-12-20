@@ -1,0 +1,35 @@
+.table-form th {
+	word-break: break-all;
+	width: 150px;
+	height:43px;
+	text-align:right;		
+	font-weight: 100;
+	color: #545252;
+	font-size:12px;
+	border:1px solid #b5b5b5;
+	padding:0px 10px !important;
+	font-weight:bold;
+}
+.table-form td {
+	border:1px solid #b5b5b5;
+	padding:10px;
+	color:#808080;
+}
+.table-form-inline th{
+	word-break: break-all;
+	width: 150px;
+	height:43px;
+	text-align:center;		
+	font-weight:100;
+	color: #545252;
+	font-size:12px;
+	border:1px solid #b5b5b5;
+	padding:0px 10px !important;
+	font-weight:bold;	
+}
+.table-form-inline td {
+	border:1px solid #b5b5b5;
+	padding:10px;
+	color:#808080;
+}
+.table-form tr th span{font-weight:bold;}

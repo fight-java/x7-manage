@@ -1,0 +1,45 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="dataPermissionEditCtrl">
+    <div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>数据权限设置</h5>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" name="sysLogsSettingsForm" ng-submit="save()">
+					<div class="form-group">								
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-info">
+								<input type="checkbox" ng-model="dataPermission.loginUser" ng-false-value="0" ng-true-value="1" name="status" id="dataPermission1" /><label for="dataPermission1" >只能查看登录用户创建的数据</label>
+							</div>
+							<div class="checkbox checkbox-info ">
+								<input type="checkbox" ng-model="dataPermission.loginUserOrgs" ng-false-value="0" ng-true-value="1"  name="status" id="dataPermission2" /><label for="dataPermission2">只能查看登录用户所在部门的用户创建的数据</label>
+							</div>
+							<div class="checkbox checkbox-info ">
+								<input type="checkbox" ng-model="dataPermission.loginUserSubOrgs" ng-false-value="0" ng-true-value="1"  name="status" id="dataPermission3" /><label for="dataPermission3">只能查看登录用户所在部门及下级的用户创建的数据</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-11 tags-div">
+						<div class="full-height-scroll">
+					        <div class="ibox-content no-borders">
+					            <ul class="tags-ul">
+									<li class="tags-li" ng-repeat="item in orgSelectedArray track by $index">
+										<div class="tags-pan">
+											<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('orgSelectedArray',item)"><i class="fa fa-close" ></i></a> 
+											<span ng-bind="item.name"></span>
+										</div>
+									</li>
+								 </ul>
+					        </div>
+					    </div>
+					    <div class="p-sm">
+							<button class="btn btn-info btn-sm btn-block" ng-click="orgSelector()">选择组织</button>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+    
+</div>

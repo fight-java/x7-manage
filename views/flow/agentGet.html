@@ -1,0 +1,83 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="agentEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<table class="table table-bordered table-striped table-hover">
+						<tr>								
+							<th><span>标题:</span></th>
+							<td>{{data.subject}}</th>								
+						</tr>
+						<tr>								
+							<th><span>授权人ID:</span></th>
+							<td>{{data.authId}}</td>								
+						</tr>
+						<tr>								
+							<th><span>授权人姓名:</span></th>
+							<td>{{data.authName}}</td>								
+						</tr>
+						<tr>								
+							<th><span>开始生效时间:</span></th>
+							<td>{{data.startDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>								
+						</tr>
+						<tr>								
+							<th><span>结束日期:</span></th>
+							<td>{{data.endDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>								
+						</tr>
+						<tr>								
+							<th><span>是否有效:</span></th>
+							<td>{{data.isEnabled==1?'是':'否'}}</td>								
+						</tr>
+						<tr>								
+							<th><span>代理人ID:</span></th>
+							<td>{{data.agentId}}</td>								
+						</tr>
+						<tr>								
+							<th><span>代理人:</span></th>
+							<td>{{data.agent}}</td>								
+						</tr>
+						<tr>								
+							<th><span>流程定义KEY:</span></th>
+							<td>
+								<span ng-if="data.type==2" ng-repeat="def in data.defList track by $index" style="margin:0px 2px;" ng-bind="def.flowKey" />
+								<span ng-if="data.type!=2" ng-bind="data.flowKey" />
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>代理类型(1,全权代理,2,部分代理,3.条件代理):</span></th>
+							<td>
+								{{data.type==1?'全权代理':data.type==2?'部分代理':'条件代理'}}
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>创建人ID:</span></th>
+							<td>{{data.createBy}}</td>								
+						</tr>
+						<tr>								
+							<th><span>创建时间:</span></th>
+							<td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>								
+						</tr>
+						<tr>								
+							<th><span>创建者所属组织ID:</span></th>
+							<td>{{data.createOrgId}}</td>								
+						</tr>
+						<tr>								
+							<th><span>更新人ID:</span></th>
+							<td>{{data.updateBy}}</td>								
+						</tr>
+						<tr>								
+							<th><span>更新时间:</span></th>
+							<td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>								
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

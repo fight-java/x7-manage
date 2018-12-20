@@ -1,0 +1,80 @@
+<div class="white-bg border-left animated fadeInRight">
+	<div class="col-md-12 no-padding">
+		<div class="ibox" ht-data-table="orgUserTable"  initialize="false" url="${uc}/api/org/v1/orgUsers/getOrgUserPage"  adjust="-50">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button type="button" class="btn btn-success btn-sm"
+								ng-click="addOrgUser()">
+							<i class="fa fa-plus"></i> 添加人员
+						</button>
+						<button class="btn btn-danger btn-sm remove" removekey="orgUserId"
+							ht-remove-array url="${uc}/api/org/v1/orgUser/delOrgUser">
+							<i class="fa fa-trash"></i> 删除
+						</button>
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="通过名称"
+							   title="通过名称" ht-query="u.fullname_">
+					</div>
+				</div>
+			</div>
+			<div class="ibox-footer no-padding">
+				<table class="table table-bordered table-striped table-hover" initialize="false" ht-table>
+					<tbody>
+						<tr ng-repeat="row in orgUserTable.rows track by $index">
+							<td width="30" class="center" selectable="true" single="pageParam.single">
+								<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+                                    <input type="checkbox" ht-select="row" ht-select-event="orgSelectEvent(row)">
+                                    <label></label>
+                                </div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.fullName" title="名称" sortable="true"></td>
+							<td ht-field="row.account" title="帐号" sortable="true"></td>
+							<td ht-field="row.relName" title="岗位名称" sortable="true"></td>
+							<td ng-switch="row.isMaster" title="是否主组织" sortable="true">
+								<span class="badge badge-primary" ng-switch-when="1">是</span>
+								<span class="badge badge-primary" ng-switch-when="0">否</span>
+							</td>
+							<td ng-switch="row.isCharge" title="负责人" sortable="true">
+								<span class="badge badge-primary" ng-switch-when="2">主</span>
+								<span class="badge badge-primary" ng-switch-when="1">是</span>
+								<span class="badge badge-primary" ng-switch-when="0">否</span>
+							</td>
+							<td ng-switch="row.status" title="状态" sortable="true">
+								<span class="badge badge-primary" ng-switch-when="1">正常</span>
+								<span class="badge badge-danger" ng-switch-when="0">禁用</span>
+								<span class="badge badge-warning" ng-switch-when="-2">离职</span>
+							</td>
+							<td title="操作" width="180">
+								<div class="btn-group" uib-dropdown is-open="status.isopen">
+									<button id="split-button" type="button" class="btn btn-info" ng-click="toUnderUserPage(row)">下属管理</button>
+									<button type="button" class="btn btn-info" uib-dropdown-toggle>
+										<span class="caret"></span> <span class="sr-only">更多功能</span>
+									</button>
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+										aria-labelledby="split-button">
+										<li role="menuitem" ng-if="row.isMaster == 0" ng-click="setMainOrg(row,true)"><a>设置主组织</a></li>
+										<li role="menuitem" ng-if="row.isMaster == 1" ng-click="setMainOrg(row,false)"><a>取消主组织</a></li>
+										<li role="menuitem" ng-if="row.isCharge != 2" ng-click="setCharge(row,true)"><a>设置主负责人</a></li>
+										<li role="menuitem" ng-if="row.isCharge == 0" ng-click="setCharge(row,false)"><a>设置负责人</a></li>
+										<li role="menuitem" ng-if="row.isCharge == 2" ng-click="setCharge(row,false)"><a>取消主负责人</a></li>
+										<li role="menuitem" ng-if="row.isCharge == 1" ng-click="setCharge(row,false)"><a>取消负责人</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="9"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

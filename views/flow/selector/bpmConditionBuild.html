@@ -1,0 +1,73 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="bpmConditionBuildCtrl">
+	   <div  class="col-md-8 border-right border-left no-padding" >
+				<div style="position: absolute; z-index: 2;">
+					<table  class="table-list condition_tab"  style="{{tab.style}}"   ng-repeat="tab in tabList track by $index">
+						<tbody>
+							<tr>
+								<td style="width: 27%;">
+								  <select ng-model="tab.property" ht-validate="{required:true}" ng-change="setFieldOtherInfo(this,tab,1)" class="form-control build_input">
+									 <optgroup label="{{fields.desc}}" ng-repeat="fields in varTree">
+										 <option value='{{m.pathStr}}' format="{{m.format}}" dataType="{{m.dataType}}"  ng-selected='m.pathStr == tab.property'  ng-repeat="m in fields.children">{{m.desc}}</option>
+									 </optgroup>
+									</select>							
+								</td>
+								<td  style="width: 18%;">
+									<select class="form-control build_input" ht-validate="{required:true}"  ng-model="tab.operator" >
+										   <option value="1" >等于</option>
+										   <option value="2" >不等于</option>
+										   <option value="3" >大于</option>
+										   <option value="4" >小于</option>
+										   <option ng-if="tab.dataType =='varchar' " value="5" >包含</option>
+										   <option ng-if="tab.dataType =='varchar' "  value="6" >不包含</option>
+									</select>	
+								</td>
+								<td  style="width: 13%;">	
+								   <select class="form-control build_input"  ht-validate="{required:true}" ng-change="resetTabValue(tab)"  ng-model="tab.compType" >
+										   <option value="1" >值</option>
+										   <option value="2" >属性</option>
+									</select>	
+								</td>
+								<td ng-show="tab.compType==2"  style="width: 27%;">	
+									 <select  class="form-control build_input" ht-validate="{required:true}"  ng-model="tab.value" ng-change="setFieldOtherInfo(this,tab,2)" >
+									 <optgroup label="{{fields.desc}}" ng-repeat="fields in varTree">
+										 <option value='{{m.pathStr}}' dataType="{{m.dataType}}" ng-selected='m.pathStr == tab.value'  ng-show="IsShowfiled(m,tab)" ng-repeat="m in fields.children">{{m.desc}}</option>
+									 </optgroup>
+									</select>	
+								</td>
+								
+								<td ng-show="tab.compType!=2 && tab.dataType=='date'"   style="width: 33%;">	
+								   <input  ht-validate="{required:true}" ht-date='{{tab.format}}'  ng-model="tab.value"  class="form-control build_input"  />    
+								</td>
+								
+								<td  ng-show="tab.compType!=2 && tab.dataType !='date'" style="width: 33%;">	
+								   <input  ht-validate="{number:true,required:true}"  ng-model="tab.value"  class="form-control build_input"  type="text" />    
+								</td>
+								<td  style="width: 9%;"><a class="btn btn-danger btn-sm fa fa-trash-o" title="移除" ng-click="removeCondition(tab.indexStr)"></a></td>
+							</tr>
+						</tbody>
+					</table>
+	
+					<div class="labelrag" style="{{branch.style}}"   ng-repeat="branch in branchList track by $index">
+						<select ng-model="branch.newjunction" ng-change="changecondition($index)" class="selected_search" >
+						   <option value="and" >并且</option>
+						   <option value="or" >或者</option>
+						   <option value="3" >添加条件</option>
+						   <option ng-if="branch.condition !='noAdd' " value="4" >添加联合条件</option>
+						   <option ng-if="branch.condition !='noDel' " value="5" >删除</option>
+						</select>	
+					</div>
+				</div>
+				<div id="testsvgHtml"  style="position: absolute; z-index: 1; width: 500px; height: 100%;">
+
+				</div>
+			</div>									
+		     <div class="col-md-4 tags-div">
+					<!-- <div><span>条件名称<span class="required">*</span>:</span>
+					<input class="inputNolyBottom" type="text" ht-validate="{required:true}"  style="box-shadow: 0 0 0;" ng-model="data.name" />
+					</div><br/> -->
+					<div><a class="btn btn-primary fa fa-eye"  ng-click="previewCondition()"><span>查看表达式</span></a><br/>
+					 <textarea id="previewarea"  style="max-width: 392px;width: 392px;height:100px" readonly type="text" >
+					</textarea>
+				    </div>
+             </div>
+</div>

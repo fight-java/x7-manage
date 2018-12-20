@@ -1,0 +1,31 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="indexAuthDialogCtrl">
+	<table class="table table-bordered">
+			<thead>
+				<th style="width:20%">权限类型</th>
+				<th>内容</th>
+				<th style="width:20%">操作</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in noNeedSetting track by $index" >
+					<th>{{item.title}}</th>
+					<td></td>
+					<td>
+						<input type="checkbox"  ng-click="checkNoSetting($event,item)"  ng-checked="item.checked" />
+					</td>
+				</tr>
+				<tr ng-repeat="item in needSetting track by $index" ng-show="showNeedRight" >
+					<th>{{item.title}}</th>
+					<td>{{item.name}}</td>
+					<td>
+						<a class="btn btn-primary btn-mini"  ng-click="dialog(item)">
+							<span>选择</span>
+						</a>
+						<a class="btn btn-primary btn-mini"  ng-click="reset(item)">
+							<span>重置</span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+			
+		</table>
+</div>

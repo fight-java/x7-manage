@@ -1,0 +1,108 @@
+<div ng-controller="bpmDataTemplateFilterCtrl" ng-init="init()">
+	<form name="form">
+		<table class="table-form" cellspacing="0">
+			<tr>
+				<th style="width: 80px;">脚本类型</th>
+				<th style="width: 135px;">
+					<select ng-model="data.filterType" class="inputText" style="float: left;width: 120px;" ng-change="changeFilterType();">
+						<option value="1">条件脚本</option>
+						<option value="2">SQL</option>
+						<option value="3">追加SQL</option>
+					</select>
+				</th>
+				<th style="width: 80px;">名称<span class="required">*</span></th>
+				<th style="width: 150px;">
+					<input class="inputText" style="width: 150px;float: left;" type="text" ng-model="data.name" ht-validate="{required:true,maxlength:48}" ng-disabled="!isEditabled" />
+				</th>
+				<th style="width: 80px;">Key<span class="required">*</span></th>
+				<th style="width: 150px;">
+					<input class="inputText" style="width: 150px;float: left;" ng-disabled="!isEditabled" type="text" ng-model="data.key" ht-validate="{required:true,varirule:true,fields:true}" ht-pinyin="data.name" />
+				</th>
+			</tr>
+			<tr ng-show="data.filterType==1">
+				<td colspan="7">
+					<div class="datagrid-toolbar" style="height: 36px; text-align: right;">
+						<a onclick="addDiv(1)" class="btn btn-sm btn-primary fa fa-add ">添加规则 </a>
+						<a onclick="assembleDiv()" class="btn btn-sm btn-primary fa fa-sign-in">组合规则</a>
+						<a onclick="splitDiv()" class="btn btn-sm btn-primary fa fa-sign-out">拆分规则</a>
+						<a onclick="removeDiv()" class="btn btn-sm btn-primary fa fa-remove">删除</a>
+					</div>
+					<div>
+						<div id="ruleDiv" style="margin: 5px 0 0 0;"></div>
+					</div>
+					<div style="display: none;">
+						<select id="flowVarsSelect" class="left margin-set ht-input" style="width: 100px; height: 25px; margin-bottom: 10px;" onchange="flowVarChange.apply(this)" name="flowVars">
+							<option value="">--请选择--</option>
+							<option value="{{colPrefix}}{{f.name}}" ftype="{{f.type}}" ctltype="{{f.ctrlType}}" ng-repeat="f in metafields track by $index">{{f.desc}}</option>
+						</select>
+						<span id="judgeCon-1" class="judge-condition">
+							<select name="judgeCondition" class="inputText" style="width: 80px; height: 30px; margin-bottom: 10px;" onchange="judgeConditionChange.apply(this)">
+								<option value="1">等于</option>
+								<option value="2">不等于</option>
+								<option value="3">大于</option>
+								<option value="4">大于等于</option>
+								<option value="5">小于</option>
+								<option value="6">小于等于</option>
+								<option value="7">等于变量</option>
+								<option value="8">不等于变量</option>
+							</select>
+						</span>
+						<span id="judgeCon-2" class="judge-condition">
+							<select name="judgeCondition" class="inputText" style="width: 80px; height: 25px; margin-bottom: 10px;" onchange="judgeConditionChange.apply(this)">
+								<option value="1">等于</option>
+								<option value="3">等于(忽略大小写)</option>
+								<option value="2">不等于</option>
+								<option value="4">like</option>
+								<option value="5">like左</option>
+								<option value="6">like右</option>
+								<option value="7">等于变量</option>
+								<option value="8">不等于变量</option>
+							</select>
+						</span>
+						<span id="normal-input" class="judge-value" type="1">
+							<input class="inputText" name="judgeValue" type="text" style="width: 100px; height: 25px; margin-left: 5px; margin-bottom: 10px;">
+						</span>
+						<span id="date-span" class="judge-value" type="1">
+							<input id="date-input" type="text" class="wdateTime inputText" style="width: 180px; margin-bottom: 10px;">
+						</span>
+						<span id="commonVar" class="judge-value" type="2">
+							<select class="ht-input" style="width: 100px; margin-left: 5px; margin-bottom: 10px;">
+								<c:forEach var="item" items="${comVarList}">
+									<option value="[${item.alias}]">${item.title}</option>
+								</c:forEach>
+							</select>
+						</span>
+					</div>
+				</td>
+			</tr>
+
+			<tr ng-show="data.filterType!=1">
+				<th style="width: 80px;">常用变量</th>
+				<td style="float: left;" colspan="6">
+					<select class="inputText" ng-model="selectVar" ng-change="clickVar(selectVar)">
+						<option value="">--请选择--</option>
+						<optgroup label="SQL字段"></optgroup>
+						<option value="{{colPrefix}}{{f.name}}" ng-repeat="f in metafields track by $index">{{f.desc}}</option>
+						<optgroup label="常用变量"></optgroup>
+						<option ng-repeat="f in comVarList track by $index" value="[{{f.alias}}]">{{f.title}}</option>
+						<optgroup label="条件字段"></optgroup>
+						<option value="{{colPrefix}}{{f.na}}" ng-repeat="f in parentScope.conditionFields track by $index">{{f.cm}}</option>
+						<!-- <optgroup label="jqGrid参数"></optgroup>
+						<option value="param.sortField">排序字段</option>
+						<option value="param.orderSeq">排序方向</option>
+						<option value="param.pageSize">页面大小</option>
+						<option value="param.page">当前页面</option> -->
+					</select>
+				</td>
+			</tr>
+
+			<tr ng-if="data.filterType!=1">
+				<td colspan="7">
+					<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="data.filter" required=""></ui-codemirror>
+				</td>
+			</tr>
+		</table>
+			
+	</form>
+</body>
+</html>

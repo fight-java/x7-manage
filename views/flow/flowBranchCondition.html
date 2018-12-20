@@ -1,0 +1,47 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowBranchConditionCtrl">
+	<div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<div id="tempTree"></div>
+	<div style="padding:10px">
+	<table class="table table-bordered" >
+		 <tr>
+			<th width="15%">
+				<span>条件表达式</span>
+			</th>
+			<td>
+				<div style="margin: 8px 0;">
+					<a class="btn btn-primary btn-xs" title="条件脚本" ng-click="selectScript()">条件脚本</a> 
+					<a class="btn btn-primary btn-xs" title="可选变量" id="selectVarBtn" ng-click="showFlowMenu(this)">可选变量</a>
+				 
+				</div>
+				<div ng-repeat="inNode in bpmNodeDef.incomeNodes" style="padding: 4px;">
+					<a ng-if="inNode.type=='SIGNTASK'" href="javascript:void(0);"  ng-click="setEditorVal(inNode.nodeId,1)">{{inNode.name}}投票通过</a>
+					<a ng-if="inNode.type=='SIGNTASK'" href="javascript:void(0);"  ng-click="setEditorVal(inNode.nodeId,2)">{{inNode.name}}投票不通过</a>
+					<a ng-if="inNode.type!='SIGNTASK'" href="javascript:void(0);"  ng-click="setEditorVal(1,1)">{{inNode.name}}-通过</a>
+					<a ng-if="inNode.type!='SIGNTASK'" href="javascript:void(0);"  ng-click="setEditorVal(1,2)">{{inNode.name}}-反对</a>
+					<br> 选择流程变量的时候，请注意光标位置。
+				</div>
+			</td>
+		</tr>
+		<tr ng-repeat="outNode in bpmNodeDef.outcomeNodes">
+			<th width="15%">
+				<span>{{outNode.name}}</span>
+			</th>
+			<td>
+				<input type="hidden" name="task" value="{{outNode.nodeId}}" />
+				<textarea id="{{outNode.nodeId}}" codemirror="true" mirrorheight="110px" name="condition" rows="3" cols="20" class="inputText">{{bpmNodeDef.conditions[outNode.nodeId]}}</textarea>
+			</td>
+		</tr>
+	</table>
+	</div>
+	 <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="sysDictTreeCtrl">
+    <div class="col-md-2 border-right full-height no-padding-right">
+        <div class="full-height-scroll" full-scroll>
+            <ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance" tree-context-menu="contextMenu" id="isSon"
+                tree-events="onClick:tree_click" before-right-click="beforeRightClick(treeNode)" menu-click="menuClick(menu, treeNode)"></ul>
+        </div>
+    </div>
+    <div class="col-md-10 no-padding">
+        <div>
+            <ul ht-tree="treeConfig" ng-model="treeSubgradeData" tree="treeSubgradeInstance" tree-context-menu="contextMenu"
+                before-right-click="beforeRightClickDict(treeNode)" menu-click="menuClickDict(menu, treeNode)"></ul>
+        </div>
+    </div>
+</div>

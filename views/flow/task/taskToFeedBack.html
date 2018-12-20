@@ -1,0 +1,44 @@
+<div ng-controller="feedBackCtrl">
+	<div class="toolbar-panel col-md-12">
+		<form>
+			<table cellspacing="0" class="table-form">
+			<tr>
+				<th><span>沟通发送人：</span></th>
+				<td>
+					{{taskCommu.sender }}
+				</td>
+				<th><span>沟通时间：</span></th>
+				<td>
+					{{taskCommu.createtime | date:'yyyy年MM月dd日HH点mm分ss秒'}}
+				</td>
+			</tr>
+			<tr>
+				<th><span>沟通内容：</span></th>
+				<td colspan="3">
+					{{taskCommu.opinion }}
+				</td>
+			</tr>
+			
+			<tr>
+				<th><span>通知方式：</span></th>
+				<td colspan="3">
+					<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+						<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.messageType" value="{{k}}" />
+						<label for="{{k}}"> {{v}} </label>
+					</div>
+				</td>
+			</tr>
+			
+			<tr> 
+				<th><span>反馈内容：</span></th>
+				<td colspan="3"><textarea ng-model="data.opinion" name="opinion" rows="4" cols="50" style="width: 390px; margin:5px" validate="{required:true}"></textarea></td>
+			</tr>
+			</table>
+		</form> 
+	</div>
+	<div class="toolbar-panel col-md-12" style="text-align:right;">
+		<div class="buttons">
+			<a  href="javascript:;" ng-click="feedBack()" class="btn btn-primary fa fa-save">确定</a>
+		</div>
+	</div> 
+</div>

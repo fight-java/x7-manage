@@ -1,0 +1,90 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="flowVersionListCtrl">
+	<div class="ibox border-bottom border-left-right" style="height: calc(100% - 5px)" ht-data-table="dataTable" url="${bpmModel}/flow/def/v1/versions?defId={{id}}&defKey=" adjust="-50">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称，变更理由"
+						   title="通过流程名称，变更理由查询" ht-quick-search="name,reason"> 
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+		<div class="ibox-content" style="display:none;">
+			<form class="form-horizontal">
+                <div class="form-group">
+                	<label class="col-md-1 control-label">流程名称</label>
+                    <div class="col-md-2">
+                    	<input type="text" placeholder="名称" ht-query="name" 
+                    		   class="form-control input-sm">
+                    </div>
+                    <label class="col-md-1 control-label">流程状态</label>
+                    <div class="col-md-2">
+                    	<select type="text" placeholder="流程状态" ht-query="status" 
+                    		    class="form-control input-sm">
+                    		<option value="">请选择</option>
+                    		<option value="deploy">已发布</option>
+							<option value="draft">未发布</option>
+							<option value="forbidden">禁用</option>
+							<option value="forbidden_instance">禁止实例</option>
+                    	</select>
+                    </div>
+                   <label class="col-md-1 control-label">变更理由</label>
+                    <div class="col-md-2">
+                    	<input type="text" placeholder="流程状态" ht-query="reason" 
+                    		   class="form-control input-sm">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm" type="button" 
+                        		ht-search><i class="fa fa-search"></i> 查询</button>
+                        <button class="btn btn-default btn-sm" type="button" 
+                        		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+                    </div>
+                </div>
+               
+            </form>
+		</div>
+		<div class="ibox-footer no-padding">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+					<tr ng-repeat="row in dataTable.rows track by $index">
+						<td width="30" class="center" selectable="true">
+							<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+						</td>
+						<td width="50" ng-bind="$index+1" title="序号"></td>
+						<td class="col-md-2"  ht-field="row.name" title="名称"></td>
+						<td class="col-md-1" ht-field="row.defKey" title="流程key" sortable="true"></td>
+						
+						<td width="170" ht-field="row.desc" sortable="true" title="流程描述">
+						</td>
+						<td width="80" ng-switch="row.status" sortable="true" title="状态">
+							<span class="badge badge-primary" ng-switch-when="deploy">已发布</span>
+							<span class="badge badge-primary" ng-switch-when="draft">未发布</span>
+							<span class="badge badge-primary" ng-switch-when="forbidden">禁用</span>
+							<span class="badge badge-primary" ng-switch-when="forbidden_instance">禁止实例</span>
+						</td>
+						<td width="75" ht-field="row.version" sortable="true" title="版本号">
+						</td>
+						<td class="col-md-1" ht-field="row.reason" sortable="true" title="变更理由">
+						</td>
+						<td class="col-md-1" title="是否主版本" sortable="true" ng-switch="row.isMain">
+							<span class="badge badge-primary" ng-switch-when="Y">主版本</span>
+							<span class="badge badge-default" ng-switch-when="N">非主版本</span>
+						</td>
+						<td width="230" title="操作">
+							<button class="btn btn-info btn-sm" ng-click="hisVersionDefDetail(row.id)"><i class="fa fa-eye"></i> 明细</button>
+							<button ng-if="row.isMain=='N'" ht-action="{'url':'${bpmModel}/flow/def/v1/switchMainVersion?defId={{row.id}}','actType':'get'}" class="btn btn-info btn-sm" ><i class="fa fa-cogs"></i>设为主版本</button>
+							<button class="btn btn-danger btn-sm" ht-action="{'url':'${bpmModel}/flow/def/v1/removeByDefIds?id={{row.id}}','actType':'del'}"><i class="fa fa-remove"></i>删除</button>
+						</td>
+					</tr>
+					<tr class="no-row">
+						<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+					</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

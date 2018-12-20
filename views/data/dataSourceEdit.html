@@ -1,0 +1,78 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll  ng-controller="dataSourceEditControllers">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+				<div class="row">
+					<button class="btn btn-sm btn-primary" type="button" ng-click="isExist()">保存</button>
+					<button class="btn btn-sm btn-primary" type="button" ng-click="checkConnection()">测试连接</button>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">名称:*</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="prop.name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">别名(唯一):*</label>
+
+						<div class="col-sm-10">
+							<input type="text" id="alias" name="alias" ng-model="prop.alias"
+								   ng-change="changeAlias();" ht-pinyin="prop.name" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">数据源类型:</label>
+						<div class="col-sm-10">
+							<select class="form-control m-b" ng-model="prop.dbType"
+									ng-change="changeDbType();"
+									ng-options="m.value as m.value for m in dbTypeList">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">是否生效:</label>
+						<div class="col-sm-10">
+							<select class="form-control m-b" ng-model="prop.enabled"
+									ng-options="m.value as m.key for m in yesOrNoList">
+							</select>
+						</div>
+					</div>
+					<div class="form-group" >
+						<label class="col-sm-2 control-label">数据源:</label>
+						<div class="col-sm-10">
+							<select class="form-control m-b" ng-model="dsId"
+									ng-change="changeDsId(dsId);changeDbType();changeAlias();"
+									ng-options="m.id as m.name for m in sysDataSourceDefs">
+							</select>
+						</div>
+					</div>
+					<div ng-repeat="attr in prop.settingJson track by $index">
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{{attr.comment}}</label>
+							<div class="col-sm-8" ng-if="attr.name.indexOf('alias')==-1">
+								<input type="text" ng-model="attr.value" class="form-control">
+								({{attr.type}})
+							</div>
+							<div class="col-sm-8" ng-if="attr.name.indexOf('alias')!=-1">
+								<input type="text" ng-model="attr.value" class="form-control"
+									   disabled="disabled"> ({{attr.type}})
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+</div>

@@ -1,0 +1,30 @@
+<div class="animated fadeInRight full-height-scrol" ng-controller="scriptGetCtrl">
+	<div class="ibox-title no-borders">
+		<form class="form-horizontal m-t-md">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">名称:</label>
+				<div class="col-md-9">
+					{{data.name}}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">脚 本 :</label>
+				<div class="col-md-9">
+					<textarea mode="text/x-groovy" class="form-control" readonly="readonly" rows="5" warp="virtual">{{data.script}}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">脚本分类:</label>
+				<div class="col-md-9">
+					{{data.category}}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注:</label>
+				<div class="col-md-9">
+					{{data.memo}}
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

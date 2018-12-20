@@ -1,0 +1,145 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowNodeScriptCtrl">
+    <div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<div id="userTab" class="easyui-tabs" style="height: 480px">
+	<div id="tempTree"></div>
+		<uib-tabset>
+		    <uib-tab ng-click="setCurEditor('startScript')" ng-if="bpmNodeDef.type == 'start'" heading="开始事件"> 
+			<!-- <div tabid="startEvent" title="开始事件"> -->
+				<table class="table table-bordered">
+					<tr>
+						<th  width="15%">
+							<span>说明:</span>
+						</th>
+						<td>
+							该脚本在流程启动时执行，用户可以使用
+							<span class="red">execution</span>
+							做操作。 例如设置流程变量:execution.setVariable("total", 100);
+						</td>
+					</tr>
+					<tr>
+						<th width="15%">
+							<span>脚本:</span>
+						</th>
+						<td>
+							<div>
+								<a class="btn btn-primary btn-xs" ng-click="selectScript()">常用脚本</a>
+								<a class="btn btn-primary btn-xs" ng-click="selectConditionScript()">条件脚本</a>
+                                <a class="varTree btn btn-primary btn-xs" title="可选变量" id="selectVarBtnSS" ng-click="showFlowMenu('selectVarBtnSS')">可选变量</a>
+							</div>
+							<div style="border: 1px solid #D3D3D3;">
+								<input type="hidden" value="start" name="scriptType">
+								<textarea id="startScript" name="script" codemirror="true" mirrorheight="277px" rows="10" cols="80">{{eventScriptMap.start}}</textarea>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</uib-tab> 
+		  <uib-tab ng-click="setCurEditor('endScript')"  ng-if="bpmNodeDef.type == 'end'" heading="结束事件"> 
+				<table class="table table-bordered">
+					<tr>
+						<th width="15%">
+							<span>脚本描述:</span>
+						</th>
+						<td>
+							该脚本在
+							<span class="red">流程结束</span>
+							时执行，用户可以使用
+							<span class="red">execution</span>
+							做操作。 例如设置流程变量:execution.setVariable("total", 100);
+						</td>
+					</tr>
+					<tr width="15%">
+						<th >
+							<span>脚本:</span>
+						</th>
+						<td>
+							<div>
+								<a class="btn btn-primary btn-xs"  ng-click="selectScript()">常用脚本</a>
+								<a class="btn btn-primary btn-xs" ng-click="selectConditionScript()">条件脚本</a>
+								<a class="varTree btn btn-primary btn-xs"  id="selectVarBtne" ng-click="showFlowMenu('selectVarBtne')">可选变量</a>
+							</div>
+							<input type="hidden" value="end">
+							<textarea id="endScript" name="script" codemirror="true" mirrorheight="277px" rows="10" cols="80">{{eventScriptMap.endd}}</textarea>
+						</td>
+					</tr>
+				</table>
+		  </uib-tab> 
+		   <uib-tab ng-click="setCurEditor('preScript')" ng-if="bpmNodeDef.type == 'usertask' || bpmNodeDef.type== 'signtask'" heading="前置脚本"> 
+				<table class="table table-bordered">
+					<tr>
+						<th width="15%">
+							<span>脚本描述</span>
+						</th>
+						<td>
+							该事件在
+							<span class="red">启动该任务</span>
+							时执行，用户可以使用
+							<span class="red">task</span>
+							做操作。 例如设置流程变量:task.setVariable("total", 100);
+							<input type="hidden" name="scriptType" value="1" />
+						</td>
+					</tr>
+					<tr>
+						<th width="15%">
+							<span>脚本:</span>
+						</th>
+						<td>
+							<div>
+								<a class="btn btn-primary btn-xs" title="常用脚本" id="asdf"  ng-click="selectScript()">常用脚本</a>
+								<a class="btn btn-primary btn-xs" title="条件脚本" id="asdf"  ng-click="selectConditionScript()">条件脚本</a>
+								<a class="varTree btn btn-primary btn-xs" id="selectVarBtnp" ng-click="showFlowMenu('selectVarBtnp')">可选变量</a>
+							</div>
+							<input type="hidden" value="create">
+							<textarea id="preScript" name="script" codemirror="true" mirrorheight="290px" rows="10" cols="80">{{eventScriptMap.create}}</textarea>
+						</td>
+					</tr>
+				</table>
+			</uib-tab> 
+			<uib-tab ng-click="setCurEditor('afterScript')" ng-if="bpmNodeDef.type == 'usertask' || bpmNodeDef.type== 'signtask'" heading="后置脚本"> 
+				<table class="table table-bordered">
+						<tr>
+							<th width="15%">
+								<span>脚本描述</span>
+							</th>
+							<td>
+								该事件在
+								<span class="red">任务完成</span>
+								时执行，用户可以使用
+								<span class="red">task</span>
+								做操作。 例如设置流程变量:task.setVariable("total", 100);
+								<input type="hidden" name="scriptType" value="2" />
+							</td>
+						</tr>
+						<tr>
+							<th width="15%">
+								<span>脚本:</span>
+							</th>
+							<td>
+								<div>
+									<a class="btn btn-primary btn-xs"  ng-click="selectScript()">常用脚本</a>
+									<a class="btn btn-primary btn-xs"  ng-click="selectConditionScript()">条件脚本</a>
+									<a class="varTree btn btn-primary btn-xs" id="selectVarBtna" ng-click="showFlowMenu('selectVarBtna')">可选变量</a>
+								</div>
+								<input type="hidden" value="complete">
+								<textarea id="afterScript" name="script" codemirror="true" mirrorheight="290px" rows="10" cols="80">{{eventScriptMap.complete}}</textarea>
+							</td>
+						</tr>
+					</table>
+	     	</uib-tab>
+	     </uib-tabset> 
+	<div>
+		<span class="red">提示：在使用流程常用脚本、变量的时候，请注意光标是否位于脚本编辑框！</span>
+	</div>
+	 
+	 <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="saveScript()">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+</div>

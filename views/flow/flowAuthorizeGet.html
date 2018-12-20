@@ -1,0 +1,110 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="flowAuthorizeEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div ng-model="data"  class="ibox-content" style="max-height: 580px;overflow-y: auto;">
+				<form name="bpmDefAuthorizeForm" id="bpmDefAuthorizeForm">
+			<input type="hidden" name="id" ng-model="data.id">
+			<table class="table table-bordered">
+				<tr>
+					<th width="20%">权限描述:</th>
+					<td>
+						 {{data.authorizeDesc}}
+					</td>
+				</tr>
+				<tr>
+					<th width="20%">权限类型:</th>
+					<td>
+						<label class="checkbox-inline"><input type="checkbox" disabled ng-model="data.authorizeTypes.start" />启动</label>
+						<label class="checkbox-inline"><input type="checkbox" disabled ng-model="data.authorizeTypes.management" />定义</label>
+						<label class="checkbox-inline"><input type="checkbox" disabled ng-model="data.authorizeTypes.task" value="task" />任务 </label>
+						<label class="checkbox-inline"><input type="checkbox" disabled ng-model="data.authorizeTypes.instance" value="instance" />实例</label>
+					</td>
+				</tr>
+				<tr>
+					<th width="20%">授权人员名称:</th>
+					<td>
+						<table id="bpmDefUserTable"  class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="30%" >权限分类</th>
+										<th width="70%" >授权给</th>
+									</tr> 
+								</thead>
+								<tr class="empty-div" ng-if="data.ownerNameJson.length==0">
+									<td colspan="2" style="text-align: center;"> 
+										没有授权的人员
+									</td>
+								</tr>
+								<tbody ng-if="data.ownerNameJson.length>0">
+									<tr  ng-repeat="item in data.ownerNameJson  track by $index">
+										<td> 
+											{{item.title}}
+										</td>
+										<td> 
+											{{item.name}}
+										</td>
+									</tr>
+								</tbody>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<th width="20%">授权流程名称:</th>
+					<td>							
+						<table id="bpmDefActTable"  class="table table-bordered">
+							<thead>
+								<tr>
+									<th style="text-align: center;">流程名称</th>
+									<th style="text-align: center;width:80%;">授权内容</th>
+								</tr> 
+							</thead>
+							<tr  ng-if="data.defNameJson.length==0">
+								<td colspan="2" style="text-align: center;"> 
+									没有授权的流程
+								</td>
+							</tr>
+							<tbody ng-if="data.defNameJson.length>0">
+									<tr  ng-repeat="item in data.defNameJson  track by $index">
+										<td> 
+											{{item.defName}}
+										</td>
+										<td> 
+											 <div name="m_right_div" ng-show="data.authorizeTypes.management">
+											      定义权限(
+											      	<span ng-if="item.right.m_edit">设计</span>
+											      	<span ng-if="item.right.m_del">删除</span>
+											      	<span ng-if="item.right.m_start">启动</span>
+											      	<span ng-if="item.right.m_set">设置</span>
+											      	<span ng-if="item.right.m_clean">清除数据</span>
+											      
+										         )
+										     </div>
+										     <div name="i_right_div" ng-show="data.authorizeTypes.instance">
+										     	实例权限<span ng-if="item.right.i_del">删除</span>
+										     </div>
+										</td>
+									</tr>
+								</tbody>
+						</table>
+					</td>
+				</tr>
+		</table>
+		    </form>
+	
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12 col-sm-offset-8">
+					<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+					<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

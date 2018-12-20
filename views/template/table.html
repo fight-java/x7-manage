@@ -1,0 +1,28 @@
+<div style="width: 100%;">
+	<div class="table-head">
+		<table>
+			<colgroup>
+				<col ng-style="column.style" class="{{column.class}}" ng-repeat="column in columns" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th ng-style="column.style" class="{{column.class}}" ng-repeat="column in columns" 
+						ht-sort="{sortable: column.sortable, field: column.field}">
+						<div class="checkbox" ng-if="column.selectable && !column.single">
+                            <input class="selectAllBox" type="checkbox" ng-click="selectAll($event)">
+                            <label></label>
+                        </div>
+						{{column.title}}
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class="table-body">
+		<table>
+			<colgroup>
+				<col ng-style="column.style" class="{{column.class}}" ng-repeat="column in columns" />
+			</colgroup>
+		</table>
+	</div>
+</div>

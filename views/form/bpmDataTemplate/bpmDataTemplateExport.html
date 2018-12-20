@@ -1,0 +1,48 @@
+<div ng-controller="bpmDataTemplateExportCtrl" ng-init="init()">
+	<form name="form" method="post" ng-model="bpmDataTemplate">
+		<table class="table-form" cellspacing="0">
+			<tr>
+				<th>
+					<span>导出类型</span>
+				</th>
+				<td>
+					<select class="inputText" ng-model="param.getType">
+						<option value="page">当前页数据</option>
+						<option value="all">全部数据</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span>导出排序</span>
+				</th>
+				<td>
+					<table class="table table-bordered table-hover" cellspacing="0">
+						<tr>
+							<th>序号</th>
+							<th>字段名称</th>
+							<th>字段描述</th>
+							<th>
+								是否导出
+								<input type="checkbox" ng-model="selAllExp" />
+							</th>
+							<th>排序</th>
+						</tr>
+						<tr ng-repeat="item in bpmDataTemplate.displayField |filter: {permission:true}">
+							<td>{{$index+1}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.desc}}</td>
+							<td>
+								<input type="checkbox" ht-checkbox ng-model="param.expField" value="{{item.name}}" ht-checked="selAllExp"/>
+							</td>
+							<td>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,bpmDataTemplate.displayField)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,bpmDataTemplate.displayField)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,52 @@
+<div ng-controller="customQueryShowCtrl" class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button class="btn btn-sm btn-primary m-2-sm" ng-click="showPart=0;search();">
+                <i class="fa fa-search"></i> 查询
+            </button>
+            <button class="btn btn-sm btn-info m-2-sm" ng-click="showPart=(showPart+1)%2" >
+                <i class="fa fa-help"></i> 帮助
+            </button>
+        </div>
+
+    </div>
+    <div class="panel-body">
+        <div ng-if="showPart!=1">
+            <table class="table table-striped table-bordered table-hover dataTables-example">
+                <tr ng-repeat="column in prop.conditionfield" ng-if="column.defaultType=='1'">
+                    <th class="col-md-3"><span>{{column.comment}}:</span></th>
+                    <td>
+                        <input ng-if="column.dbType!='date'" type="text" ng-model="column.defaultValue"/>
+                        <input ng-if="column.dbType=='date'" type="text" validate="{date:true}"
+                               class="inputText wdateTime" ng-model="column.defaultValue" name="date" ht-date="wdateTime" />
+                        <span ng-if="column.dbType=='date'&&column.condition=='BETWEEN'">
+							至<input type="text" ng-model="column.endDate"  validate="{date:true}" class="inputText wdateTime" name="date"  ht-date="wdateTime"/></span>
+                    </td>
+                </tr>
+            </table>
+            <!-- 展示结果 -->
+            <div ng-repeat="o in tableOrViewList.rows" >{{o}}</div>
+        </div>
+        <div ng-if="showPart==1">
+            <table class="table table-striped table-bordered table-hover dataTables-example">
+                <tr><th ><span>POST参数:</span></th><td>
+                    请求地址：/platform/bpm/bpmCustomQuery/doQuery.ht<br/>
+                    JSON格式的查询条件：var querydata = '{"USERID":"","FULLNAME":"","ACCOUNT":"","CREATETIME":""}',<br/>
+                    最终参数：params = {id:"{{prop.id}}",page:1,pagesize:{{prop.pageSize}},querydata:querydata};
+                </td></tr>
+                <tr><th><span>调用的方法(angularJs的方式):</span></th><td>
+                    CustomQuery.search(params,function(data){$scope.page=data;});<br/>
+                    该方法定义在js/hotent/platform/bpm/bpmCustomQuery/CustomQueryService.js中,<br/>
+                    Controller的写法参考：js/hotent/platform/bpm/bpmCustomQuery/GetController.js
+                </td></tr>
+                <tr><th><span>回调方法:</span></th><td>返回是一个JSON格式的PageJson(可查看PageJson类);PageJson.rows是返回的查询数据；PageJson.pageResult是页面的信息，里面有totalCount,totalSize等等，详情参考PageResult类</td></tr>
+                <tr><th><span>其他说明:</span></th>
+                    <td>
+                        提供的调用方法是angularJs的方法，如果您不想使用这个方法，可以自己按照POST参数自己构建请求发送到指定url则可得到回调方法所说的对象<br/>
+                        注意！！！如果参数是日期的between条件，需要传入两个参数，暂时定了格式：“startDate|endDate”，eg:{"date":"2000-1-1|2011-1-1"}这样的方式来传值;日期格式固定为：yyyy-MM-dd HH:mm:ss
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

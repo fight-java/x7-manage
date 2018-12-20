@@ -1,0 +1,95 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="agentCtrl">
+		<div class="ibox" ht-data-table="dataTable" url="${bpmModel}/flow/agent/v1/listJson?isMgr=true">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating(row.id, 'edit')">
+							<i class="fa fa-plus"></i> 新增
+						</button>
+						<button class="btn btn-danger btn-sm remove" 
+								ht-remove-array url="${bpmModel}/flow/agent/v1/remove">
+							<i class="fa fa-trash"></i> 删除
+						</button>
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="标题"
+							   title="标题" ht-quick-search="subject"> 
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display:none;">
+				<form class="form-horizontal">
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">标题</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="标题" ht-query="subject" 
+	                    		   class="form-control input-sm">
+	                    </div>
+	                	<label class="col-md-1 control-label">是否有效</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="isEnabled" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="Y">有效</option>
+	                    		<option value="N">禁用</option>
+	                    	</select>
+	                    </div>
+	                    <label class="col-md-1 control-label">代理类型</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="type" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="1">全权</option>
+	                    		<option value="2">部分</option>
+	                    		<!-- <option value="3">条件</option> -->
+	                    	</select>
+	                    </div>
+	                    <div class="col-md-2">
+	                        <button class="btn btn-primary btn-sm" type="button" 
+	                        		ht-search><i class="fa fa-search"></i> 查询</button>
+	                        <button class="btn btn-default btn-sm" type="button" 
+	                        		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+	                    </div>
+	                </div>
+	            </form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true">
+								<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.subject" title="标题" sortable="true"></td>
+							<td width="80" ht-field="row.authName" title="授权人"></td>
+							<td width="80" ng-bind="formatterAgent(row.agent,row)" title="代理人"></td>
+							<td width="145" ht-field="row.startDate | date:'yyyy-MM-dd HH:mm:ss'" title="开始日期" sortable="true"></td>
+							<td width="145" ht-field="row.endDate | date:'yyyy-MM-dd HH:mm:ss'" title="结束日期" sortable="true"></td>
+							<td width="80" class="col-md-1" ng-switch="row.isEnabled" sortable="true" title="是否有效">
+								<span class="badge badge-primary" ng-switch-when="Y">有效</span>
+								<span class="badge badge-danger" ng-switch-when="N">禁用</span>
+							</td>
+							<td width="90" class="col-md-1" ng-switch="row.type" sortable="true" title="代理类型">
+								<span class="badge badge-primary" ng-switch-when="1">全权代理</span>
+								<span class="badge badge-primary" ng-switch-when="2">部分代理</span>
+								<!-- <span class="badge badge-primary" ng-switch-when="3">条件代理</span> -->
+							</td>
+							<td title="操作">
+								<button ng-click="operating(row.id, 'edit')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> 修改</button>
+								<button ng-click="operating(row.id, 'view')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> 明细</button>
+								<button class="btn btn-info btn-sm" ht-action="{'url':'${bpmModel}/flow/agent/v1/remove?ids={{row.id}}','actType':'del'}" ><i class="fa fa-remove"></i> 删除</button>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+</div>

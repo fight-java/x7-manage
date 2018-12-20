@@ -1,0 +1,38 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="logCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${portal}/sys/sysLogsSettings/v1/list">		
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+					<tr ng-repeat="row in dataTable.rows track by $index">
+						<td width="30" class="center" selectable="true">
+							<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+						</td>
+						<td width="50" ng-bind="$index+1" title="序号"></td>
+						<td ht-field="row.moduleType" title="模块名" sortable="true"></td>
+						<td ng-switch="row.saveDays"  title="保存时间" sortable="true" title="状态">
+							<span class="badge badge-primary" ng-switch-when="7">一周</span>
+							<span class="badge badge-primary" ng-switch-when="30">一个月</span>
+							<span class="badge badge-primary" ng-switch-when="90">三个月</span>
+							<span class="badge badge-primary" ng-switch-when="180">半年</span>
+							<span class="badge badge-primary" ng-switch-when="365">一年</span>
+						</td>
+						<td class="col-md-1" ng-switch="row.status" sortable="true" title="状态">
+							<span class="badge badge-primary" ng-switch-when="1">开启</span>
+							<span class="badge badge-warning" ng-switch-when="0">关闭</span>
+						</td>
+						<td ht-field="row.remark" title="备注"></td>
+						<td title="操作">
+							<div class="btn-group" uib-dropdown is-open="status.isopen">
+								<button id="split-button" type="button" class="btn btn-info" ng-click="operating(row.id,'edit')">编辑</button>
+							</div>
+						</td>
+					</tr>
+					<tr class="no-row">
+						<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+					</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

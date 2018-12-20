@@ -1,0 +1,166 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll
+	ng-controller="addTriggersCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>添加定时计划{{data.jobName}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">计划名称:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" ng-blur="isExist(data.triggerName)" ng-model="data.triggerName" required=""/>
+						</div>
+					</div>
+					<div class="row form-group">
+						<label class="col-sm-2 control-label">执行计划的方式</label>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="rdoTimeType1" ng-model="rdoTimeType"
+									   value="1" > <label
+									for="rdoTimeType1"> 一次: </label>
+							</div>
+						</label>
+						<div class="col-sm-10">
+							<div class="input-group date">
+								<input type="datetime" id="sampleDate" ng-disabled="rdoTimeType!=1" class="form-control" date-time ng-model="sampleDate" view="year" auto-close="true" format="YYYY-MM-DD HH:mm:ss">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="rdoTimeType2" ng-model="rdoTimeType"
+									   value="2" > <label
+									for="rdoTimeType2"> 每天: </label>
+							</div>
+						</label>
+						<div class="col-sm-10">
+							<select ng-disabled="rdoTimeType!=2"  class="form-control m-b" ng-model="selEveryDay" ng-options="item.key as item.value for item in selEveryDays"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="rdoTimeType3" ng-model="rdoTimeType"
+									   value="4" > <label
+									for="rdoTimeType3"> 每周: </label>
+							</div>
+						</label>
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-inline" >
+								<input id="chkWeek1" type="checkbox" name="chkWeek"  value="MON" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek1">
+									星期一
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline" >
+								<input id="chkWeek2" type="checkbox" name="chkWeek"  value="TUE" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek2">
+									星期二
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline" >
+								<input id="chkWeek3" type="checkbox" name="chkWeek"  value="WED" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek3">
+									星期三
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input id="chkWeek4" type="checkbox" name="chkWeek"  value="THU" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek4">
+									星期四
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input id="chkWeek5" type="checkbox" name="chkWeek"  value="FRI" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek5">
+									星期五
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input id="chkWeek6" type="checkbox" name="chkWeek"  value="SAT" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek6">
+									星期六
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input id="chkWeek7" type="checkbox" name="chkWeek"  value="SUN" ng-disabled="rdoTimeType!=4">
+								<label for="chkWeek7">
+									星期天
+								</label>
+							</div>
+							<div class="input-group " clock-picker data-autoclose="true"  >
+								<input type="text" class="form-control"  ng-model="txtWeek" ng-disabled="rdoTimeType!=4">
+								<span class="input-group-addon"><span class="fa fa-clock-o"></span>
+               				 </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="rdoTimeType4" ng-model="rdoTimeType"
+									   value="5" ><label
+									for="rdoTimeType4">每月:</label>
+							</div>
+						</label>
+						<div class="col-sm-10">
+							<div class="checkbox checkbox-inline" ng-repeat="ent in chkMons track by $index">
+								<input id="checkbox{{$index}}" type="checkbox" name="chkMon"  value="{{$index+1}}" ng-disabled="rdoTimeType!=5">
+								<label for="checkbox{{$index}}">
+									{{$index+1}}
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input id="chkMon" type="checkbox" value="L" ng-disabled="rdoTimeType!=5">
+								<label for="chkMon">
+									最后一天
+								</label>
+							</div>
+							<br />
+							<div class="input-group " clock-picker data-autoclose="true" >
+								<input type="text" class="form-control"  ng-model="txtMon" ng-disabled="rdoTimeType!=5">
+								<span class="input-group-addon"><span class="fa fa-clock-o"></span>
+               				 </span>
+							</div>
+							<!--<select id="txtMonHour" class="form-control-wh-1" ng-options="item.key as item.value for item in txtOnceHours" ng-model="txtMonHour"></select>
+							<select id="txtMonMinute" class="form-control-wh-1" ng-options="item.key as item.value for item in txtOnceMinutes" ng-model="txtMonMinute"></select>-->
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="rdoTimeType5" ng-model="rdoTimeType"
+									   value="6" > <label
+									for="rdoTimeType5">Cron表达式: </label>
+							</div>
+						</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" ng-model="txtCronExpression" ng-disabled="rdoTimeType!=6">
+							</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="left">
+							<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+</div>

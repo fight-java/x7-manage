@@ -1,0 +1,204 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="messageCtrl">
+	<div class="row wrapper">
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Message</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>不中断用户操作的提示消息，在显示几秒钟以后会自动消失。</p>
+		            <p>
+		                <button type="button" class="btn btn-w-m btn-success" ng-click="messageSuccess()">成功</button>
+		                <button type="button" class="btn btn-w-m btn-info" ng-click="messagePrompt()">提示</button>
+		                <button type="button" class="btn btn-w-m btn-warning" ng-click="messageWarn()">警告</button>
+		            </p>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Dialog</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>中断用户操作的提示消息，使用模态窗口禁止用户操作其他功能，需要用户回应后该消息才会消失。</p>
+		
+		            <p>
+		               <button type="button" class="btn btn-w-m btn-danger" ng-click="dialogError()">错误</button>
+		               <button type="button" class="btn btn-w-m btn-primary" ng-click="dialogConfirm()">确认</button>
+		            </p>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>选择器</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>
+		               <button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('bo-selector')">BO选择器</button>
+		               <button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('user-selector')">用户选择器</button>
+		               <button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('org-selector')">组织选择器</button>
+						<button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('pos-selector')">岗位选择器</button>
+						<button type="button" class="btn btn-w-m btn-info m-sm" ng-click="resources()">选择国际化资源</button>
+						<button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('systype-selector')">系统分类选择</button>
+						<button type="button" class="btn btn-w-m btn-info m-sm" ng-click="dialogDetail('dem-selector')">维度选择器</button>
+		            </p>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>分类选择器</h5>
+		            <div ibox-tools></div>
+		        </div>
+				<div class="ibox-content">
+					<form class="form-horizontal">
+			            <div class="form-group">
+							<div class="row m-sm">
+								<label class="col-sm-4 control-label">表单分类*:</label>
+								<div class="col-sm-6" ht-sys-type type-id="formTypeData.typeId" type-name="formTypeData.typeName" group-key="FORM_TYPE" >
+								</div>
+							</div>
+							<div class="row m-sm">
+								<pre class="col-sm-8 col-sm-offset-2">{{formTypeData | json}}</pre>
+							</div>
+							<div class="row m-sm">
+								<label class="col-sm-4 control-label">流程分类*:</label>
+								<div class="col-sm-6" ht-sys-type type-id="flowTypeData.typeId" type-name="flowTypeData.typeName" group-key="FLOW_TYPE" >
+								</div>
+							</div>
+							<div class="row m-sm">
+								<pre class="col-sm-8 col-sm-offset-2">{{flowTypeData | json}}</pre>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Tooltip</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>用于某些标题、按钮等需要解释性描述。</p>
+		            <div class="form-group">
+		            	<label class="fa fa-question-circle-o" tooltip-placement="left" 
+		            		   uib-tooltip="一个人生命中的自然与必然事件，由前世的作为所决定。含有善恶、苦乐果报之意味，亦即与因果关系相结合的一种持续作用力。">  Karma</label>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="row wrapper">
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Popconfirm</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>确认提示信息，但是使用tooltip式显示为一个气泡对话框。</p>
+		            <div class="form-group">
+		            	<button type="button" class="btn btn-w-m btn-danger">删除</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Sidebar</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>侧边栏，以抽屉式方式显示更多信息。</p>
+		            <div class="form-group">
+		            	<button type="button" class="btn btn-w-m btn-info" ng-click="sidebar()">详情</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Toaster</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>即时消息、待办任务等由服务器推送的消息使用 Toaster显示。</p>
+		            <div class="form-group">
+		            	<button type="button" class="btn btn-w-m btn-success" ng-click="toasterSuccess()">成功</button>
+		            	<button type="button" class="btn btn-w-m btn-warning" ng-click="toasterWarning()">警告</button>
+		            	<button type="button" class="btn btn-w-m btn-danger" ng-click="toasterError()">错误</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="row wrapper">
+		<div class="col-md-4">
+			<div class="ibox">
+		        <div class="ibox-title">
+		            <h5>Popmenu</h5>
+		            <div ibox-tools></div>
+		        </div>
+		        <div class="ibox-content">
+		            <p>弹出菜单，用在下拉按钮，树状组件的右键菜单等场景。</p>
+		            <div class="row">
+						<div class="btn-group" uib-dropdown>
+							<button id="single-button" type="button" class="btn btn-primary"
+								uib-dropdown-toggle ng-disabled="disabled">
+								下拉菜单  <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+								aria-labelledby="single-button">
+								<li role="menuitem"><a href="#">操作</a></li>
+								<li role="menuitem"><a href="#">另一个操作</a></li>
+								<li role="menuitem"><a href="#">其他功能</a></li>
+								<li class="divider"></li>
+								<li role="menuitem"><a href="#">还有一个功能</a></li>
+							</ul>
+						</div>
+
+						<div class="btn-group" uib-dropdown is-open="status.isopen">
+							<button id="split-button" type="button" class="btn btn-info">默认按钮</button>
+							<button type="button" class="btn btn-info" uib-dropdown-toggle>
+								<span class="caret"></span> <span class="sr-only">带默认按钮的下拉菜单</span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+								aria-labelledby="split-button">
+								<li role="menuitem"><a href="#">操作</a></li>
+								<li role="menuitem"><a href="#">另一个操作</a></li>
+								<li role="menuitem"><a href="#">其他功能</a></li>
+								<li class="divider"></li>
+								<li role="menuitem"><a href="#">还有一个功能</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="row" style="height:300px;">
+						<div class="full-height-scroll" full-scroll>
+					        <ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+					        	tree-context-menu="contextMenu" before-right-click="beforeRightClick(treeNode)"
+					        	menu-click="menuClick(menu, treeNode)"></ul>
+					    </div>
+					</div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>

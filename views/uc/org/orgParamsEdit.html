@@ -1,0 +1,47 @@
+<div class="white-bg animated fadeInRight" full-scroll>
+	<div class="row wrapper">
+		<div class="ibox" ng-if="orgParams.length > 0">
+			<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-3 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="saveOrgParams()">
+						<i class="fa fa-plus"></i> 保存
+					</button>
+				</div>
+			</div>
+			</div>
+		</div>
+		<div class="ibox-content">
+			<form class="form-horizontal"  ng-submit="save()">
+				<div class="form-group" ng-repeat="param in orgParams track by $index">								
+					<label class="col-sm-2 control-label">{{param.name}}:</label>
+					<div class="col-sm-6" ng-if="param.ctlType=='input'">
+						<input  class="form-control input-sm" type="text" ng-model="param.value"   ht-validate="{required:false,maxlength:150}"  />
+					</div>
+					<div class="col-sm-6" ng-if="param.ctlType=='select'">
+						<select class="form-control input-sm" ng-model="param.value" ng-options="selectItem.value as selectItem.key for selectItem in param.json " ht-validate="{required:false,maxlength:150}" ></select>
+					</div>
+					<div class="col-sm-6" ng-if="param.ctlType=='checkbox'">
+						<div ng-repeat="checkboxItem in param.json" class="checkbox checkbox-inline ">
+							<input type="checkbox" name="checkbox{{param.alias}}" ht-checkbox ng-model="param.value"  value="{{checkboxItem.key}}"/>
+							<label>{{checkboxItem.key}}</label>
+						</div>
+					</div>
+					<div class="col-sm-6" ng-if="param.ctlType=='radio'">
+						<div ng-repeat="radioItem in param.json" class="radio radio-inline ">
+							<input type="radio" name="radio{{param.code}}" ng-model="param.value"  value="{{radioItem.key}}"/>
+							<label>{{radioItem.key}}</label>
+						</div>
+					</div>
+					<div class="col-sm-6" ng-show="param.ctlType=='date'">
+						<input type="datetime" ht-date class="form-control" type="text" ng-model="param.value"  ht-validate="{required:false,maxlength:150}" />
+					</div>
+					<div class="col-sm-6" ng-if="param.ctlType=='number'">
+						<input class="form-control" type="number" ng-model="param.value"    />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

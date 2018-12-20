@@ -1,0 +1,80 @@
+<div class="row animated fadeInRight" ng-controller="orgSelectorCtrl">
+	<div class="col-md-3 catogry-div">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+            	组织树
+            </div>
+            <div class="panel-body">
+            	<div class="row form-group">
+            		<div class="col-md-12">
+            			<select class="form-control input-sm" ng-model="currentDem.id" ng-options="dem.id as dem.demName for dem in dems"></select>
+            		</div>
+            	</div>
+            	<div class="row border-top p-w-sm">
+            		<div class="full-height-scroll" full-scroll="430px">
+				        <ul ht-tree="treeConfig" ng-model="orgTreeData" tree="orgTree"
+	                        tree-events="onClick:orgTree_click;onExpand:orgTree_expand"></ul>
+				    </div>
+            	</div>
+            </div>
+        </div>
+	</div>
+	
+	<div id="full-height-scroll" class="col-md-7 border-right border-left no-padding">
+		<div class="ibox" ht-data-table="orgDataTable" url="${uc}/api/org/v1/orgs/getOrgPage" target="layui-layer-content" adjust="7">
+			<div class="ibox-title no-borders">
+				<div class="input-group col-md-6 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称，编码，路径"
+						   title="名称，编码，路径" ht-quick-search="name,code,pathName">
+					<span class="input-group-btn">
+						<button class="btn btn-default btn-sm" type="button" 
+                       		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+					</span>
+				</div>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in orgDataTable.rows track by $index">
+							<td width="30" class="center" selectable="true" single="pageParam.single">
+								<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+                                    <input type="checkbox" ht-select="row" ht-select-event="orgSelectEvent(row)">
+                                    <label></label>
+                                </div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.name" title="名称" sortable="true"></td>
+							<td ht-field="row.code" title="编码" sortable="true"></td>
+							<td ht-field="row.pathName" title="路径"></td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="5"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-2 tags-div">
+		<div class="full-height-scroll">
+	        <div class="ibox-content no-borders">
+	            <ul class="tags-ul">
+					<li class="tags-li" ng-repeat="item in orgSelectedArray track by $index">
+						<div class="tags-pan">
+							<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('orgSelectedArray',item)"><i class="fa fa-close" ></i></a> 
+							<span ng-bind="item.name"></span>
+						</div>
+					</li>
+				 </ul>
+	        </div>
+	    </div>
+	    <div class="p-sm" ng-if="orgSelectedArray.length > 1">
+			<button class="btn btn-danger btn-sm btn-block" ng-click="clearSelectedArr('orgSelectedArray')">清空</button>
+		</div>
+	</div>
+</div>

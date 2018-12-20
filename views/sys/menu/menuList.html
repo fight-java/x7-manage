@@ -1,0 +1,102 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="systemMenuListCtrl">
+	<div class="col-md-2 border-right no-padding-right full-height">
+		<div class="full-height-scroll" full-scroll>
+			<ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+				tree-context-menu="contextMenu"
+				before-right-click="beforeRightClick(treeNode)"
+				menu-click="menuClick(menu, treeNode)"
+				tree-events="onClick:tree_click"></ul>
+		</div>
+	</div>
+	<div class="col-md-10 no-padding full-height" id="categoryDisplay" style="display: none;overflow-y: scroll;min-height:{{contentHeight}};">
+		<div class="ibox-content no-borders full-height-scroll no-padding-left">
+			<form class="form-horizontal" ng-submit="save()">
+				<div class="form-group" ng-if="isEditable">
+					<div class="col-sm-2 col-sm-offset-1">
+						<button type="submit" class="btn btn-primary fa fa-sublime">保存</button>
+						<button class="btn btn-sm btn-default" type="button"
+								ng-click="close();">关闭</button>
+					</div>
+				</div>
+				<div class="hr-line-dashed" ng-if="isEditable"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">菜单名称:</label>
+					<div class="col-sm-4">
+						<div ng-class="{'input-group':isEditable}">
+							<input type="text" class="form-control" ng-model="data.name" ng-disabled="!isEditable" required="">
+							<span class="input-group-btn" ng-if="isEditable">
+								<button class="btn btn-primary" type="button" ng-click="addI18nMessage(data.alias)">添加国际化资源</button>
+	                        </span>
+						</div>
+					</div>
+					<label class="control-label col-sm-2">别名:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ht-pinyin="data.name" ng-model="data.alias"
+							ng-disabled="!isEditable || data.id  " required=""  ng-blur="isMenuExistByAlias()">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">url:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ng-model="data.menuUrl"
+							ng-disabled="!isEditable">
+					</div>
+					<label class="col-sm-2 control-label">模板url:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control"
+							ng-model="data.templateUrl" ng-disabled="!isEditable">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">图标:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ng-model="data.menuIcon"
+							ng-disabled="!isEditable">
+					</div>
+					<label class="col-sm-2 control-label">排序:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ng-model="data.sn"
+							ng-disabled="!isEditable">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">加载资源:</label>
+					<div class="col-sm-10">
+						<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="data.load" required=""></ui-codemirror>
+					</div>
+				</div>
+			</form>
+			
+			<div class="col-sm-10 col-sm-offset-2 no-padding" >
+				<div class="panel panel-default ">
+		            <div class="panel-heading">
+						<a ng-if="isEditable" ng-click="add()" class="btn btn-sm btn-primary fa fa-plus"><span>添加</span></a>
+		            	<strong>功能资源</strong>
+		            </div>
+		            <div class="panel-body" >
+		            	<table class="table table-bordered table-striped table-hover" >
+							<tr>
+								<td>别名</td>
+								<td>请求方法名</td>
+								<td>请求地址</td>
+								<td class="col-md-1">操作</td>
+							</tr>
+							<tr ng-repeat="sysMethod in data.sysMethods track by $index">
+								<td><input type="text" ng-model="sysMethod.alias"
+									class="form-control"></td>
+								<td><input type="text" ng-model="sysMethod.name"
+									class="form-control"></td>
+								<td><input type="text" ng-model="sysMethod.requestUrl"
+									class="form-control"></td>
+								<td><a href="javaScript:void(0)"
+									ng-click="deleteSysMethods($index,data.sysMethods)"
+									class="btn btn-sm btn-default fa fa-times"></a></td>
+							</tr>
+						</table>
+		            </div>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>

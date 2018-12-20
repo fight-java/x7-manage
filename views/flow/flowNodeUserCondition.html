@@ -1,0 +1,81 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowNodeUserConditionCtrl">
+	<div>
+		<!-- <fieldset class="scheduler-border">
+			<legend class="toolbar-title" style="margin-bottom:0;">
+				<span>规则设置</span>
+			</legend>
+			<div style="height: auto; margin-top:5px; margin-left:3px;">
+				<div class="datagrid-toolbar" style="height: 36px; text-align: left;">
+					<a onclick="addDiv(1)" class="btn btn-sm btn-primary fa fa-plus ">添加规则 </a>
+					<a onclick="addDiv(2)" class="btn btn-sm btn-primary fa fa fa-plus">添加脚本</a>
+					<a onclick="assembleDiv()" class="btn btn-sm btn-primary fa fa-sign-in">组合规则</a>
+					<a onclick="splitDiv()" class="btn btn-sm btn-primary fa fa-sign-out">拆分规则</a>
+					<a onclick="removeDiv()" class="btn btn-sm btn-primary  fa fa-remove">删除</a>
+				</div>
+				<div>
+					<div id="ruleDiv" style="margin: 5px 0 0 0;"></div>
+				</div>
+			</div>
+		</fieldset> -->
+		<fieldset class="scheduler-border">
+			<legend class="toolbar-title" style="margin-bottom:0;">
+				<span>人员设置</span>
+			</legend>
+			<div class="datagrid-toolbar" style="text-align: left; padding:5px;">
+				<a class="btn btn-primary btn-sm fa fa-plus" ng-click="addCalc()">添加</a>
+				<!-- <a ng-click="preview()" class="btn btn-primary btn-sm fa fa-youtube-play">预览</a> -->
+			</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr >
+						<th width="170">用户类型</th>
+						<th width="360">用户来自</th>
+						<th width="120">抽取用户</th>
+						<th width="100">运算类型</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="calc in userRule.calcs track by $index">
+						<td>
+							<select ng-model="calc.pluginType" ng-options="m.type as m.title for m in nodeUserPluginList" class="form-control" ng-change="calcTypeChange(calc)">
+							</select>
+						</td>
+						<td>
+							<a ng-show="calc.pluginType!='approver' && calc.pluginType!='sameNode'" href="javascript:javaScript:void(0)" class="btn btn-xs btn-primary" ng-click="selector(calc)">选择</a>
+							<span ng-show="calc.pluginType!='sameNode'">{{calc.description}}</span>
+							<select ng-show="calc.pluginType=='sameNode'" ng-model="calc.nodeId" ng-options="m.nodeId as m.name  for m in nodeList" class="form-control" ng-change="changeSameNode(calc)">
+								<option value="">请选择</option>
+							</select>
+						</td>
+						<td>
+							<select ng-if="userRule.nodeType=='userTask'" ng-model="calc.extract" class="form-control">
+								<option value="no">不抽取</option>
+								<option value="extract">抽取</option>
+							</select>
+							<select ng-if="userRule.nodeType=='signTask'" ng-model="calc.extract" class="form-control">
+								<option value="no">不抽取</option>
+								<option value="extract">抽取</option>
+								<option value="secondExtract">延迟抽取</option>
+								<option value="usergroup">用户组合</option>
+							</select>
+						</td>
+						<td>
+							<select ng-if="!$first" ng-model="calc.logicCal" class="form-control">
+								<option value='or'>或</option>
+								<option value='and'>与</option>
+								<option value='exclude'>排除</option>
+							</select>
+						</td>
+						<td>
+							<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,userRule.calcs)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+							<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,userRule.calcs)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+							<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.del($index,userRule.calcs)" class="btn btn-sm btn-default fa fa-remove"></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+		</fieldset>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="approvalItemEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<table class="table table-bordered table-striped table-hover">
+							<tr>								
+						<th>常用语类型:</th>
+						<td ng-if="approval.type =='1' "> <span>全局常用语</span></td>
+						<td ng-if="approval.type =='2' "> <span>流程分类常用语</span></td>
+						<td ng-if="approval.type =='3' "> <span>流程常用语</span></td>
+					</tr>
+					<tr>								
+						<th>常用语:</th>
+						<td> {{approval.expression }}</td>
+					</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="userEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<uib-tabset>
+				<uib-tab ng-repeat="tab in tabs"  heading={{tab.title}}>
+              		<div class="panel-body">
+                 		<div ng-include="tab.url"></div>
+                 	</div>
+               </uib-tab>
+           </uib-tabset>
+		</div>
+	</div>
+</div>

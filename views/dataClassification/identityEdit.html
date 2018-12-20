@@ -1,0 +1,98 @@
+<style type="text/css">li{list-style-type:none;}</style>
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="identityEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+							<label class="col-sm-2 control-label">流水号名称: *</label>
+							<div class="col-sm-10">
+								<input required="" aria-required="true" ng-model="identity.name" type="text" class="form-control input-sm"/>
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">流水号别名: *</label>
+						<div class="col-sm-10">
+							<input required="" aria-required="true"  id="alias" ht-pinyin="identity.name" ng-model="identity.alias" type="text" class="form-control input-sm"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">流水号规则: *</label>
+						<div class="col-sm-10">
+							<input required="" aria-required="true"  ng-model="identity.regulation" type="text" class="form-control input-sm"/>
+							<br>
+							<ul><li >{yyyy}{MM}{dd}{NO}</li>
+								<li >{yyyy}:表示年份</li>
+								<li >{MM}  :表示月份，如果月份小于10，则加零补齐，如1月份表示为01。</li>
+								<li >{mm}  :表示月份，月份不补齐，如1月份表示为1。</li>
+								<li >{DD}  :表示日，如果小于10号，则加零补齐，如1号表示为01。</li>
+								<li >{dd}  :表示日，日期不补齐，如1号表示为1。</li>
+								<li >{NO}  :表示流水号，前面补零。</li>
+								<li >{no}  :表示流水号，后面补零。</li>
+							</ul>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">生成类型: *</label>
+						<div class="col-sm-10">
+							<div class="col-sm-10">
+								<div class="radio radio-info radio-inline">
+									<input type="radio" id="inlineRadio1" value="1" name="radioInline" ng-model="identity.genType">
+									<label for="inlineRadio1"> 每天生成 </label>
+								</div>
+								<div class="radio radio-inline">
+									<input type="radio" id="inlineRadio2" value="0" name="radioInline" ng-model="identity.genType">
+									<label for="inlineRadio2"> 递增 </label>
+								</div>
+							</div>
+							<br><br>
+							流水号生成规则：
+							<ul>
+								<li >1.每天生成。每天从初始值开始计数。</li>
+								<li >2.递增，流水号一直增加。</li>
+							</ul>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">流水号长度: *</label>
+						<div class="col-sm-10">
+							<input required="" aria-required="true"  ng-model="identity.noLength" type="text" class="form-control input-sm"/>
+							<br>
+							<li >这个长度表示当前流水号的长度数，只包括流水号部分{NO},如果长度为5，当前流水号为5，则在流水号前补4个0，表示为00005。</li>
+							<li >{no}如果长度为5，当前流水号为501，则在流水号后面补5个0，表示为50100000，如果长度为1，则流水号一直递增。</li>
+						</div>
+
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">初始值: *</label>
+						<div class="col-sm-10">
+							<input required="" aria-required="true"  ng-model="identity.initValue" type="text" class="form-control input-sm"/>
+							<br>
+							<li >这个初始值表示流水号部分{NO}的初始值。如 2015102700001,初始值为1，则流水号部分的初始值为00001</li>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">步长: *</label>
+						<div class="col-sm-10">
+							<input required="" aria-required="true"  ng-model="identity.step" type="text" class="form-control input-sm"/>
+							<br>
+							<li >流水号每次递加的数字，默认步长为1。比如步长为2，则每次获取流水号则在原来的基础上加2。</li>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

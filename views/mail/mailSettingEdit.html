@@ -1,0 +1,137 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="mailSettingEditTypeCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">用户名称:*</label>
+					<div class="col-sm-10">
+						<input type="text" required="" aria-required="true" class="form-control" ng-model="data.nickName">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-sm-2 control-label">邮件类型:*</label>
+					<div class="col-sm-10">
+						<select ng-model="data.mailType" class="form-control">
+							<option  value="">--请选择邮箱类型--</option>
+							<option  value="pop3">pop3类型</option>
+							<option  value="imap">imap类型</option>
+							<option  value="exchange">exchange类型</option>
+	                    </select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">邮箱地址:*</label>
+					<div class="col-sm-10">
+						<input type="text" required="" aria-required="true" class="form-control" ng-model="data.mailAddress" ng-blur="showInfos()">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" uib-tooltip="该密码为邮箱授权码，非登录密码。" ng-if="data.mailType!='exchange'">邮箱密码:*<i class="fa fa-question-circle-o"></i></label>
+					<label class="col-sm-2 control-label" uib-tooltip="该密码为邮箱登录密码。" ng-if="data.mailType=='exchange'">邮箱密码:*<i class="fa fa-question-circle-o"></i></label>
+					<div class="col-sm-10">
+						<input required="" aria-required="true" class="form-control" ame='password' id="password" type="password" ng-model="data.password">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">smtp主机:*</label>
+					<div class="col-sm-10">
+						<input type="text" required="" aria-required="true" class="form-control" ng-model="data.smtpHost">
+					</div>
+				</div>	
+				<div class="form-group" ng-if="data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">smtp端口:*</label>
+					<div class="col-sm-10">
+						<input type="text" required="" aria-required="true" class="form-control" ng-model="data.smtpPort">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType!='imap'&&data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">pop主机:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.popHost">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType!='imap'&&data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">pop主机:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.popPort">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType=='imap'&&data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">imap主机:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.imapHost">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType=='imap'&&data.mailType!='exchange'">
+					<label class="col-sm-2 control-label">imap端口:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.imapPort">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType=='exchange'">
+					<label class="col-sm-2 control-label">域:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.smtpHost">
+					</div>
+				</div>
+				<div class="form-group" ng-if="data.mailType=='exchange'">
+					<label class="col-sm-2 control-label">服务器:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.smtpPort">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">使用SSL认证:</label>
+					<div class="col-sm-10">
+						<div class="checkbox">
+							<input type="checkbox" name='SSL' ng-change="changeSSL()" ng-model="data.sSL"/>
+							<label></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">需要身份验证:</label>
+					<div class="col-sm-10">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="data.validate"/>
+							<label></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">删除远程邮件:</label>
+					<div class="col-sm-10">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="data.isDeleteRemote"/>
+							<label></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">下载附件:</label>
+					<div class="col-sm-10">
+						<div class="checkbox">
+							<input type="checkbox" ng-model="data.isHandleAttach"/>
+							<label></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="left">
+							<button type="button" class="btn btn-success btn-sm" ng-click="save()"><i class="fa fa-save"></i> 保存</button>
+							<button class="btn btn-danger btn-sm remove" ng-click="close()"><i class="fa fa-undo"></i>返回</button>
+							<button class="btn btn-primary btn-sm" ng-click="testConnect()"><i class="fa fa-cog"></i> 测试连接</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

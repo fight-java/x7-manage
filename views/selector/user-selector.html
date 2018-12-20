@@ -1,0 +1,95 @@
+<div class="row animated fadeInRight" ng-controller="userSelectorCtrl">
+	<div class="col-md-3 catogry-div">
+		<uib-accordion close-others="true">
+			<div uib-accordion-group class="panel-default" heading="按组织查找" is-open="openStatus.org">
+		        <div class="row form-group">
+            		<div class="col-md-12">
+            			<select class="form-control input-sm" ng-model="currentDem.id" ng-options="dem.id as dem.demName for dem in dems"></select>
+            		</div>
+            	</div>
+            	<div class="row border-top p-w-sm">
+            		<div class="full-height-scroll" full-scroll="340px">
+				        <ul ht-tree="treeConfig" ng-model="orgTreeData" tree="orgTree"
+	                        tree-events="onClick:orgTree_click;onExpand:orgTree_expand"></ul>
+				    </div>
+            	</div>
+			</div>
+			<div uib-accordion-group class="panel-default" heading="按岗位查找" is-open="openStatus.pos">
+				<div class="full-height-scroll" full-scroll="390px">
+			        <ul ht-tree="treeConfig" ng-model="posTreeData" tree="posTree"
+                        tree-events="onClick:posTree_click"></ul>
+			    </div>
+			</div>
+			<div uib-accordion-group class="panel-default" heading="按角色查找" is-open="openStatus.role">
+				<div class="full-height-scroll" full-scroll="390px">
+			        <ul ht-tree="treeConfig" ng-model="roleTreeData" tree="treeInstance"
+                        tree-events="onClick:roleTree_click"></ul>
+			    </div>	
+			</div>
+		</uib-accordion>
+	</div>
+	
+	<div id="full-height-scroll" class="col-md-7 border-right border-left no-padding">
+		<div class="ibox" ht-data-table="dataTable" url="${uc}/api/user/v1/users/queryByType" target="layui-layer-content">
+			<div class="ibox-title no-borders">
+				<div class="input-group col-md-6 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="姓名，账号，邮箱，手机"
+						   title="姓名，账号，邮箱，手机" ht-quick-search="fullname,account,email,mobile">
+					<span class="input-group-btn">
+						<button class="btn btn-default btn-sm" type="button" 
+                        		ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+					</span>
+				</div>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true" single="pageParam.single">
+								<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+                                    <input type="checkbox" ht-select="row" ht-select-event="htSelectEvent(row)">
+                                    <label></label>
+                                </div>
+							</td>
+							<td ht-field="row.fullname" title="姓名" sortable="true" width="80"></td>
+							<td ht-field="row.account | shield" title="账号" sortable="true" width="80"></td>
+							<td ht-field="row.email" title="邮箱" sortable="true"></td>
+							<td ht-field="row.mobile" title="手机号码" sortable="true"></td>
+							<td width="65" ng-switch="row.status" sortable="true" title="状态">
+								<span class="badge badge-primary" ng-switch-when="1">正常</span>
+								<span class="badge badge-danger" ng-switch-when="0">禁用</span>
+								<span class="badge badge-info" ng-switch-when="-1">未激活</span>
+								<span class="badge badge-warning" ng-switch-when="-2">离职</span>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="6"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination ht-displayed-pages="3"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-2 tags-div">
+		<div class="full-height-scroll" style="overflow-y:auto;height:500px;">
+	        <div class="ibox-content no-borders">
+	            <ul class="tags-ul">
+					<li class="tags-li" ng-repeat="item in userSelectArr track by $index">
+						<div class="tags-pan">
+							<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('userSelectArr',item)"><i class="fa fa-close" ></i></a> 
+							<span ng-bind="item.fullname"></span>
+						</div>
+					</li>
+				 </ul>
+	        </div>
+	    </div>
+	    <div class="p-sm" ng-if="userSelectArr.length > 1">
+			<button class="btn btn-danger btn-sm btn-block" ng-click="clearSelectedArr('userSelectArr')">清空</button>
+		</div>
+	</div>
+</div>

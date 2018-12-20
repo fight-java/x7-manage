@@ -1,0 +1,27 @@
+<div style="height:100%" ng-controller="flowImageCtrl">
+	<div class="m-md">
+		<div class="flow-legend-div" ng-repeat="legend in legends">
+			<div ng-style="{background: legend.color}"></div>
+			<span ng-bind="legend.title"></span>
+		</div>
+		<div ng-if="parentInstId!=null&&parentInstId!=0" class="flow-legend-div">
+			<a style="cursor:pointer;" href="javascript:void(0);" ng-click="showFlowMap(parentInstId)"><i class='fa fa-map'></i>查看主流程图</a>
+		</div>
+	</div>
+	<br>
+	<div id="divContainer">
+    	<div ng-if="flow.bpmProcessInstanceList" ng-repeat="instance in flow.bpmProcessInstanceList" class="layout-back-div m-md"
+    		 ng-style="{background:'url({{getImageBase64(instance.id)}}) no-repeat', width: flow.bpmDefLayout.width, height: flow.bpmDefLayout.height}">
+        	<div ng-repeat="layout in flow.bpmDefLayout.listLayout" ng-if="layout.nodeType == 'CALLACTIVITY'" class="flowNode"  
+          	     ng-click="showFlowMap(flow.instanceId, layout.nodeId, layout.nodeType, 'subFlow')"  
+          		 ht-bpm-image="{instId: flow.instanceId, nodeId: layout.nodeId, nodeType: layout.nodeType}" 
+          		 ng-style="{position: 'absolute', left: layout.x, top: layout.y, width: layout.width, height: layout.height}">
+          	</div>
+	   		<div ng-repeat="layout in flow.bpmDefLayout.listLayout" ng-if="layout.nodeType != 'CALLACTIVITY'" class="flowNode" 
+	   			 ht-bpm-image="{instId: flow.instanceId, nodeId: layout.nodeId, nodeType: layout.nodeType}" 
+	   			 ng-style="{position: 'absolute', left: layout.x, top: layout.y, width: layout.width, height: layout.height}"></div>
+	   	</div>
+	   	<div ng-if="!flow.bpmProcessInstanceList||flow.bpmProcessInstanceList.length<1" ng-style="{marginTop:40,position:relative,background:'url({{getImageBase64(flow.instanceId)}}) no-repeat',width:flow.bpmDefLayout.width,height:flow.bpmDefLayout.height}">
+	    </div>
+	</div>
+</div>

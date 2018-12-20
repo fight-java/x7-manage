@@ -1,0 +1,35 @@
+<div ng-controller="toEndProcessCtrl">
+<div class="toolbar-panel col-md-12">
+	<form id="agreeForm" action="doEndProcess" method="post">
+		<input type="hidden" name="taskId" value="${taskId}">
+		<table cellspacing="0" class="table-form">
+			<tr> 
+				<th width="20%" style="text-align:right; font-size:14px; font-weight:normal;">
+					<abbr ht-tip title="提醒消息将会发送给发起人及所有已审批过的执行人.">提醒消息:</abbr>
+				</th>
+				<td>
+					<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+						<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.messageType" value="{{k}}" />
+						<label for="{{k}}"> {{v}} </label>
+					</div>
+				</td>
+			</tr>
+			<tr> 
+				<th width="20%" >
+					终止原因:
+				</th>
+				<td>
+					<textarea class="inputText" ng-model="data.endReason" name="endReason" rows="4" 
+						  cols="50" style="width: 390px; margin:5px" validate="{required:true}"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class="toolbar-panel col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons" >
+			<a  href="javascript:;" class="btn btn-primary fa fa-save" ng-click="toEndProcess();">确定</a>
+			<a href="javascript:;" class="btn btn-default fa fa-close" ng-click="closeEdit();" >取消</a>
+		</div>
+	</div>
+</div>

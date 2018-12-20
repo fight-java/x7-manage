@@ -1,0 +1,107 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="mailEditCtrl">
+	<div class="col-md-10 no-padding">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="col-md-10 btn-group tools-panel">
+				<button type="button" class="btn btn-success btn-sm" ng-click="sendMail(2)">
+					<i class="fa fa-twitter"></i> 发送
+				</button>
+				<button class="btn btn-danger btn-sm remove" ng-click="sendMail(3)">
+					<i class="fa fa-save"></i> 保存草稿
+				</button>
+				<button class="btn btn-success btn-sm" ng-click="reset()">
+					<i class="fa fa-repeat"></i> 重置
+				</button>
+				<button class="btn btn-primary btn-sm" ng-click="close()">
+					<i class="fa fa-undo"></i> 返回
+				</button>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">发件人:<span  class="required">*</span></label>
+						<div class="col-sm-10">
+						<select class="form-control" ng-model="data.senderAddress" name="senderAddress" required="" aria-required="true">
+						<option ng-repeat="mail in mailSettingList">{{mail.mailAddress}}</option>
+	                    </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" required="" aria-required="true">收件人:<span  class="required">*</span></label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" address="true" id="receiverAddresses" name="receiverAddresses" ng-model="data.receiverAddresses">
+						<input class="form-control" type="hidden" name="receiverName" ng-model="data.receiverName">
+						<a class="link search" ng-click="selectLinkMan('receiverAddresses');">
+	                    <span></span>
+	                   	选择
+	                    </a>
+	                    &nbsp;&nbsp;
+	                    <span id="warn" style="color:red;display:none" >*收件人必填</span>
+						<br>
+						(注：可以直接单击最近联系人列表，也可手动输入，多个收件人以","号分割如两个收件人：aaa@163.com,bbb@163.com)
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label">抄送人:</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" address="true" name="copyToAddresses" ng-model="data.copyToAddresses">
+						<input class="form-control" type="hidden" name="copyToName" ng-model="data.copyToName">
+						<a class="link search" ng-click="selectLinkMan('copyToAddresses');">
+	                    <span></span>
+	                   	选择
+	                    </a>
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label">暗送人:</label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" address="true" name="bcCAddresses"  ng-model="data.bcCAddresses">
+						<input class="form-control" type="hidden" name="bccName" ng-model="data.bcCAddresses">
+						<a class="link search" ng-click="selectLinkMan('bcCAddresses');">
+	                    <span></span>
+	                   	选择
+	                    </a>
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label">主题:<span  class="required">*</span></label>
+						<div class="col-sm-10">
+						<input type="text" class="form-control" name="subject" ng-model="data.subject">
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label">附件:</label>
+						<div class="col-sm-10">
+						<div ht-upload="data.fileIds" issingle="" ng-model="data.fileIds"  desc="附件" type="text"></div>
+						</div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-2 control-label">发送内容:<span  class="required">*</span></label>
+						<div class="col-sm-10">
+						<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="data.content" required="" name="content">
+                        </ui-codemirror>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div align="left">
+	<label class="col-sm-2 control-label">最近联系人</label>
+	</div>
+	<div class="col-md-2 border-right full-height no-padding-right">
+		<div>
+		<a id="sortingByTimes" ng-click="loadTree('sortingByTimes')" class="btn btn-sm btn-primary fa fa-refresh"> 次数</a> 
+		<a id="sortingByLasttime" ng-click="loadTree('sortingByLasttime')" class="btn btn-sm btn-primary fa fa-refresh">最后发送</a> 
+		</div>
+		<div class="full-height-scroll" full-scroll>
+	        <ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance" tree-context-menu="contextMenu" menu-click="menuClick(menu, treeNode)"
+	         before-right-click="beforeRightClick(treeNode)" tree-events="onClick:tree_click"></ul>
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,82 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowNodeJumpRoleCtrl">
+    <div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<div class="col-md-7 no-padding" style="float: left;height: 100%">
+	        <div style="height: 30px;background: #e2e2e2;line-height: 30px;font-weight: bold;padding-left: 10px;">跳转规则设置</div>
+				<!-- -工具栏end- -->
+				<div style="overflow-y: auto;height:520px">
+				 <form class="form-horizontal">
+				     <table class="table table-bordered" cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<th width="20%">当前节点名称:</th>
+								<td>{{nodeDef.name}}</td>
+							</tr>
+							<tr>
+								<th width="20%">规则名称*:</th>
+								<td><input type="text" required="" aria-required="true" ng-model="curRule.ruleName" name="ruleName" size="40"  class="form-control" validate="{required:true,maxlength:120}"/></td>
+							</tr>
+							<tr>
+								<th width="20%">跳转节点名称:</th>
+								<td>
+									<select required="" aria-required="true" ng-model="curRule.targetNode" id="targetNode" validate="{required:true,maxlength:120}" class="form-control">
+										<option value="">请选择</option>
+									    <option ng-repeat="node in nodeDefList track by $index" value="{{node.nodeId}}">{{node.name}}</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th width="20%">规则表达式*:</th>
+								<td>
+									<a class="btn btn-primary btn-xs" onclick="selectScript()">常用脚本</a>
+									<a class="btn btn-primary btn-xs" onclick="selectConditionScript()">条件脚本</a>
+								    <a id="varTree" class="btn btn-primary btn-xs">可选变量</a>
+									<textarea codemirror="true" mirrorheight="200px"  id="condition" rows="12" cols="55" ng-model="curRule.condition"  validate="{required:true}"></textarea>
+									<div style="margin:8px 0;">这个脚本需要使用返回语句(return)返回布尔值，返回true流程将跳转到指定的节点。</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div align="center">
+									    <button  class="btn btn-primary fa fa-arrow-right" type="submit" ng-click="addRule()">添加至条件列表</button>
+									</div>
+								</td>
+							</tr> 
+					</table>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-5"  style="float: right;padding:0 0 0 5px">
+			 <div style="height: 30px;background: #e2e2e2;line-height: 30px;font-weight: bold;padding-left: 10px;">规则管理</div>
+			  <table id="nodeRuleList" class="table table-bordered" >
+				    <thead>
+					    <tr>
+							<th class="col-md-5" >规则名称</th>
+							<th class="col-md-4" >目标节点</th>
+							<th class="col-md-3" > 管理 </th> 
+					    </tr>
+					    <tr ng-repeat="r in ruleList">
+					       <td ng-click="showCondition($index)">
+					        {{r.ruleName}}
+					       </td>
+					       <td ng-click="showCondition($index)">
+					         {{r.targetNode}}
+					       </td>
+					       <td>
+					         <a ng-click="ArrayTool.del($index,ruleList)" class="btn-default btn fa fa-trash-o"> </a>
+					       </td>
+					    </tr>
+				    </thead>
+			    </table> 
+	 </div>
+	 
+	 <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="pageSure()">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+</div>

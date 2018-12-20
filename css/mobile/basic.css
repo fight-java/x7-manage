@@ -1,0 +1,36 @@
+﻿@charset "utf-8";
+/* reset */
+body{margin:0;font-family:"微软雅黑";color:#262626;}
+/*body, select, input, button, h1, h2, h3, h4, h5, h6 {font-size:14px}*/
+body,div, h1, h2, h3, h4, h5, h6, ul, ol, li, form, fieldset, p, dl, dt, dd, table, th, td, img, blockquote,a,span,em,button,input,textarea{margin:0;padding:0;border:0; font-weight:500;}
+input, button, textarea, img{line-height:normal;font-family:"微软雅黑";}
+abbr, acronym, address, cite, q, em, code, var, dfn, ins{font-style:normal;text-decoration:none;border:0}
+q:before, q:after{content:""}
+ul, ol, li{list-style:none}
+table{width:100%;}
+select, input, button{vertical-align:middle;}
+a{text-decoration:none;color:#262626;}
+a:hover{text-decoration:none;}
+*, *:before, *:after {box-sizing: border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);outline:none;}
+body{height:100%;}
+.hide{ display:none;!important}
+.b-gray{ background:#f5f5f5;}
+.clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+
+/*苹果浏览器去掉默认*/
+input[type="button"], input[type="submit"], input[type="reset"] {
+-webkit-appearance: none;outline:none;}
+textarea {  -webkit-appearance: none;}
+input{-webkit-tap-highlight-color:transparent;-webkit-user-drag: none;-webkit-touch-callout: none;outline: none;box-sizing: border-box;}/*苹果去阴影*/
+
+::-webkit-input-placeholder { /* WebKit browsers */    color:#999;  font-weight:500}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */   color:#999; font-weight:500}
+::-moz-placeholder { /* Mozilla Firefox 19+ */   color:#999; font-weight:500}
+:-ms-input-placeholder { /* Internet Explorer 10+ */    color:#999; font-weight:500}
+.btn:focus,.txt:focus{border:0;outline:none;} 
+
+/*结构*/
+body{max-width:768px;min-width:320px;margin:0 auto; overflow-y: auto;}
+/*body*/
+

@@ -1,0 +1,13 @@
+<div class="ibox-content full-height-scroll no-padding-left"  ng-controller="paramDialogCtrl">
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="form-group" ng-repeat="(key,val) in param">
+                <label class="col-md-3 control-label">{{val}}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control"required="" name="{{key}}">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll
+	ng-controller="fieldAuthEditCtrl">
+	<div class="ibox-title no-borders">
+		<form name="fieldAuthForm" class="form-horizontal m-t-md" ng-submit="save()">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">选择数据源</label>
+				<div class="col-md-4">
+					<select class="form-control m-b" ng-model="data.dsAlias"  ht-validate="{required:true}"
+							ng-options="m.alias as m.name for m in dataSourcesInBean"></select>
+				</div>
+				<label class="control-label col-sm-2">查询表</label>
+				<div class="col-md-4">
+					<div class="input-group tools-panel" style="margin-top:0px;">
+						<input type="text" ng-model="objName" class="form-control input-sm m-b" /> 
+						<span class="input-group-addon" ng-click="getByDsObjectName()">
+							<i class="fa fa-search"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2">选择表</label>
+				<div class="col-md-4">
+						<select class="form-control m-b"
+							ng-model="data.tableName" ng-change="tableChange()"  ht-validate="{required:true}"
+							ng-options="m.name as m.name for m in tableOrViewList">
+						</select>
+				</div>
+				
+				<label class="col-sm-2 control-label">表说明</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-model="data.desc" ht-validate="{required:true}"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+			
+				<label class="col-sm-2 control-label">类名</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-model="data.className"  ht-validate="{required:true}"/>
+				</div>
+				
+			</div>
+			<div class="row" full-scroll style="max-height: 420px;">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="condition-conds-div-right">
+						<div class="condition-conds-div-right-div">
+							<table id="displayFieldTbl"  class="table-form list-table">
+								<thead>
+									<tr>
+										<th style="width:5%">序号</th>
+										<th style="width:15%">列名</th>
+										<th style="width:20%">注释</th>
+										<th style="width:20%">
+											显示权限
+											<right-select list="data.fieldList"></right-select>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr var="displayFieldTr" ng-repeat="f in data.fieldList track by $index">
+										<td var="index">{{$index+1}}</td>
+										<td var="name">{{f.name}}</td>
+										<td >
+											<input type="text"  var="desc"  ng-model="f.desc" />
+										</td>
+										<td>{{rightToDesc(f.right)}}
+											<a style="float: right;" ng-click="fieldDialog(f)" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			 <div class="text-center">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                        <button class="btn" type="button" ng-click="close()">返回</button>
+             </div>
+		</form>
+	</div>
+</div>

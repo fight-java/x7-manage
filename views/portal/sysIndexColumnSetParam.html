@@ -1,0 +1,59 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll
+	ng-controller="filedDialogCtrl">
+	<div class="row wrapper">
+		<div class="col-md-10 btn-group tools-panel" style="margin-top:0px;">
+			<button type="button" class="btn btn-success btn-sm"
+				ng-click="addParam()">
+				<i class="fa fa-add"></i> 添加
+			</button>
+		</div>
+		<div class="ibox-content">
+			<form class="form-horizontal">
+				<table class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th align="center">参数名</th>
+						<th align="center">参数类型</th>
+						<th align="center">值来源</th>
+						<th align="center">参数值</th>
+						<th align="center">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+				<tr ng-repeat="param in setParams track by $index">
+					<td><input type="text" ng-model="param.name"  class="form-control"/> </td>
+					<td><select ng-model="param.type" class="col-sm-10">
+							<option value="">请选择</option>
+							<option value="string">String</option>
+							<option value="int">int</option>
+							<option value="float">float</option>
+							<option value="double">double</option>
+							<option value="byte">byte</option>
+							<option value="short">short</option>
+							<option value="long">long</option>
+							<option value="boolean">boolean</option>
+							<option value="date">date</option>
+						</select>
+					</td>
+					<td>
+						<select ng-model="param.mode" class="col-sm-10">
+							<option value="">请选择</option>
+							<option value="0">固定值</option>
+							<option value="1">动态传入</option>
+							<option value="2">脚本</option>
+						</select>
+					</td>
+					<td>
+						<textarea ng-model="param.value" class="col-sm-12"></textarea>
+					</td>
+					<td>
+					<div><button class="btn btn-danger fa fa-remove" ng-click="remove(param)">删除</button></div>
+						
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

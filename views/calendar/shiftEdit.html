@@ -1,0 +1,67 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="shiftEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-2 control-label"> 班次名称: *</label>
+						<div class="col-sm-10"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.calendarShift.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label"> 班次描述: *</label>
+						<div class="col-sm-10"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.calendarShift.memo"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label" tooltip-placement="right"
+												   uib-tooltip="在下方添加班次的工时段会自动统计总工时"> 工时(分钟):<i class="fa fa-question-circle-o"></i></label>
+						<div class="col-sm-10"><input disabled type="text" class="form-control" required="" ng-model="data.calendarShift.minutes"></div>
+					</div>
+					<div class="form-group"><div class="col-sm-1"></div><button class="col-sm-1 btn btn-success btn-sm" type="button" ng-click="addPeroid()"><i class="fa fa-plus"></i>添加</button>
+						<div class="col-sm-10">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>开始时间</th>
+										<th>结束时间</th>
+										<th>工时段(分钟)</th>
+										<th>说明</th>
+										<th>管理</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="peroid in data.shiftPeroidlist track by $index">
+										<td>
+											<input class="form-control" name='startTime' clock-picker data-autoclose="true" ng-model="peroid.startTime" required="" aria-required="true" type="text" />
+										</td>
+										<td>
+											<input class="form-control" name='endTime' clock-picker data-autoclose="true" ng-model="peroid.endTime" required="" aria-required="true" type="text" />
+										</td>
+										<td>
+											<input class="form-control" name='minutes' ng-change="peroidMinutes()" type="number" min="1" disabled ng-model="peroid.minutes"
+												   ht-datecalcs="{'diffType':'minute','start':'peroid.startTime','end':'peroid.endTime'}" id="minutes"/>
+										</td>
+										<td>
+											<input class="form-control" name='memo' type="text" ng-model="peroid.memo"/>
+										</td>
+										<td>
+											<button class="btn btn-danger fa fa-remove" ng-click="removePeroid(peroid)">删除</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

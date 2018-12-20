@@ -1,0 +1,84 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="addFormStepOneCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-3 control-label">表单分类*:</label>
+							<div class="col-sm-4">
+								<div  ht-sys-type type-id="data.typeId" type-name="data.type" group-key="FORM_TYPE" >
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-3 control-label">表单名称*:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" type="text" ng-model="data.name" ng-disabled="pageParam.action == 'edit'"  ht-validate="{required:true,maxlength:30}" />
+							</div>
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-3 control-label">表单别名*:</label>
+							<div class="col-sm-4">
+									<input class="form-control input-sm" type="text" ht-pinyin="data.name" ng-model="data.key" ht-pinyin="data.name" ht-validate="{required:true,maxlength:30,flowkeyrule:true}"/>
+							</div>
+						
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row" >
+							<label class="col-sm-3 control-label">业务对象选择*:</label>
+							<div class="col-sm-4">
+								<ul class="tags-ul">
+									<li class="tags-li" ng-repeat="item in data.bos track by $index">			
+										<div class="tags-pan" >
+											<span ng-bind="item.desc"></span>
+										</div>
+									</li>
+								</ul>
+								<button class="btn btn-sm btn-primary" ng-click="selectBO();"><i class="fa fa-search"></i></button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-3 control-label">类型*:</label>
+							<div class="col-sm-4">
+								<select ng-model="data.formType" class="form-control" >
+									<option value="pc">pc表单</option>
+									<option value="mobile">手机表单</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-3 control-label">说明:</label>
+							<div class="col-sm-4">
+								<textarea class="form-control input-sm" ng-model="data.desc"></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6 col-sm-offset-2" align="center">
+							<button class="btn btn-sm btn-primary" type="button" ng-click="toFromDesign()" >下一步</button>
+							<button class="btn btn-sm btn-default" type="button"
+							ng-click="close();">关闭</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

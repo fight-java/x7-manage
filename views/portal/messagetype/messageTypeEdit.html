@@ -1,0 +1,68 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="messageTypeEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="isExist()">
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">分类名称*:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" required="" class="form-control input-sm" type="text" ng-model="data.classificationCode"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">创建人*:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" required="" class="form-control input-sm" type="text" ng-model="data.createBy"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<!-- <div class="form-group">								
+						<label class="col-sm-2 control-label">创建时间:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.createTime"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div> -->
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">是否需要审批:</label>
+						<div class="col-sm-6">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="inlineRadio1" value="1" name="radioInline" ng-model="data.isPending">
+								<label for="inlineRadio1"> 是 </label>
+							</div>
+							<div class="radio radio-inline">
+								<input type="radio" id="inlineRadio2" value="0" name="radioInline" ng-model="data.isPending">
+								<label for="inlineRadio2"> 否 </label>
+							</div>
+						</div>
+					</div>
+					<div style="display:none" class="form-group">
+						<label class="col-sm-2 control-label">审批人ID:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.pendingUserId"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group" id="pendingUser">
+						<label class="col-sm-2 control-label">审批人:</label>
+						<div class="col-sm-6">
+							<input readonly="true"  aria-required="true" class="form-control input-sm" type="text" ng-model="data.pendingUserName"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+						 <a class="btn btn-primary btn-mini"  ng-click="userDialog()">
+							<span>选择</span>
+						</a>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-6 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit" >保存</button>
+							<button class="btn btn-white" type="button" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

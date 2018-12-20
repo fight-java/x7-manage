@@ -1,0 +1,55 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowHisVersionDetailCtrl">
+	<div class="ibox" ng-model="data" ht-load="${bpmModel}/flow/def/v1/defGet?defId={{defId}}" target="layui-layer-content">
+	     <div class="col-md-12 btn-group tools-panel">
+	       <table class="table table-bordered">
+				<tr >
+					<th style="text-align: right;width: 150px;">流程名称:</th>
+					<td ng-bind="data.name"></td>
+					<th style="text-align: right;width: 150px;">流程业务主键:</th>
+					<td ng-bind="data.defKey"></td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">流程描述:</th>
+					<td ng-bind="data.desc"></td>
+					<th style="text-align: right;width: 150px;">创建时间:</th>
+					<td ng-bind="data.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">流程状态:</th>
+					<td ng-if="data.status=='draft'">草稿</td>
+					<td ng-if="data.status=='deploy'">发布</td>
+					<td ng-if="data.status=='forbidden'">禁用</td>
+					<td ng-if="data.status=='forbidden_instance'">禁止实例</td>
+					<th style="text-align: right;width: 150px;">更新时间:</th>
+					<td ng-bind="data.updateTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">BPMN流程定义ID:</th>
+					<td ng-bind="data.bpmnDefId"></td>
+					<th style="text-align: right;width: 150px;">BPMN流程发布ID:</th>
+					<td ng-bind="data.bpmnDeployId"></td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">版本 - 是否主版本:</th>
+					<td ng-if="data.isMain=='Y'">是</td>
+					<td ng-if="data.isMain=='N'">否</td>
+					<th style="text-align: right;width: 150px;">测试状态:</th>
+					<td ng-if="data.testStatus=='run'">正式</td>
+					<td ng-if="data.testStatus=='test'">测试</td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">版本 - 当前版本号:</th>
+					<td ng-bind="data.version"></td>
+					<th style="text-align: right;width: 150px;">版本 - 主版本流程ID:</th>
+					<td ng-bind="data.mainDefId"></td>
+				</tr>
+				<tr >
+					<th style="text-align: right;width: 150px;">版本 - 变更理由:</th>
+					<td ng-bind="data.reason"></td>
+					<th style="text-align: right;width: 150px;">流程定义ID:</th>
+					<td ng-bind="data.defId"></td>
+				</tr>
+		   </table>
+		   </div>
+	</div>
+</div>

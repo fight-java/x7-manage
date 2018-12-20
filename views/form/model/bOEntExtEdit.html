@@ -1,0 +1,115 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll ng-controller="boEntExtEditCtrl">
+	<form class="form-horizontal m-t-md">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">描述:</label>
+			<div class="col-md-4">
+				<input class="form-control" type="text" ng-model="data.desc"
+				ht-validate="{required:true,maxlength:48}" />
+			</div>
+			<label class="control-label col-sm-2">名称:</label>
+			<div class="col-md-4">
+				<input ng-show="!data.id" class="form-control" type="text"
+				ng-model="data.name"
+				ht-validate="{required:true,fields:true}"
+				ht-pinyin="data.desc" />
+				
+				 <input ng-if="data.id" class="form-control"
+				disabled="disabled" type="text" ng-model="data.name" /> 
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">数据源:</label>
+			<div class="col-md-4">
+				<select ng-if="!data.id" class="form-control m-b" ng-model="data.dsName"
+						ng-options="m.alias as m.name for m in dataSourcesInBean"></select>
+				<span ng-if="data.id" >{{data.dsName}}</span>
+			</div>
+			<label class="control-label col-sm-2">表名:</label>
+			<div class="col-md-4">
+				<div ng-if="!data.id" class="input-group tools-panel" >
+					<input type="text" ng-model="data.tableName" class="form-control" /> 
+					<span class="input-group-addon" ng-click="getExternalTable()">
+						<i class="fa fa-search"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span ng-if="!data.id">选择外部表:</span></label>
+			<div class="col-md-4">
+				<select ng-if="!data.id" class="form-control"
+					ng-model="data.tableName"
+					ng-options="m.name as (m.name+'('+m.comment+')') for m in externalTable"
+					ng-change="tableChange()">
+						<option value="">--请选择--</option>
+				</select>
+			</div>
+			<label class="control-label col-sm-2">相关配置:</label>
+			<div class="col-md-4">
+				<table>
+						<tr>
+							<th style="width: 80px;">主键:</th>
+							<td><input class="form-control" type="text"
+								disabled="disabled" ng-model="data.pk"
+								ht-validate="{required:true}" /></td>
+						</tr>
+						<tr>
+							<th style="width: 80px;">外键:</th>
+							<td><div align="left"a style="float:left;padding-top: 10px;">{{data.fk}}</div>
+								<div align="right"><select style="width: 50%;" ng-model="data.fk"
+								ng-options="m.name as m.desc for m in data.attributeList"
+								class="form-control" ng-if="!data.id"></div>
+							</select>
+							</td>
+						</tr>
+						<tr>
+							<th style="width: 80px;">主键类型:</th>
+							<td ng-init="data.pkType='varchar'"><input type="radio"
+								name="pkType" value="varchar" ng-model="data.pkType" /> 字符串 <input
+								type="radio" name="pkType" value="number"
+								ng-model="data.pkType" /> 数字</td>
+						</tr>
+					</table>
+			</div>
+		</div>
+
+		<table class="table table-bordered" cellspacing="0">
+			<thead>
+				<tr>
+					<td colspan="6">字段信息</td>
+				</tr>
+			</thead>
+			<tr>
+				<th>注释</th>
+				<th>名称</th>
+				<th>是否必填</th>
+				<th>数据类型</th>
+				<th>属性长度</th>
+				<th>默认值</th>
+			</tr>
+			<tr ng-repeat="attr in data.attributeList">
+				<td>{{attr.desc}}</td>
+				<td>{{attr.name}}</td>
+				<td>{{attr.isRequired==1 ? '是':'否'}}</td>
+				<td>
+					<div ng-switch="attr.dataType">
+						<div ng-switch-when="varchar">字符串</div>
+						<div ng-switch-when="number">数字型</div>
+						<div ng-switch-when="date">日期型</div>
+						<div ng-switch-when="clob">大文本</div>
+					</div>
+					<div ng-switch="attr.fcolumnType">
+						<div ng-switch-when="datetime" ng-init="attr.format='yyyy-MM-dd HH:mm:ss'"></div>
+						<div ng-switch-when="time" ng-init="attr.format='HH:mm:ss'"></div>
+						<div ng-switch-when="date" ng-init="attr.format='yyyy-MM-dd'"></div>
+						<div ng-switch-when="timestamp" ng-init="attr.format='yyyy-MM-dd HH:mm:ss'"></div>
+					</div>
+				</td>
+				<td>{{attr.fcolumnType==null || attr.fcolumnType=='' ? attr.attrLength:attr.fcolumnType}}</td>
+				<td><input  class="form-control" type="text" ng-model="attr.defaultValue"></td>
+			</tr>
+		</table>
+	</form>
+</div>

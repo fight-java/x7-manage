@@ -1,0 +1,40 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="formTemplateEditCtrl">
+	<div class="ibox">
+		<div class="ibox-title no-borders">
+			<h5>模板详情</h5>
+			<div class="ibox-tools">
+				<a ng-click="close()"><i class="fa fa-times"></i></a>
+			</div>
+		</div>
+		<div class="ibox-content">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">模板名称:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ng-model="data.templateName"
+							   ng-disabled="!isEditable">
+					</div>
+					<label class="control-label col-sm-2">模板别名:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" ng-model="data.alias"
+							   ng-disabled="!isEditable">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">模板描述:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="data.templateDesc"
+							   ng-disabled="!isEditable">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">模板内容:</label>
+					<div class="col-sm-10">
+						<ui-codemirror ui-codemirror-opts="editorOptions" 
+									   ng-model="data.html"></ui-codemirror>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

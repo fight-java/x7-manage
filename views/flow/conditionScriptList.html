@@ -1,0 +1,93 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="conditionScriptListCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${bpmRunTime}/runtime/conditionScript/v1/list">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-5 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+						ng-click="openDetail('','add')">
+						<i class="fa fa-plus"></i> 新增
+					</button>
+					<button class="btn btn-danger btn-sm remove" 
+							ht-remove-array url="${bpmRunTime}/runtime/conditionScript/v1/remove">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+					<button type="button" class="btn btn-primary btn-sm"
+						ng-click="selectHrScript()">
+						<i class="fa fa-cog"></i> 测试脚本对话框
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称，类名"
+						   title="方法名称，脚本所在类名" ht-quick-search="methodName,className">
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+		</div>
+		<div class="ibox-content" style="display:none;">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-md-1 control-label">方法名称</label>
+					<div class="col-md-2">
+						<input type="text" placeholder="方法名称" ht-query="methodName"
+							   class="form-control input-sm">
+					</div>
+					<label class="col-md-1 control-label">所在类名</label>
+					<div class="col-md-2">
+						<input type="text" placeholder="脚本所在类名" ht-query="className"
+							   class="form-control input-sm">
+					</div>
+					
+					<label class="col-md-1 control-label">脚本类型</label>
+					<div class="col-md-2">
+						<select class="form-control input-sm" ht-query="type">
+							<option value="">全部</option>
+							<option value="1">条件脚本</option>
+							<option value="2">人员脚本</option>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-primary btn-sm" type="button"
+								ht-search><i class="fa fa-search"></i> 查询</button>
+						<button class="btn btn-default btn-sm" type="button"
+								ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+					</td>
+					<td width="50" ng-bind="$index+1" title="序号"></td>
+					<td width="200" ht-field="row.methodName" title="方法名称" sortable="true"></td>
+					<td ht-field="row.methodDesc" title="方法描述" sortable="true"></td>
+					<!-- <td ht-field="row.className" title="脚本所在类名" sortable="true"></td> -->
+					<td width="150" ht-field="row.classInsName" title="类实例名" sortable="true"></td>
+					<td width="80" ng-switch="row.enable" title="是否有效" sortable="true">
+						<span class="badge badge-success" ng-switch-when="1">有效</span>
+						<span class="badge badge-gray" ng-switch-default>无效</span>
+					</td>
+					<td width="90" ng-switch="row.type" title="类型" sortable="true">
+						<span class="badge badge-primary" ng-switch-when="1">条件脚本</span>
+						<span class="badge badge-info" ng-switch-when="2">人员脚本</span>
+					</td>
+					<td width="150" title="操作">
+						<button ng-click="openDetail(row.id,'get')" class="btn btn-info btn-sm"><i class="fa fa-file-text"></i> 明细</button>
+						<button ng-click="openDetail(row.id,'edit')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> 编辑</button>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,68 @@
+<div ng-controller="taskDueTimeEditCtrl">
+<div class="col-md-12">
+		<form name="form" ht-load="${bpmRunTime}/runtime/bpmTaskDueTime/v1/getByTaskId?taskId={{taskId}}"  ng-model="data">
+			<table class="table-form"  cellspacing="0" >
+						<tr>								
+							<th>时间计算方式:</th>
+							<td>
+								<span ng-switch="data.dateType">
+									<span ng-switch-when="worktime">工作日</span>
+									<span ng-switch-default>日历日</span>
+								</span>
+							</td>	
+							
+							<th>已用时间:</th>
+							<td>
+							<!--	<span ht-times ng-model="data.dueTime" permission="r" ></span> -->
+								<div class="progress progress-striped">
+              		 			  	<div class="progress-bar" ng-class="className"  style="width:{{percent}}">
+              		 			  		<span style="color:black" >{{percent}}</span>
+              		 			  	</div>
+              		 			</div> 
+							</td>							
+						</tr>
+						
+						<tr>								
+							<th>任务开始时间:</th>
+							<td>
+							{{ data.startTime | date :'yyyy-MM-dd HH:mm:ss'  }}
+							</td>	
+							
+							<th>到期时间:</th>
+							<td>
+								{{ data.expirationDate  | date :'yyyy-MM-dd  HH:mm:ss'  }}
+							</td>							
+						</tr>
+						<tr>
+							<th>增加任务时间:</th>
+							<td colspan="3" >
+								<span ht-times ng-model="data.addDueTime"></span>
+							</td>	
+						</tr>
+						<tr>
+							<th>预计到期时间:</th>
+							<td colspan="3" >
+								{{ expirationDate2  | date :'yyyy-MM-dd  HH:mm:ss'  }}
+							</td>	
+						</tr>
+						
+					
+						<tr>	
+							<th>附件:</th>
+							<td colspan="3">
+								<div class="inputText" type="text" ht-upload="data.fileId" permission="w"/>
+							</td>								
+						</tr>
+						<tr>
+							<th>备注:</th>
+							<td colspan="3">
+								<textarea cols=60 rows=4  ng-model="data.remark"   ht-validate="{required:false}"  />
+							</td>	
+						</tr>
+						
+			</table>
+			
+			
+		</form>
+	</div>
+</div>

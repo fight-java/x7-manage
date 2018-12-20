@@ -1,0 +1,44 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="sysDictEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group" style="display: none;" id="parentNodeDisplay">
+						<label class="col-sm-2 control-label"> 父节点: *</label>
+						<div class="col-sm-10"><input type="text" class="form-control" disabled ng-model="dataEdit.parentName"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label"> 分类名称: *</label>
+						<div class="col-sm-10"><input type="text" required="" aria-required="true" class="form-control" ng-model="dataEdit.sysType.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label"> 分类Key: *</label>
+						<div class="col-sm-10"><input type="text" required="" ht-pinyin="dataEdit.sysType.name" aria-required="true" class="form-control" ng-model="dataEdit.sysType.typeKey"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label"> 类型: *</label>
+						<div class="col-sm-10">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="inlineRadio1" value="0" name="radioInline" ng-model="dataEdit.sysType.struType">
+								<label for="inlineRadio1"> 平铺结构 </label>
+							</div>
+							<div class="radio radio-inline">
+								<input type="radio" id="inlineRadio2" value="1" name="radioInline" ng-model="dataEdit.sysType.struType">
+								<label for="inlineRadio2"> 树形结构 </label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

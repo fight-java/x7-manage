@@ -1,0 +1,76 @@
+<div class="white-bg animated fadeInRight full-height">
+	<div class="col-md-12 no-padding">
+		<div class="ibox" ht-data-table="orgAuthTable" initialize="false" url="${uc}/api/orgAuth/v1/orgAuths/getOrgAuthPage?orgCode={{orgCode}}"  adjust="-50">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button ng-if="isIndex(currentAuthOrg.orgauthPerms,'add')" type="button" class="btn btn-success btn-sm"
+								ng-click="editOrgAuth()"> 
+							<i class="fa fa-plus"></i> 添加管理员
+						</button>
+						<button ng-if="isIndex(currentAuthOrg.orgauthPerms,'delete')" class="btn btn-danger btn-sm remove" paramKey="id" ht-remove-array url="${uc}/api/org/v1/orgAuth/deleteOrgAuth">
+							<i class="fa fa-trash"></i> 删除
+						</button>
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="通过名称"
+							   title="通过用户名称" ht-quick-search="b.fullname_">
+					</div>
+				</div>
+			</div>
+			<div class="ibox-footer no-padding">
+				<table class="table table-bordered table-striped table-hover" initialize="false" ht-table>
+					<tbody>
+						<tr ng-repeat="row in orgAuthTable.rows track by $index">
+							<td width="30" class="center" selectable="true" single="pageParam.single">
+								<div class="checkbox" ng-class="{'checkbox-circle':pageParam.single}">
+                                    <input type="checkbox" ht-select="row" ht-select-event="orgSelectEvent(row)">
+                                    <label></label>
+                                </div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.userName" title="管理员" sortable="true"></td>
+							<td ht-field="row.orgName" title="管理的组织" sortable="true"></td>
+							<td ht-field="row.demName" title="所属维度" sortable="true"></td>
+							<td ng-switch="row.orgPerms" title="组织权限" sortable="false">
+								<span class="badge badge-primary" ng-if="isIndex(row.orgPerms,'add')">添加</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.orgPerms,'delete')">删除</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.orgPerms,'edit')">修改</span>
+							</td>
+							<td ng-switch="row.userPerms" title="用户权限" sortable="false">
+								<span class="badge badge-primary" ng-if="isIndex(row.userPerms,'add')">添加</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.userPerms,'delete')">删除</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.userPerms,'edit')">修改</span>
+							</td>
+							<td ng-switch="row.posPerms" title="岗位权限" sortable="false">
+								<span class="badge badge-primary" ng-if="isIndex(row.posPerms,'add')">添加</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.posPerms,'delete')">删除</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.posPerms,'edit')">修改</span>
+							</td>
+							<td ng-switch="row.orgauthPerms" title="分级权限" sortable="false">
+								<span class="badge badge-primary" ng-if="isIndex(row.orgauthPerms,'add')">添加</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.orgauthPerms,'delete')">删除</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.orgauthPerms,'edit')">修改</span>
+							</td>
+							<td ng-switch="row.layoutPerms" title="布局权限" sortable="false">
+								<span class="badge badge-primary" ng-if="isIndex(row.layoutPerms,'add')">添加</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.layoutPerms,'delete')">删除</span>
+								<span class="badge badge-primary" ng-if="isIndex(row.layoutPerms,'edit')">修改</span>
+							</td>
+							<td title="操作" ng-if="isIndex(currentAuthOrg.orgauthPerms,'edit')">
+								<button class="btn btn-info btn-sm" ng-click="editOrgAuth(row.id,'edit')"><i class="fa fa-edit"></i> 修改</button>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="11"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

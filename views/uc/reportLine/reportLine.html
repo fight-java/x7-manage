@@ -1,0 +1,22 @@
+<div class="white-bg animated fadeInRight full-height" ng-controller="reportLineCtrl">
+	<div class="col-md-2 border-right no-padding-right full-height">
+		<div class="full-height-scroll" full-scroll style="margin: 5px;">
+			{{typeName}}
+			<ul>
+				<li style="list-style-type:none;margin: 5px 0px 5px 0px;" ng-repeat="lineType in lineTypeData">
+					<a herf="javascript:void(0);" ng-click="getReportLineData(lineType.id)">{{lineType.name}}</a>
+				</li>	
+			</ul>
+		</div>
+	</div>
+	<div class="col-md-10 no-padding full-height" id="lineTreeDisplay" style="overflow: auto;">
+		<div class="ibox-content no-borders full-height-scroll no-padding-left">
+			
+			<ul ht-tree="treeConfig" ng-model="lineTreeData" tree="treeInstance"
+					tree-context-menu="contextMenu"
+					before-right-click="beforeRightClick(treeNode)"
+					menu-click="menuClick(menu, treeNode)"
+					tree-events="onClick:line_tree_click"></ul>
+		</div>
+	</div>
+</div>

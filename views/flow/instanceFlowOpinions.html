@@ -1,0 +1,66 @@
+<div class="p-h-m" ng-controller="flowOpinionCtrl" full-scroll>
+    <button class="btn btn-info btn-sm" style="float: right;margin-right: 20px;margin-top: -20px;"  ng-click="switch($event)">
+        <i class="fa fa-undo"></i> 切换样式
+    </button>
+    <div id="tableData" style="display: none">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>任务名称</th>
+                    <th>任务创建/更新时间</th>
+                    <th>审批时间</th>
+                    <th>待执行人</th>
+                    <th>执行人</th>
+                    <th>审批状态</th>
+                    <th>审批意见</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  ng-repeat="item in opinionList track by $index">
+                    <td ng-if="item.isRowSpan" rowspan="{{item.rowSpan}}">{{$index+1}}</td>
+                    <td ng-if="item.isRowSpan" rowspan="{{item.rowSpan}}">{{item.taskName}}</td>
+                    <td>{{item.createTime| date :'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{item.completeTime| date :'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td >{{item.qualfiedNames}}</td>
+                    <td >{{item.auditorName}}</td>
+                    <td >{{item.statusVal}}</td>
+                    <td >{{item.opinion}}</td>
+                <tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="divData" class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content" id="ibox-content">
+                <div id="vertical-timeline" class="vertical-container dark-timeline">
+                    <div class="vertical-timeline-block" ng-repeat="item in opinionList track by $index">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2 style="color: #1ab394;">{{item.taskName}}</h2>
+                            <span ng-if="item.auditorName==null">待执行人：{{item.qualfiedNames}}</span>
+                            <span style="color:#1a7bb9;float: right;">
+                                <h1>{{item.statusVal}}</h1>
+                            </span>
+                            <p>执&nbsp;&nbsp;行&nbsp;&nbsp;人：{{item.auditorName}}</p>
+                            <p>审批时间：{{item.completeTime| date :'yyyy-MM-dd HH:mm:ss'}}</p>
+                            <span>审批意见：{{item.opinion}}</span>
+                            <span class="vertical-date">任务创建/更新时间：
+                                <small>{{item.createTime| date :'yyyy-MM-dd HH:mm:ss'}}</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .vertical-timeline-content .vertical-date {
+        float: right;
+        font-weight: 500;
+    }
+</style>

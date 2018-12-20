@@ -1,0 +1,129 @@
+ <div class="white-bg border-left animated fadeInRight" ng-controller="defInstanceDetailCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${bpmRunTime}/runtime/instance/v1/getInstanceList?defId={{defId}}">
+		<div class="ibox-title no-borders">
+			<div class="col-md-8 ">
+				<div class="col-md-3 btn-group tools-panel">
+					<button class="btn btn-danger btn-sm remove"
+							ht-remove-array url="${bpmRunTime}/runtime/instance/v1/remove">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="实例标题，流程名称"
+						   title="实例标题，流程名称" ht-quick-search="subject,procDefName">
+				</div>
+			</div>
+			<div class="col-md-2" table-tools></div>
+			<div class="col-md-2" >
+					 <button class="btn btn-danger btn-sm remove" style="float: right" ng-click="back('flow.flowList')">
+					   <i class="fa fa-undo"></i> 返回
+					 </button>
+			</div>
+			
+		</button>
+		</div>
+		<div class="ibox-content" style="display:none;">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="col-md-1 control-label">实例标题</label>
+					<div class="col-md-2">
+						<input type="text" placeholder="流程实例标题" ht-query="subject"
+							   class="form-control input-sm">
+					</div>
+					<label class="col-md-1 control-label">流程名称</label>
+					<div class="col-md-2">
+						<input type="text" placeholder="流程名称" ht-query="procDefName"
+							   class="form-control input-sm">
+					</div>
+					<label class="col-md-1 control-label">业务主键</label>
+					<div class="col-md-2">
+						<input type="text" placeholder="业务主键" ht-query="bizKey"
+							   class="form-control input-sm">
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-primary btn-sm" type="button"
+								ht-search><i class="fa fa-search"></i> 查询</button>
+						<button class="btn btn-default btn-sm" type="button"
+								ht-reset><i class="fa fa-reply-all"></i> 重置</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-1 control-label">实例状态</label>
+					<div class="col-md-2">
+						<select class="form-control input-sm" ht-query="status">
+							<option value="">全部</option>
+							<option value="running">运行中</option>
+							<option value="end">结束</option>
+							<option value="draft">草稿</option>
+							<option value="manualend">人工结束</option>
+							<option value="revokeToStart">撤销到发起人</option>
+							<option value="backToStart">驳回到发起人</option>
+							<option value="back">驳回</option>
+							<option value="revoke">撤销</option>
+						</select>
+					</div>
+					<label class="col-md-1 control-label">创建时间</label>
+                    <div class="col-md-2">
+                    	<input date-range-picker clearable="true" class="form-control input-sm date-picker" type="text"
+                    		   ht-query="createTime" ng-model="createTime" operation="between"/>
+                    </div>
+                    <label class="col-md-1 control-label">结束时间</label>
+                    <div class="col-md-2">
+                    	<input date-range-picker clearable="true" class="form-control input-sm date-picker" type="text"
+                    		   ht-query="endTime" ng-model="endTime" operation="between"/>
+                    </div>
+				</div>
+			</form>
+		</div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox">
+                            <input type="checkbox" ht-select="row">
+                            <label></label>
+                        </div>
+					</td>
+					<td width="40" ng-bind="$index+1" title="序号"></td>
+					<td class="col-md-3" title="实例标题">
+						<a ui-sref="flow.instanceDetail({id:row.id})" ng-bind="row.subject"></a>
+					</td>
+					<td class="col-md-1" ht-field="row.procDefName" title="流程名称" sortable="true"></td>
+					<td width="130"ng-switch="row.status" title="状态" sortable="true">
+						<span class="badge badge-success" ng-switch-when="running">运行中</span>
+						<span class="badge badge-primary" ng-switch-when="end">结束</span>
+						<span class="badge badge-info" ng-switch-when="draft">草稿</span>
+						<span class="badge badge-warning" ng-switch-when="manualend">人工结束</span>
+						<span class="badge badge-danger" ng-switch-when="revokeToStart">撤销到发起人</span>
+						<span class="badge badge-danger" ng-switch-when="backToStart">驳回到发起人</span>
+						<span class="badge badge-danger" ng-switch-when="back">驳回</span>
+						<span class="badge badge-warning" ng-switch-when="revoke">撤销</span>
+						<span class="badge badge-gray" ng-switch-default>未知</span>
+					</td>
+					<td width="80" ng-switch="row.isForbidden" title="是否挂起" sortable="true">
+						<span class="badge badge-danger" ng-switch-when="1">是</span>
+						<span class="badge badge-primary" ng-switch-when="0">否</span>
+					</td>
+					<td width="150" ht-field="row.createTime" title="实例创建时间" sortable="true"></td>
+					<td width="150" ht-field="row.endTime" title="实例结束时间" sortable="true"></td>
+					<td class="col-md-1" ht-field="row.duration | htDuration" title="持续时间" sortable="true"></td>
+					<td width="100" title="操作">
+						<button class="btn btn-warning btn-sm" ng-if="row.isForbidden ==0 " 
+								ht-action="{url:'${bpmRunTime}/runtime/instance/v1/forbiddenInstance?instId={{row.id}}'}" ><i class="fa fa-lock"></i> 挂起</button>
+						<button class="btn btn-info btn-sm" ng-if="row.isForbidden ==1 " 
+								ht-action="{url:'${bpmRunTime}/runtime/instance/v1/unForbiddenInstance?instId={{row.id}}'}" ><i class="fa fa-unlock"></i> 取消挂起</button>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="11"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

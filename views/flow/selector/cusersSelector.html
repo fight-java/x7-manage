@@ -1,0 +1,44 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="cusersSelectorCtrl">
+	<table class="table table-bordered">
+		<tr>
+			<th style="width: 15%;">
+				<span>用户：</span>
+			</th>
+			<td>
+			    <input type="radio" ng-model="data.source" value="currentUser" id="source_currentUser">
+				<label class="normal_label" for="source_currentUser">当前登录用户</label> 
+
+				<input type="radio" ng-model="data.source" value="start" id="source_start">
+				<label class="normal_label" for="source_start">发起人</label>
+
+				<input type="radio" ng-model="data.source" value="prev" id="source_prev">
+				<label class="normal_label" for="source_prev">上一步执行人</label>
+
+				<input type="radio" ng-model="data.source" value="var" id="source_var">
+				<label class="normal_label" for="source_var">变量</label>
+
+				<input type="radio" ng-model="data.source" value="spec" id="source_spec" checked="checked">
+				<label class="normal_label" for="source_spec">指定用户</label>
+			</td>
+		</tr>
+		<tr ng-show="data.source=='var'">
+			<th>
+				<span>变量选择：</span>
+				<div id="tempTree"></div>
+			</th>
+			<td>
+				<a class="btn btn-primary btn-xs" title="可选变量" id="selectVarBtn" ng-click="showFlowMenu(this)">可选变量</a>
+               <textarea id="vars" class="form-control" readonly="readonly"  style="width:500px;" ng-model="data.var.name" ></textarea>
+			</td>
+		</tr>
+		<tr ng-show="data.source=='spec'">
+			<th>
+				<span>指定用户：</span>
+			</th>
+			<td>
+			    <a href="javascript:javaScript:void(0)" class="btn btn-xs btn-primary" ng-click="userDialog()">选择用户</a>
+				<textarea ng-model="user.name" class="form-control"  readonly="readonly" style="width: 500px"></textarea>
+			</td>
+		</tr>
+	</table>
+</div>

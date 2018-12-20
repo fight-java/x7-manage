@@ -1,0 +1,103 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowEventSettingCtrl">
+    <div class="ibox-title no-borders">
+		<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	 <div class="toolbar-panel col-md-13 ">
+			<div class="buttons">
+			 <a href="javascript:;" class="btn btn-primary btn-sm fa fa-plus"  ng-click="addLine()">新增</a>
+			</div>
+		</div>
+    <form>
+     <div style="max-height: 520px;overflow-y:auto;">
+       <table class="table table-bordered">
+	     <thead>
+	    		<tr>
+		    		<th width="135">操作</th>
+		    		<th>接口配置</th>
+	    		</tr>
+	    	</thead>
+			<tr ng-repeat="restful in restfulList track by $index"  ng-init="outIndex=$index"> 
+				<td>
+					<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,restfulList)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+					<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,restfulList)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+					<a class="btn btn-default fa fa-trash-o" title="移除" ng-click="deleteLine(outIndex)"></a>
+				</td> 
+				<td>
+					<table class="table table-bordered">
+						<tr>
+							<th style="width: 15%;">
+								<span>地址:</span>
+								<span class="required">*</span>
+							</th>
+							<td>
+								<input class="form-control"  required  aria-required="true" type="text" ng-model="restful.url" ht-validate="{required:true}" />
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<span>描述:</span>
+								<span class="required">*</span>
+							</th>
+							<td>
+								<input class="form-control"  required  aria-required="true" type="text" ng-model="restful.desc" ht-validate="{required:true}" />
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<span>类型:</span>
+								<span class="required">*</span>
+							</th>
+							<td>
+								<label class="radio-inline">
+									<input type="radio"  value=1 ng-model="restful.invokeMode">异步
+								</label>
+								<label class="radio-inline">
+						  			<input type="radio"  value=0 ng-model="restful.invokeMode">同步
+						  		</label>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<span>触发时机:</span>
+							</th>
+							<td>
+							 	 <label ng-if="!data.nodeId" class="checkbox-inline"><input type="checkbox" ht-checkbox ng-model="restful.callTime" value="startEvent" />流程启动时</label>
+							 	 <label ng-if="!data.nodeId" class="checkbox-inline"><input type="checkbox" ht-checkbox ng-model="restful.callTime" value="endEvent" />流程结束时</label>
+								 <label class="checkbox-inline"><input type="checkbox" ht-checkbox ng-model="restful.callTime" value="taskCreate" />任务创建时</label>
+								 <label class="checkbox-inline"><input type="checkbox" ht-checkbox ng-model="restful.callTime" value="taskComplete"/>任务结束时</label>
+							</td>
+						</tr>
+						<tr ng-if="!data.nodeId&&isGlobalNode(restful.callTime)">
+							<th>
+								<span>触发节点<a href="javascript:;" style="text-decoration: none;" title="如果选择节点则只有对应节点才执行，否则默认全部节点都会执行。" class="fa fa-exclamation-circle ht-help" ht-tip> </a>:</span>
+							</th>
+							<td>
+								 <label ng-repeat="node in data.nodes |filter:noStart track by $index" class="checkbox-inline">
+								 	<input type="checkbox" ht-checkbox ng-model="restful.callNodes" value="{{node.nodeId}}" />{{node.name}}
+								 </label>
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<span>接口头部（header）:</span>
+							</th>
+							<td>
+								<input class="form-control" type="text" ng-model="restful.header" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+	   </table>
+	</div>
+   <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="close(true)">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+	</form>
+</div>

@@ -1,0 +1,632 @@
+/********* 韩天设计的UI样式 ***********/
+body{background-color: #f0f2f7;}
+/* view */
+.index-page .column, .index-page .row{
+    /*padding-top: 0;*/
+    /*padding: 0;*/
+}
+.row > .column{padding-top:0; padding-bottom: 0;}
+
+/* ul, li{list-style: none;} */
+.mh-swiper-wrapper{padding: 0;}
+.mh-swiper-slide{padding-left: 0;padding-right: 0;}
+.mh-swiper-slide .column{padding-top: 0;padding-bottom: 0;}
+
+.appBar__contain--row {
+    width: 100%;
+    height: 100px;
+    background-color: #fff;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: auto 38%;
+    background-position: 10px center;
+    cursor: pointer;
+}
+
+.appBar__contain--row .appBar__contain--row__text {
+    padding-left: calc(25% + 10px);
+    padding-top: 20px;
+    text-align: center
+}
+
+.appBar__contain--row .appBar__contain--row__text span.big {
+    font-size: 2.5rem
+}
+
+/*.appBar__contain--row:not(:last-child) {*/
+    /*margin-right: 10px*/
+/*}*/
+
+.appBar__bg--wait {
+    background-image: url("icons/appBar_wait.png")
+}
+
+.appBar__bg--email {
+    background-image: url("icons/appBar_email.png")
+}
+
+.appBar__bg--meeting {
+    background-image: url("icons/appBar_meeting.png")
+}
+
+.appBar__bg--notify {
+    background-image: url("icons/appBar_notify.png")
+}
+
+.appBar__bg--ask {
+    background-image: url("icons/appBar_ask.png")
+}
+
+.appBar__bg--check {
+    background-image: url("icons/appBar_check.png")
+}
+
+.appBar__bg--list {
+    background-image: url("icons/appBar_list.png")
+}
+
+.appBar__bg--fin {
+    background-image: url("icons/appBar_fin.png")
+}
+
+.appBar__contain:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.swiper-button-next,.swiper-button-prev {
+    height: 100%;
+    width: 24px;
+    background-size: auto 100%;
+    z-index: 1;
+    top: 0;
+    margin: 0
+}
+
+.swiper-button-prev {
+    background-image: url("icons/swiper-button-prev.png");
+    left: 0
+}
+
+.swiper-button-next {
+    background-image: url("icons/swiper-button-next.png");
+    right: 0
+}
+
+.swiper-button-next.swiper-button-disabled,.swiper-button-prev.swiper-button-disabled {
+    opacity: 0
+}
+
+/* 子模块样式 */
+.panel{box-shadow: none;}
+
+.panel-body{background-color: #f0f2f7;}
+.panel-header, .panel-body{border-color: #ddd;}
+.panel-header{background-color: #fff;border-bottom-color: #f5f5f5;padding-left: 0;}
+div.panel-title{color: #333;margin-left: 0;border-left: 3px solid #00b1a5;padding-left: 10px;}
+
+.portal{margin-top: 20px;}
+.portal-panel{margin-bottom: 0;}
+.portal-column{padding-top: 0;padding-bottom: 0;}
+
+.mh-panelBody{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    height: 250px;
+}
+.mh-panelBody p{margin: 0;padding: 0;}
+.mh-panelBody.panel-body{width: 100% !important;}
+
+.mh-panelBody .line--row__head {
+    height: 40px;
+    line-height: 40px
+}
+
+.mh-panelBody .line--row__head .line--row__head--tit {
+    color: #333;
+    border-left: 3px solid #1dcceb;
+    padding-left: 10px;
+    font-size: 1.4rem
+}
+
+.mh-panelBody .line--row__head.border-bot {
+    border-bottom: 1px solid #f5f5f5
+}
+
+.tit--more {
+    /*
+    height: 40px;
+    line-height: 40px;*/
+    float: right;
+    color: #666;
+    cursor: pointer
+}
+
+.tit--more a, .tit--more a:hover{text-decoration: none;color: #666;}
+
+.tit--Date {
+    color: #333
+}
+
+.tit--Date .tit--Date__span {
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+    text-align: center
+}
+
+.tit--Date .tit--Date__span.active {
+    color: #fff;
+    background-color: #00b1a5
+}
+
+.mh-panelBody .line--row__cont {
+    width: 100%;
+    height: calc(100% - 40px); /***!!!***/
+}
+
+.mh-panelBody .line--row__cont .line--row__head--subTit {
+    width: 100%;
+    height: 36px;
+    color: #666;
+    border-bottom: 1px solid #f5f5f5;
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+.mh-panelBody .line--row__cont .line--row__head--subTit .span {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mh-panelBody .line--row__cont .line--row__head--subTit .span.active {
+    border-bottom-color: #1dcceb
+}
+
+.mh-panelBody .line--row__cont .line--row__head--subTit .span:not(:last-child) {
+    margin-right: 10px
+}
+
+.mh-panelBody .line--row__cont .line--row__head--subTit .tit--more {
+    float: right;
+    height: 36px;
+    line-height: 36px;
+    color: #666
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list {
+    width: 100%
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul {
+    width: 100%;
+    height: 100%;
+    margin:0;
+    padding:0;
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul .li {
+    width: 100%;
+    display: block;
+    padding: 0 10px;
+    color: #666;
+    cursor: pointer;
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul .li:nth-child(even) {
+    background-color: #f5f5f5
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul .li .li__desc {
+    display: block;
+    width: 65%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul .li .li__date {
+    display: block;
+    width: 34%;
+    height: 100%;
+    float: right;
+    text-align: right
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul .li:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li {
+    height: calc(100% / 3);
+    line-height: 58px; /**!!!!!68px**/
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__icon {
+    width: 60px;
+    float: left;
+    color: #fff
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__icon.li-icon--news {
+    width: 30%;
+    height: 100%;
+    padding: 10px 0
+}
+.li__icon.li-icon--news img{width: 100%;height: auto;}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__icon .li__icon__bg {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont {
+    width: calc(100% - 60px);
+    float: left
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont.li__descCont--news {
+    width: calc(100% - 30% - 5%);
+    margin-left: 5%
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont.li__descCont--news .li__desc--des {
+    width: 95%
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont .li__desc--des {
+    width: 60%;
+    height: 100%;
+    padding: 10px 0 0 0;
+    float: left
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont .li__desc--des>p {
+    height: 18px;
+    line-height: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont .li__desc--r {
+    width: 40%;
+    float: left;
+    text-align: right
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont .li__desc--r .li__desc--r__span {
+    padding: 2px;
+    border: 1px solid #00b1a5;
+    border-radius: 4px;
+    color: #00b1a5
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li .li__descCont:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-3 .li:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li {
+    width: 100%;
+    height: calc(100% / 4);
+    line-height: 52px
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__icon {
+    width: 60px;
+    float: left;
+    color: #fff
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__icon .li__icon__bg {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__descCont {
+    width: calc(100% - 60px);
+    float: left
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__descCont .li__desc--des {
+    width: 60%;
+    height: 100%;
+    float: left
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__descCont .li__desc--des>p {
+    height: 52px;
+    line-height: 52px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__descCont .li__desc--r {
+    width: 40%;
+    float: left;
+    text-align: right
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-4 .li .li__descCont:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-5 .li {
+    height: calc(100% / 5);
+    line-height: 41px
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .ul-6 .li {
+    height: calc(100% / 6);
+    line-height: 34px
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .table {
+    width: 100%;
+    height: 100%;
+    text-align: center
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .table .table-head {
+    height: 36px;
+    color: #333
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .table .table-head tr {
+    height: 36px
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .table .table-body {
+    height: calc(100% - 36px);
+    color: #666
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list .table .table-body tr:nth-child(odd) {
+    background-color: #f5f5f5
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list-full {
+    height: 100%
+}
+
+.mh-panelBody .line--row__cont .line--row__head--list-noFull {
+    height: calc(100% - 36px); /****/
+}
+
+.line--row__cont:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.head--list__square {
+    height: 50%;
+    width: 100%
+}
+
+.head--list__square.height-30 {
+    height: 33.33%
+}
+
+.head--list__square:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.square__row {
+    width: 25%;
+    height: 100%;
+    float: left;
+    color: #666;
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center 20%;
+    cursor: pointer
+}
+
+.square__row p {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 55%
+}
+
+.autoHeight, .autoHeight .line--row__cont{height: auto;}
+.autoHeight .square__row {
+    height: 100px
+}
+
+.squareBg--shenfen {background-image: url("icons/fun_shenfen.png")  }       /*身份认证*/
+.squareBg--tongxun { background-image: url("icons/fun_tongxun.png")  }      /*通讯录*/
+.squareBg--tianqi { background-image: url("icons/fun_tianqi.png")  }        /*天气*/
+.squareBg--rili {background-image: url("icons/fun_rili.png")  }             /*日历*/
+.squareBg--chuangjian { background-image: url("icons/fun_chuangjian.png")  }    /*创建流程*/
+.squareBg--wode {background-image: url("icons/fun_wode.png")  }             /*我的签到*/
+.squareBg--tiezi {background-image: url("icons/fun_tiezi.png")  }           /*帖子管理*/
+.squareBg--huifu {background-image: url("icons/fun_huifu.png")  }           /*回复管理*/
+
+.squareBg--pms {background-image: url("icons/sys_pms.png")  }               /*物业PMS*/
+.squareBg--eba {background-image: url("icons/sys_eba.png")  }               /*工程EBA*/
+.squareBg--pjia {background-image: url("icons/sys_pjia.png")  }             /*P+云*/
+.squareBg--heyuan {background-image: url("icons/sys_heyuan.png")  }         /*和院通*/
+.squareBg--guanai {background-image: url("icons/sys_heyuan.png")  }         /*FIXME:和院关爱*/
+.squareBg--renli {background-image: url("icons/sys_renli.png")  }           /*人力资源*/
+.squareBg--fuwu {background-image: url("icons/sys_fuwu.png")  }             /*服务支持*/
+.squareBg--jiankang {background-image: url("icons/sys_jiankang.png")  }     /*和院健康*/
+.squareBg--guanjia {background-image: url("icons/sys_guanjia.png")  }       /*和院管家*/
+.squareBg--zaixian {background-image: url("icons/sys_zaixian.png")  }       /*在线学习*/
+.squareBg--yidong {background-image: url("icons/sys_yidong.png")  }         /*移动办公*/
+.squareBg--shanghu {background-image: url("icons/sys_yidong.png")  }         /*FIXME:商户云平台*/
+.squareBg--kefu {background-image: url("icons/sys_kefu.png")  }             /*客服论坛*/
+.squareBg--dianzi {background-image: url("icons/sys_dianzi.png")  }         /*电子邮件*/
+
+/*new 1.0*/
+.squareBg--gongdan{background-image: url("icons/fun_gongdan.png")}          /*工单待办*/
+.squareBg--baoshi{background-image: url("icons/fun_baoshi.png")}            /*客户报事*/
+.squareBg--neibu{background-image: url("icons/fun_neibu.png")}              /*内部报事*/
+.squareBg--yewu{background-image: url("icons/fun_yewu.png")}                /*业务办理*/
+.squareBg--shouyin{background-image: url("icons/fun_shouyin.png")}          /*账单收银*/
+.squareBg--kaimen{background-image: url("icons/fun_kaimen.png")}            /*开门记录*/
+.squareBg--oaliucheng{background-image: url("icons/fun_oaliucheng.png")}    /*oa流程发起*/
+.squareBg--oadaiban{background-image: url("icons/fun_oadaiban.png")}        /*oa待办*/
+
+.squareBg--zhaocai{background-image: url("icons/sys_zhaocai.png")}        /*招采管理*/
+
+/*常用功能hover样式*/
+[template-alias="changyong"] > .mh-panelBody:first-child .square__row:hover p{color: #7bb6e5;}
+[template-alias="changyong"] > .mh-panelBody:not(:first-child) .square__row:hover p{color: #00b1a5;}
+
+.mh-appContent:after {
+    width: 0;
+    height: 0;
+    display: block;
+    content: '';
+    clear: both
+}
+
+.mh-banner{
+    width: 100%;
+    height: 150px;
+    background-color: rgb(45, 147, 202);
+    background-image: url(icons/banner.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*列表为空*/
+.emptyLi{width: 100%; height: 100%; background: url("icons/emptyLi.png") no-repeat center; background-size: 42% auto;}
+.emptyData{width: 100%; height: 100%; background: url("icons/emptyData.png") no-repeat center; background-size: 42% auto;}
+
+.mh-hide{display: none;}
+
+.color-33 {color: #333}
+.color-66 {color: #666}
+.color-00b1a5 {color: #00b1a5}
+.color-c2c39f {color: #c2c39f}
+.color-b5d9a8 {color: #b5d9a8}
+.color-ebb26a {color: #ebb26a}
+.color-308190 {color: #308190}
+.color-3bb7e3 {color: #3bb7e3}
+
+.bg-00b1a5 {background-color: #00b1a5}
+.bg-3bb7e3 {background-color: #3bb7e3}
+.bg-feba44 {background-color: #feba44}
+.bg-fb6321 {background-color: #fb6321}
+.bg-none {background-color: transparent !important}
+.borBotRF5 {border-bottom: 1px solid #f5f5f5}
+
+.font-1_4 {font-size: 1.4rem}
+.font-1_3 {font-size: 13px;}
+.font-0_6 {font-size: 0.6rem}
+
+/********* 韩天设计的UI样式 end ***********/
+
+/** 重写样式,父节点 .panel-body **/
+/* 待办 */
+.mh-panelBodyFull{height: 100%;width: 100%;box-sizing: border-box;}
+.mh-panelBodyHead{height: calc(100% - 36px)}
+
+/** 工具栏 **/
+.infobox{
+    border: 1px solid #ddd;
+}
+.infobox > .infobox-icon{
+    height: 44px;
+    vertical-align: bottom;
+}
+.infobox > .infobox-icon > .ht-icon{
+    width: 42px;
+    padding: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+
+    background-position: center;
+    background-size: auto 50%;
+    background-repeat: no-repeat;
+}
+.infobox > .infobox-icon > .ht-icon:before{
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0;
+    text-shadow: none !important;
+    background-color: transparent;
+}
+
+/** #00b1a5 c2c39f b5d9a8 ebb26a 308190 循环 **/
+/*工单*/
+.infobox-wood{color: #00b1a5;}
+.infobox-wood > .infobox-icon > .ht-icon{background-color: #00b1a5;}
+.infobox-wood .infobox-content{color: #00b1a5;}
+.ht-icon__wait{background-image: url("icons/appBar_wait.png");}
+
+.color-00b1a5 > .infobox-icon > .ht-icon{background-color: #00b1a5;}
+.color-00b1a5 .infobox-content{color: #00b1a5;}
+
+.color-c2c39f > .infobox-icon > .ht-icon{background-color: #c2c39f;}
+.color-c2c39f .infobox-content{color: #c2c39f;}
+
+.color-b5d9a8 > .infobox-icon > .ht-icon{background-color: #b5d9a8;}
+.color-b5d9a8 .infobox-content{color: #b5d9a8;}
+
+.color-ebb26a > .infobox-icon > .ht-icon{background-color: #ebb26a;}
+.color-ebb26a .infobox-content{color: #ebb26a;}
+
+.color-308190 > .infobox-icon > .ht-icon{background-color: #308190;}
+.color-308190 .infobox-content{color: #308190;}
+
+.ht-icon__email{ background-image: url("icons/appBar_email.png"); }
+.ht-icon__meeting{ background-image: url("icons/appBar_meeting.png"); }
+.ht-icon__notify{ background-image: url("icons/appBar_notify.png"); }
+.ht-icon__ask{ background-image: url("icons/appBar_ask.png"); }
+.ht-icon__check{ background-image: url("icons/appBar_check.png"); }
+.ht-icon__list{ background-image: url("icons/appBar_list.png"); }
+.ht-icon__fin{ background-image: url("icons/appBar_fin.png"); }

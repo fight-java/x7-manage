@@ -1,0 +1,21 @@
+<div ng-controller="bpmDataTemplateSubListCtrl" ng-init="init()">
+	<uib-tabset>
+		<uib-tab ng-repeat="tab in tabs"  heading={{tab.title}}>
+        	<div class="panel-body">
+        		<table class="table table-bordered table-hover" cellspacing="0">
+					<tr style="background-color: #f9f9f9;">
+						<th>序号</th>
+						<th ng-repeat="item in tab.attributeList">{{item.comment}}</th>
+					</tr>
+					<tr ng-repeat="da in data[tab.comment]">
+						<td>{{$index+1}}</td>
+						<td ng-repeat="item in tab.attributeList">
+							<span ng-if="item.columnType!='date'" ng-bind="da[item.fieldName]"></span>
+							<span ng-if="item.columnType=='date'" ng-bind="da[item.fieldName] | date:'yyyy-MM-dd HH:mm:ss'"></span>
+						</td>
+					</tr>
+				</table>
+           	</div>
+         </uib-tab>
+     </uib-tabset>
+</div>

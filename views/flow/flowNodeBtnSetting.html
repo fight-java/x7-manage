@@ -1,0 +1,83 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowNodeSelector">
+	<div class="col-md-8 no-padding" style="float: left;height: 100%">
+	        <div style="height: 30px;background: #e2e2e2;line-height: 30px;font-weight: bold;padding-left: 10px;">按钮列表</div>
+				<!----顶部工具栏---->
+			<div class="redact-toolbar">
+					<div class="buttons" style="padding: 5px;"> 	
+						<a ng-click="addButton()" class="btn btn-primary btn-sm fa fa-plus"><span>新建</span></a>
+						<a ng-click="getButtons(0)" class="btn btn-primary btn-sm fa fa-recycle"><span>初始化按钮</span></a>
+						
+						<a class="btn btn-primary btn-sm fa  fa-save" ng-click="saveButtons()"><span>保存</span></a>
+						<a href="javascript:;" ng-click="close()" class="btn btn-primary btn-sm fa fa-close"><span>关闭</span></a>
+				    </div>
+				</div>
+				<!-- -工具栏end- -->
+				<div style="overflow-y: auto;height:480px">
+					<table class="table table-bordered" >
+					  <thead>
+				        <tr><th style="width:45px">序号</th> <th>alias</th> <th>名字</th> <th style="width:130px">排序</th> <th style="width:70px">操作</th> </tr>
+				      </thead>
+				      <tbody>
+				        <tr ng-repeat="btn in buttonList">
+				          <th >{{$index+1}}</th>
+				          <td width="130" ng-click="changeEditing($index)">{{btn.alias}}</td>
+				          <td width="130"  ng-click="changeEditing($index)">{{btn.name}}</td>
+						  <td >				        
+						 		<input class="inputText" placeholder="to" ng-model="turnToIndex" ng-blur="ArrayTool.turnTo(this,buttonList)" style="width:30px" ht-validate="{number:true}"> 
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.up($index,buttonList)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+								<a href="javascript:javaScript:void(0)" ng-click="ArrayTool.down($index,buttonList)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+						  </td>
+				          <td>
+					          	<a ng-click="del($index)" class="btn btn-danger btn-sm fa fa-trash-o">删除</a>
+				          </td>
+				        </tr>
+				        </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-md-4"  style="float: right;padding:0 0 0 5px">
+			 <div style="height: 30px;background: #e2e2e2;line-height: 30px;font-weight: bold;padding-left: 10px;">按钮编辑</div>
+			<form name="myForm" style="overflow-y: auto;height:510px">
+				<table class="table table-bordered" cellspacing="0"  ng-if="btn">
+					<tr>
+						<th style="width:27%;">按钮名称: </th>
+						<td>
+							<input  ng-model="btn.name" class="inputText" ht-validate="{required:true}" />
+						</td>
+					</tr>
+					<tr>
+						<th>动作: </th>
+						<td> <span ng-if="btn.status!=2">{{btn.alias}}</span>
+							<span ng-show="btn.status==2">
+								<input ng-model="btn.alias" class="inputText" ng-blur="changeAlias()" ht-validate="{required:true,varirule:true}"/>
+							</span>
+							<span ng-show="btn.status==2 ">
+								<select ng-model="btn.alias" ng-options="m.alias as m.name for m in buttonNoInitList" ng-change="changeButtonType(btn)" style="width:160px; margin-top:10px;">
+									<option value="">--请选择--</option>
+								</select>
+							</span>
+						</td>
+					</tr>
+					<tr ng-if="btn.supportScript">
+						<th>前置脚本:<span class="fa bigger-120 fa-info-circle" ht-tip title="javascript脚本,在提交前做些处理<br>，参数：scope<br>返回:true/false。<br>返回false时不做提交动作."></span> </th>
+						<td><textarea style="width:100%;" style="width:100%;" style="width:100%;" ng-model="btn.beforeScript" cols="30" rows="5" class="inputText" ></textarea> 
+						</td>
+					</tr>
+					<tr ng-if="btn.supportScript">
+						<th>后置脚本:<span class="fa bigger-120 fa-info-circle" ht-tip title="javascript脚本,在返回后前做些处理<br>参数:data(responseData)<br>返回:true/false<br>返回false时可以控制不关闭当前窗口。<br>非系统预定义按钮忽略后置脚本"></span> </th>
+						<td><textarea style="width:100%;" style="width:100%;" style="width:100%;"  ng-model="btn.afterScript" cols="30" rows="5" class="inputText"></textarea>
+						</td>
+					</tr>
+					<tr >
+						<th>groovy脚本:<span class="fa  fa-info-circle" ht-tip title="java脚本，控制按钮是否显示，返回 false不显示，返回 true显示。<br>上下文变量：<br>1.流程变量<br>2.BO数据<br>返回:true/false。"></span> </th>
+						<td><textarea style="width:100%;" style="width:100%;" style="width:100%;"  ng-model="btn.groovyScript" cols="30" rows="5" class="inputText"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>urlForm:<span class="fa  fa-info-circle" ht-tip title="urlForm表单,在审批时用于保存表单的信息， 表单要用saveForm方法提交表单， 返回一个defer对象， 成功则提交流程， 不成功，则不提交 , example: var defer = $.Deferred();function saveForm(){<br/>// 保存表单成功<br/>defer.resolve();<br/>HT.window.closeEdit();<br/>// 保存失败<br/>// defer.reject();<br/>return defer;}"></span> </th>
+						<td><input  ng-model="btn.urlForm" class="inputText"></input></td>
+					</tr>
+				</table>
+			</form>
+	 </div>
+</div>

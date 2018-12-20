@@ -1,0 +1,15 @@
+<div class="panel" ng-controller="resourcesIconsCtrl">
+	<div class="panel-body" id="iconList">
+		<span ng-if="iconList.length<1">暂无资源图标</span>
+		<a ng-repeat="d in iconList" href="javascript:void(0)" ><i class="btn fa {{d.alias}}" alias="{{d.alias}}" title="{{d.name }}"></i></a>
+	</div>
+</div>
+<style type="text/css">
+	#iconList a {
+		font-size: 120%;
+	}
+	#iconList .selected {
+		border-color:  #86a9d1; 
+		background-color:#c3dcfc; 
+	}
+</style>

@@ -1,0 +1,5 @@
+.dropto .selected {
+	background: #f2f2f2 !important;
+	border-color: #C0C0C0;
+	border-left: 3px solid #1ab394;
+}

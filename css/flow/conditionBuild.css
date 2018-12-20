@@ -1,0 +1,46 @@
+ .labelrag {
+    display: inline;
+    padding: .2em .2em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    background-color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 12px;
+    width: 70px;
+    height: 30px;
+    line-height: 20px;
+    border: solid 1px;
+    position: absolute;
+    z-index: 3;
+}
+
+.build_input {
+   width: "100%";
+   padding: 3px;
+   height: 30px;
+}
+
+.selected_search {
+   width: 60px;
+   border: none;
+   outline:none;
+   height: 22px;
+}
+.selected_search select{
+    background: transparent;
+    border:none;
+    outline: none;
+}
+.condition_tab {
+   width: 500px;
+   position: absolute;
+}
+
+.condition_tab td {
+    font-weight: normal;
+    padding: 3px;
+    border: 1px solid #e5e5e5;
+}

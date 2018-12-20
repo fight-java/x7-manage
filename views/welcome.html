@@ -1,0 +1,32 @@
+<div class="lock-word animated fadeInDown">
+    <span class="first-word">Smart</span><span>IBE</span>
+</div>
+<div class="middle-box text-center lockscreen animated fadeInDown" ng-controller="welcomeCtrl">
+    <div>
+        <div class="m-b-md">
+            <img alt="image" class="img-circle circle-border" src="img/hotent.png">
+        </div>
+        <h3>欢迎使用</h3>
+        <p ng-bind-html="data.message"></p>
+        <form class="form-horizontal m-t" role="form" ng-submit="cert()">
+        	<div class="form-group">
+        		<label class="col-lg-2 control-label">机器码：</label>
+                <div class="input-group col-lg-10">
+                	<input type="text" class="form-control" id="machineCode" ng-model="data.machineCode" 
+                		   readonly="readonly">
+                	<span class="input-group-btn">
+                		<button type="button" class="btn btn-default" ngclipboard data-clipboard-target="#machineCode">复制</button>
+                	</span>
+                </div>
+            </div>
+        
+            <div class="form-group">
+            	<label class="col-lg-2 control-label">激活码：</label>
+                <div class="input-group col-lg-10">
+                	<input type="text" class="form-control" ng-model="data.activationCode" placeholder="请输入激活码" required="">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">激活系统</button>
+        </form>
+    </div>
+</div>

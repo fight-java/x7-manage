@@ -1,0 +1,202 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowSignConfigCtrl">
+    <div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<uib-tabset>
+     <uib-tab   heading="投票规则设置"> 
+        <table class="table table-bordered">
+					<tr>
+						<th width="20%">
+							<span>决策类型</span>
+						</th>
+						<td>
+							<input type="radio" ng-model="signRule.decideType" value="agree" name="decideType" id="agree_">
+							<label class="normal_label" for="agree_">同意票</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" ng-model="signRule.decideType" value="refuse" name="decideType" id="refuse_">
+							<label class="normal_label" for="refuse_">否定票</label>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>后续处理模式</span>
+						</th>
+						<td>
+							<input type="radio" ng-model="signRule.followMode" value="wait" name="followMode" id="wait_">
+							<label for="wait_" class="normal_label">等待所有人投票</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" ng-model="signRule.followMode" value="complete" name="followMode" id="complete_">
+							<label for="complete_" class="normal_label">直接处理</label>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>投票类型</span>
+						</th>
+						<td>
+							<input type="radio" ng-model="signRule.voteType" value="amount" name="voteType" id="amount_">
+							<label class="normal_label" for="amount_">绝对票数</label>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" ng-model="signRule.voteType" value="percent" name="voteType" id="percent_">
+							<label class="normal_label" for="percent_">百分比</label>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>票数:</span>
+						</th>
+						<td>
+							<input type="text" ng-model="signRule.voteAmount" class="inputText">
+							<span ng-if="signRule.voteType=='percent'">%</span>
+						</td>
+					</tr>
+				</table>
+     </uib-tab>
+   <uib-tab  heading="权限功能设置">
+     <div style="max-height: 550px;overflow-y: auto;" >
+       <table class="table table-bordered">
+					<tr style="text-align: center;">
+						<td style="width:15%">
+							<label>权限类型</label>
+						</td>
+						<td>
+							<label>人员配置</label>
+						</td>
+					</tr>
+					<tr>
+						<th >
+							<span>所有特权:</span>
+						</th>
+						<td>
+							<div style="min-height: 60px">
+								<table style="text-align: left;" class="table table-bordered">
+									<thead>
+										<tr>
+											<th width="20%">序号</th>
+											<th width="50%">条件</th>
+											<th width="30%">操作</th>
+										</tr>
+									</thead>
+									<tr ng-repeat="userRule in privilegeList.all track by $index">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}}</td>
+										<td>
+											<a ng-click="addUserCondition('all',$index)" class="btn btn-default fa fa-edit"></a>
+											<a ng-click="deleteAttr('all',$index)" class="btn btn-default fa fa-trash-o"></a>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;" colspan="3">
+											<a class="btn btn-primary fa-add btn-sm" href="javascript:;" ng-click="addUserCondition('all')">新增人员规则</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>直接处理:</span>
+						</th>
+						<td>
+							<div style="min-height: 60px">
+								<table style="text-align: left;" class="table table-bordered">
+									<thead>
+										<tr>
+											<th width="20%">序号</th>
+											<th width="50%">条件</th>
+											<th width="30%">操作</th>
+										</tr>
+									</thead>
+									<tr ng-repeat="userRule in privilegeList.direct track by $index">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}}</td>
+										<td>
+											<a ng-click="addUserCondition('direct',$index)" class="btn btn-default fa  fa-edit"></a>
+											<a ng-click="deleteAttr('direct',$index)" class="btn btn-default fa  fa-trash-o"></a>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;" colspan="3">
+											<a class="btn btn-primary fa-add btn-sm" href="javascript:;" ng-click="addUserCondition('direct')">新增人员规则</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>一票制:</span>
+						</th>
+						<td>
+							<div style="min-height: 60px">
+								<table  class="table table-bordered">
+									<thead>
+										<tr>
+											<th width="20%">序号</th>
+											<th width="50%">条件</th>
+											<th width="30%">操作</th>
+										</tr>
+									</thead>
+									<tr ng-repeat="userRule in privilegeList.oneticket track by $index">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}}</td>
+										<td>
+											<a ng-click="addUserCondition('oneticket',$index)" class="btn btn-default fa  fa-edit"></a>
+											<a ng-click="deleteAttr('oneticket',$index)" class="btn btn-default fa  fa-trash-o"></a>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;" colspan="3">
+											<a class="btn btn-primary fa-add btn-sm" href="javascript:;" ng-click="addUserCondition('oneticket')">新增人员规则</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%">
+							<span>允许加签:</span>
+						</th>
+						<td>
+							<div style="min-height: 60px">
+								<table  class="table table-bordered">
+									<tr>
+										<th width="20%">序号</th>
+										<th width="50%">条件</th>
+										<th width="30%">操作</th>
+									</tr>
+									<tr ng-repeat="userRule in privilegeList.allowAddSign track by $index">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}}</td>
+										<td>
+											<a ng-click="addUserCondition('allowAddSign',$index)" class="btn btn-default fa  fa-edit"></a>
+											<a ng-click="deleteAttr('allowAddSign',$index)" class="btn btn-default fa  fa-trash-o"></a>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: left;" colspan="3">
+											<a class="btn btn-primary fa-add btn-sm" href="javascript:;" ng-click="addUserCondition('allowAddSign')">新增人员规则</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+       </uib-tab>
+   	
+   </uib-tabset>
+   <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+</div>

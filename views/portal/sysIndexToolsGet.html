@@ -1,0 +1,58 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="sysIndexToolsEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">名称:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.name" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">图标:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.icon" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">链接:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.url" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">类型:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.type" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">统计模式:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.countMode==0?'不统计':data.countMode==1?'Service方法':'自定义查询'" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">统计算法:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.counting" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">创建时间:</label>
+						<div class="col-sm-10">
+						<input class="form-control" ng-model="data.createTime | date :'yyyy-MM-dd'" readonly="readonly">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

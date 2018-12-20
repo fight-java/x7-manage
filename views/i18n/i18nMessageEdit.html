@@ -1,0 +1,47 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="i18nMessageEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-2 control-label"> 资源KEY: *</label>
+						<div class="col-sm-10"><input type="text" class="form-control" required="" aria-required="true" ng-model="data.key_"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">资源:&nbsp;&nbsp;</label>
+						<div class="col-sm-10">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>类型</th>
+										<th>描述</th>
+										<th>资源值</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="t in data.mesTypeInfo track by $index">
+										<td name='type'>{{t.type}}</td>
+										<td name='desc'>{{t.desc}}</td>
+										<td>
+											<input class="form-control" name='val' type="text" ng-model="t.val"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

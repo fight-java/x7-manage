@@ -1,0 +1,269 @@
+<div class="animated fadeInRight m-t-sm full-height" ng-controller="flowConfigCtrl">
+	<div class="col-md-8 no-padding">
+		<div class="panel panel-default">
+			<div class="panel-heading" ng-bind="flowImageHeader"></div>
+			<div class="panel-body" style="overflow:auto;" ng-style="{height:dynamicHeight.flowCanvas}">
+				<div ng-style="flowCanvasStyle">
+				<div ng-if="layout.nodeType != 'subProcess' " ng-repeat="layout in initData.bpmDefLayout.listLayout"
+				class="flowNode " nodeid="{{layout.nodeId}}" ng-click="toEditNode(layout.nodeId,layout.name,layout.nodeType)"
+				style="position:absolute;left:{{layout.x}}px;top:{{layout.y}}px;width:{{layout.width}}px;height:{{layout.height}}px;cursor:hand;text-align: center"
+				name="{{layout.name}}" nodetype="{{layout.nodeType.key}}">
+					<span class="badge" style="margin-top:51px;" ng-if="layout.nodeId==edittingNodeId">
+						正在编辑
+					</span>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<!-- 节点配置 -->
+	<!-- -->
+	<div class="col-md-4" style="float: right;padding:0 0 0 5px">
+		<button class="btn btn-success btn-sm remove" ng-click="save()"
+				style="float: left;margin-left: 230px;margin-bottom: -190px;position: relative;bottom: -4px;">
+			<i class="fa fa-save"></i> 保存配置
+		</button>
+		<uib-tabset>
+			<uib-tab heading="基础配置">
+				<uib-accordion close-others="true">
+					<div uib-accordion-group class="panel-default" heading="全局设置" is-open="true">
+						<div full-scroll ng-model="dynamicHeight.basicSetting">
+							<div title="全局表单:" type="global" bpm-form="bpmDefSetting.globalForm" update-method="updateFormValue(path,value)"
+								mobile-form="bpmDefSetting.globalMobileForm"></div>
+							<div title="实例表单:" type="instance" bpm-form="bpmDefSetting.instForm" update-method="updateFormValue(path,value)"
+								mobile-form="bpmDefSetting.instMobileForm"></div>
+							<!-- 全局restful接口事件 -->
+							<div class="well">
+								<div class="form-group form-inline">
+									<label class="control-label left-label"> 全局事件： </label> <a
+										href="javascript:void(0);" class="btn btn-sm btn-info fa fa-cog"
+										ng-click="setRestFul(null,null)"> 设置接口事件 </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div uib-accordion-group class="panel-default" heading="节点表单">
+						<div full-scroll ng-model="dynamicHeight.basicSetting">
+							<div class="table-nest" style="display: inline-block;">
+								<span class="pull-left btn btn-info btn-sm"
+									ng-click="editAllNodes('forms')">
+									{{isEditAllNode_forms?'隐藏所有节点':'设置所有节点'}} </span>
+							</div>
+							<div ng-repeat="node in nodes" ng-if="node.nodeId == edittingNodeId || isEditAllNode_forms"
+								 class="table-ch">
+								<div title="{{node.nodeId}}" type="node" nodeId="{{node}}" path="bpmDefSetting.formMap" mobile-path="bpmDefSetting.mobileFormMap"
+									 bpm-form="bpmDefSetting.formMap[node.nodeId]" update-method="updateFormValue(path,value)"
+									 mobile-form="bpmDefSetting.mobileFormMap[node.nodeId]"></div>
+							</div>
+						</div>
+					</div>
+					<div uib-accordion-group class="panel-default" heading="节点人员">
+						<div full-scroll ng-model="dynamicHeight.basicSetting">
+							<div class="table-nest" style="display: inline-block;">
+								<span class="pull-left btn btn-info btn-sm"
+									ng-click="editAllNodes('nodeUser')">
+									{{isEditAllNode_nodeUser?'隐藏所有节点人员':'设置所有节点人员'}} </span>
+							</div>
+							<div ng-repeat="node in nodes |filter:noStart" class="table-ch"
+								ng-if="node.nodeId == edittingNodeId || isEditAllNode_nodeUser"
+								ng-init=" nodeUsers=nodeUserMap[node.nodeId]">
+								<div class="btn-group" role="group" aria-label="...">
+									<button type="button" class="btn btn-link fa">
+										{{node.name}}({{node.nodeId}})</button>
+									<button type="button" class="btn btn-default fa fa-plus"
+										ng-click="addNodeUserCondition(node.type,node.nodeId,null,node.name)">
+									</button>
+								</div>
+								<div class="alert alert-danger show-grid" role="alert"
+									ng-if="!nodeUsers||nodeUsers.length==0">尚未配置节点人员，请添加人员设置</div>
+								<div ng-repeat="nodeCondition in nodeUsers" class="show-grid well"
+									style="text-align: center; height: 100%;">
+									<div class="pull-left"
+										style="line-height: 30px; border: none; width: 50%;">
+										{{nodeCondition.description}}</div>
+									<div class="pull-right" style="border: none;">
+										<a ng-click="addNodeUserCondition(node.type,node.nodeId,$index,node.name)" class="btn btn-success btn-sm fa fa-edit"></a>
+										<a ng-click="ArrayTool.up($index,nodeUsers)" class="btn btn-sm btn-default fa fa-chevron-up"></a>
+										<a ng-click="ArrayTool.down($index,nodeUsers)" class="btn btn-sm btn-default fa fa-chevron-down"></a>
+										<a ng-click="ArrayTool.del($index,nodeUsers)" class="btn btn-sm btn-default fa fa-trash-o"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div uib-accordion-group class="panel-default" heading="节点属性">
+						<div full-scroll ng-model="dynamicHeight.basicSetting">
+							<div class="table-nest" style="display: inline-block;">
+								<span class="pull-left btn btn-info btn-sm" class="table-ch"
+									ng-click="editAllNodes('properties')">
+									{{isEditAllNode_properties?'隐藏所有节点属性':'设置所有节点属性'}} </span>
+							</div>
+							<span ng-show="isEditAllNode_properties">
+								<div class="form-inline">
+									<div class="well">
+										<label class="form-inline"> 批量勾选: </label> <br> <label>
+											<input type="checkbox" value="common" ng-model="jumpType_common" />
+											正常跳转
+										</label> <label> <input type="checkbox" value="free"
+											ng-model="jumpType_free" /> 自由跳转
+										</label> <label> <input type="checkbox" value="select"
+											ng-model="jumpType_select" /> 选择路径跳转
+										</label> <br>
+										<div bpm-msgtype-select></div>
+										<label> <input type="checkbox" ng-model="backMode_all"
+											ng-click="toBackModeall($event)" />
+											驳回后返回
+										</label> <label> <input type="checkbox"
+											ng-model="skipExecutorEmpty_all" /> 执行人为空时跳过
+										</label>
+									</div>
+								</div>
+							</span>
+							<div ng-repeat="node in nodes" class="well"
+								ng-if="node.nodeId == edittingNodeId || isEditAllNode_properties"
+								ng-init="propertie=bpmDefSetting.nodePropertieMap[node.nodeId]">
+								<div class="form-inline">
+									<label class="control-label">
+										{{node.name}}({{node.nodeId}}) </label>
+								</div>
+								<div class="form-inline">
+									<label class="control-label left-label"> 跳转类型: </label> <label>
+										<input type="checkbox" ht-checkbox ng-model="propertie.jumpType"
+										value="common" ht-checked="jumpType_common" /> 正常跳转
+									</label> <label> <input type="checkbox" ht-checkbox
+										ng-model="propertie.jumpType" value="free"
+										ht-checked="jumpType_free" /> 自由跳转
+									</label> <label> <input type="checkbox" ht-checkbox
+										ng-model="propertie.jumpType" value="select"
+										ht-checked="jumpType_select" /> 选择路径跳转
+									</label>
+								</div>
+								<div class="form-inline">
+									<label class="control-label left-label"> 通知类型: </label> <label
+										ng-repeat="(k,v) in initData.messageTypelist"> <input
+										type="checkbox" ht-checkbox ng-model="propertie.notifyType"
+										ht-checked="notifyType_{{k}}" value="{{key}}" /> {{v}}
+									</label>
+								</div>
+								<div class="form-inline">
+									<label class="control-label left-label" style="margin-top: -45px;">
+										属性设置: </label>
+									<div class="right-operation" ng-init="initBackMode(propertie);">
+										<span ht-boolean class="checkbox" text="执行人为空跳过"
+											ng-model="propertie.skipExecutorEmpty"> </span> <span ht-boolean
+											class="checkbox" text="是否弹窗" ng-model="propertie.popWin">
+										</span> <br> <label> <input type="radio" value="normal"
+											ng-model="propertie.backMode"> 驳回后按流程图执行
+										</label> <label> <input type="radio"
+											ng-disabled="node.type=='signTask'" value="direct"
+											ng-model="propertie.backMode"> 驳回后直接返回
+										</label>
+									</div>
+								</div>
+								<div class="form-inline">
+									<label class="control-label control-label left-label">
+										驳回处理人模式: </label>
+									<div class="right-operation"
+										ng-init="initBackUserMode(propertie);">
+										<label> <input type="radio" value="history"
+											ng-model="propertie.backUserMode"> 驳回历史处理人
+										</label> <label> <input type="radio" value="normal"
+											ng-model="propertie.backUserMode"> 驳回节点配置人
+										</label>
+									</div>
+								</div>
+								<div class="form-inline">
+									<label class="control-label left-label"> 驳回节点: </label> <select
+										class="form-control" ng-model="propertie.backNode"
+										style="width: 63%" title="不为空时只能驳回到此节点"
+										ht-validate="{required:true}">
+										<option value="">请选择驳货节点</option>
+										<option value="{{m.nodeId}}" ng-if="m.nodeId !=node.nodeId"
+											ng-repeat="m in selectNodeList">{{m.name}}</option>
+									</select>
+								</div>
+								<div class="form-inline ">
+									<label class="control-label left-label"> 前置处理器: </label> <input
+										ng-model="propertie.prevHandler" class="form-control"
+										ng-blur="checkHandler(propertie.prevHandler)" style="width: 63%"
+										placeholder="前置处理器" title="流程任务前置处理器，eg：userService.add"
+										ht-tip="{position: { my: 'top left', at: 'bottom center'}}">
+								</div>
+								<div class="form-inline ">
+									<label class="control-label left-label"> 后置处理器: </label> <input
+										ng-model="propertie.postHandler" class="form-control"
+										ng-blur="checkHandler(propertie.postHandler)" style="width: 63%"
+										placeholder="后置处理器" title="流程任务后置处理器，eg：myService.sendMessage"
+										ht-tip="{position: { my: 'top left', at: 'bottom center'}}">
+								</div>
+								<div class="form-inline">
+									<label class="control-label left-label" title="节点任务完成时间"
+										ht-tip="{position: { my: 'top left', at: 'bottom center'}}">
+										审批期限: </label>
+									<div class="right-operation">
+										<label class="radio-inline"> <input type="radio"
+											value="worktime" ng-model="propertie.dateType"> 工作日
+										</label> <label class="radio-inline"> <input type="radio"
+											value="caltime" ng-model="propertie.dateType"> 日历日
+										</label> <br /> <span ht-times="propertie.dueTime"
+											ng-model="propertie.dueTime"> </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</uib-accordion>
+			</uib-tab>
+			<uib-tab heading="更多配置">
+				<uib-accordion close-others="true">
+					<div uib-accordion-group class="panel-default" heading="节点按钮" is-open="true">
+						<div full-scroll ng-model="dynamicHeight.moreSetting">
+							<div class="table-nest" style="display: inline-block;">
+								<span class="pull-left btn btn-info" class="table-ch"
+									ng-click="editAllNodes('btns')">
+									{{isEditAllNode_btns?'隐藏所有按钮':'设置所有节点按钮'}} </span>
+							</div>
+							<div ng-repeat="(nodeId,nodeBtns) in nodeBtnMap" class="well"
+								ng-if="nodeId == edittingNodeId || isEditAllNode_btns">
+								<span class="label label-default">{{nodeId}}</span>
+								<br>
+								<button style="margin: 3px;" ng-repeat="btn in nodeBtns"
+									type="button" class="btn btn-sm btn-success">
+									{{btn.name}}</button>
+								<button type="button" class="btn btn-sm btn-danger"
+									ng-click="editBtns(nodeId)">编辑</button>
+							</div>
+						</div>
+					</div>
+					<div uib-accordion-group class="panel-default" heading="节点事件">
+						<div full-scroll ng-model="dynamicHeight.moreSetting">
+							<div class="table-nest" style="display: inline-block;">
+								<span class="pull-left btn btn-info" class="table-ch"
+									ng-click="editAllNodes('restful')">
+									{{isEditAllNode_restful?'隐藏所有节点事件':'设置所有节点事件'}} </span>
+							</div>
+							<div ng-repeat="node in nodes |filter:noStart"
+								style="line-height: 100%;" class="well"
+								ng-if="node.nodeId == edittingNodeId || isEditAllNode_restful">
+								<div class="form-group form-inline">
+									<label class="control-label col-sm-7">
+										{{node.name}}({{node.nodeId}})： </label> <a href="javascript:void(0);"
+										class="btn btn-sm btn-info fa fa-cog"
+										ng-click="setRestFul(node.nodeId,node.name)"> 设置接口事件 </a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div uib-accordion-group class="panel-default" heading="{{plugin.name}}"
+						 ng-repeat="plugin in pluginList" ng-if="plugin.supprotType.indexOf(edittingNodeType)!=-1">
+						<div full-scroll ng-model="dynamicHeight.moreSetting">
+							<div dynamic-directive="bpm-{{plugin.key}}:''">
+				               {{node.name}}{{plugin.key}}
+				            </div>
+						</div>
+					</div>
+				</uib-accordion>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+</div>

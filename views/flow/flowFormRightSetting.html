@@ -1,0 +1,125 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="flowFormRigthSettingCtrl">
+	<div class="ibox" ng-model="data"  target="layui-layer-content">
+	     <div>
+		<!-- 顶部按钮 -->
+		<div class="toolbar-panel" style="padding:10px;">
+			<div class="buttons">
+				<a class="btn btn-primary fa fa-refresh" href="javaScript:void(0)" ng-click="getDefaultByFormKey()">
+					<span>重置</span>
+				</a>
+				<!-- <a class="btn btn-primary fa fa-refresh" ng-click="addNewField()">
+					<span>添加新增字段的默认权限</span>
+				</a> -->
+			</div>
+		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th width="15%">字段</th>
+				<th width="20%">只读权限</th>
+				<th width="20%" ng-if="param.instId!='true'">编辑权限</th>
+				<th width="20%" ng-if="param.instId!='true'">必填权限</th>
+				<th width="20%" ng-if="param.instId!='true'">是否隐藏</th>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td>
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('read','everyone')">
+						<span>所有人</span>
+					</a>
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('read','none')">
+						<span>无权限</span>
+					</a>
+				</td>
+				<td ng-if="param.instId!='true'">
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('write','everyone')">
+						<span>所有人</span>
+					</a>
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('write','none')">
+						<span>无权限</span>
+					</a>
+				</td>
+				<td ng-if="param.instId!='true'">
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('required','everyone')">
+						<span>所有人</span>
+					</a>
+					<a class="btn btn-sm btn-primary btn-mini" ng-click="clickAll('required','none')">
+						<span>无权限</span>
+					</a>
+				</td>
+			  	<td style="text-align: center" ng-if="param.instId!='true'">
+					<a ng-show="checkIsAllhide(subTableList)" style="width: 50px" class="btn btn-sm btn-primary btn-mini" ng-click="hideOrShowAll(subTableList)">
+						<span>隐藏</span>
+					</a>
+					<a  ng-show="!checkIsAllhide(subTableList)" style="width: 50px" class="btn btn-sm btn-primary btn-mini" ng-click="hideOrShowAll(subTableList)">
+						<span>显示</span>
+					</a>
+				</td>
+			</tr>
+			<tbody ng-repeat="table in subTableList track by $index">
+				<tr>
+					<th colspan="4">
+						<span style="float: left;">
+							<span ng-if="table.main">主表</span><span ng-if="!table.main">子表</span>——{{table.description}}
+						</span>
+						<span ng-if="param.instId!='true'&&!table.main">
+							<input type="checkbox" ng-model="table.rights.add" />
+							添加
+							<input type="checkbox" ng-model="table.rights.del" />
+							删除
+							<input type="checkbox" ng-model="table.rights.hidden" />
+							隐藏
+							<input type="checkbox" ng-model="table.rights.required" />
+							必填
+						</span>
+					</th>
+				</tr>
+				<tr ng-repeat="field in table.fields | orderBy: 'sn' track by $index ">
+					<td>{{field.description}}</td>
+					<td>
+						{{rightToDesc(field['read'])}}
+						<a style="float: right;" ng-click="fieldDialog(field,'read')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+					</td>
+					<td ng-if="param.instId!='true'">
+						{{rightToDesc(field['write'])}}
+						<a style="float: right;" ng-click="fieldDialog(field,'write')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+					</td>
+					<td ng-if="param.instId!='true'">
+						{{rightToDesc(field['required'])}}
+						<a style="float: right;" ng-click="fieldDialog(field,'required')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+					</td>
+				    <td ng-if="param.instId!='true'">
+						{{checkIshide(field)}}
+					<a style="float: right" class="btn btn-sm btn-primary btn-mini" ng-click="hideColumn(field)">
+						
+						<span ng-if="checkIshide(field) =='是'">显示</span>
+						<span ng-if="checkIshide(field) =='否'">隐藏</span>
+					 </a>
+						<!-- <a style="float: right;" ng-click="fieldDialog(field,'hide')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a> -->
+					</td>
+				</tr>
+			</tbody>
+			<tr>
+				<th colspan="5">
+					<span style="float: left;">意见</span>
+				</th>
+			</tr>
+			<tr ng-repeat="field in opinion track by $index">
+				<td>{{field.description}}</td>
+				<td>
+					{{rightToDesc(field['read'])}}
+					<a style="float: right;" ng-click="fieldDialog(field,'read')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+				</td>
+				<td ng-if="param.instId!='true'">
+					{{rightToDesc(field['write'])}}
+					<a style="float: right;" ng-click="fieldDialog(field,'write')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+				</td>
+				<td ng-if="param.instId!='true'">
+					{{rightToDesc(field['required'])}}
+					<a style="float: right;" ng-click="fieldDialog(field,'required')" class="btn btn-sm btn-default btn-mini fa fa-edit"></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</div>
+</div>

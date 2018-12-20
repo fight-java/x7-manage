@@ -1,0 +1,40 @@
+<div class="animated fadeInRight full-height" ng-controller="flowEditCtrl">
+	<div class="ibox full-height no-margins">
+		<button class="btn btn-danger btn-sm remove" style="float: right;margin-right: 20px;margin-bottom: -190px;position: relative;bottom: -15px;" ng-click="close()">
+			<i class="fa fa-undo"></i> 返回
+		</button>
+		<div style="float: right;margin-right: 95px;margin-bottom: -190px;position: relative;bottom: -15px;" ng-click="showBpmnXml()">
+			<a href="{{bpmModelSrc}}/flow/def/v1/bpmnXml?defId={{id}}" target="_blank" class="btn btn-sm btn-primary">BPMNXML</a>
+		</div>
+		<div class="ibox-content full-height no-margins p-xs">
+			<div class="tabs-container full-height">
+				<uib-tabset active="active">
+					<uib-tab heading="流程设计" select="select('editor')"> 
+						<iframe ng-src="{{sources.editorSrc}}" width="100%" height="{{iboxHeight}}" style="border: 1px solid #eee;"></iframe>
+				    </uib-tab> 
+					
+				    <uib-tab ng-click="isCanEdit()" heading="流程配置" select="select('setting')"> 
+						<div ng-if="!notDeploy && id" ng-style="{height:iboxHeight}" ng-include="sources.settingSrc"></div>
+					</uib-tab>
+					
+					<uib-tab ng-click="isCanEdit()" heading="变量管理" select="select('variable')"> 
+						<div ng-if="!notDeploy && id" ng-style="{height:iboxHeight}" ng-include="sources.variableSrc"></div>
+					</uib-tab> 
+					
+					<uib-tab ng-click="isCanEdit()" heading="版本管理" select="select('version')">
+						<div ng-if="!notDeploy && id" ng-style="{height:iboxHeight}" ng-include="sources.versionSrc"></div>
+					</uib-tab>
+					
+					<uib-tab ng-click="isCanEdit()" heading="其他设置" select="select('other')"> 
+				       <div ng-if="!notDeploy && id" ng-style="{height:iboxHeight}" ng-include="sources.otherSrc"></div>
+					</uib-tab> 
+					
+					<uib-tab ng-show="isShowSubSetting"   heading="子流程设置" select="select('setting')"> 
+				       <div ng-if="!notDeploy && id" ng-style="{height:iboxHeight}" ng-include="sources.subSettingSrc"></div>
+					</uib-tab> 
+					
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

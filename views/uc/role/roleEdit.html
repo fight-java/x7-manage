@@ -1,0 +1,49 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller=roleEditCtrl>
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="save()">
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">角色名称*:</label>
+						<div class="col-sm-10">
+							<input aria-required="true" required="" maxlength="30" class="form-control input-sm" type="text" ng-model="data.name"   ht-validate="{required:true,maxlength:30}"  />
+						</div>
+					</div>
+					<div class="form-group">	
+						<label class="col-sm-2 control-label">角色编码*:</label>
+						<div class="col-sm-10">
+							<input aria-required="true" required="" ht-pinyin="data.name" maxlength="30" class="form-control input-sm" type="text" ng-disabled="pageParam.action == 'edit'" ng-model="data.code" ht-validate="{required:true,maxlength:30,flowkeyrule:true}" />
+						</div>	
+					</div>
+					<div class="form-group">	
+						<label class="col-sm-2 control-label">状态:</label>
+						<div class="col-sm-10">
+							<select class="form-control input-sm" ng-model="data.enabled" class="form-control input-sm"> 
+								<option ng-selected="data.enabled=='1'" value="1">启用</option>
+								<option ng-selected="data.enabled=='0'" value="0">禁用</option>
+							</select>								
+						</div>	
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">描述:</label>
+						<div class="col-sm-10">
+							<textarea ui-codemirror ng-model="data.description" class="form-control input-sm" style="width: 90%;height: 220px;"></textarea>
+						</div>	
+					</div>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit" >保存</button>
+							<button class="btn btn-white" type="button" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

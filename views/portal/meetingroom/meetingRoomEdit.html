@@ -1,0 +1,81 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="meetingRoomEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="isExist()">
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">会议室名称*:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" required="" class="form-control input-sm" type="text" ng-model="data.name"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">是否要审批:</label>
+						<div class="col-sm-6">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="inlineRadio1" value="1" name="radioInline" ng-model="data.needPending">
+								<label for="inlineRadio1"> 是 </label>
+							</div>
+							<div class="radio radio-inline">
+								<input type="radio" id="inlineRadio2" value="0" name="radioInline" ng-model="data.needPending">
+								<label for="inlineRadio2"> 否 </label>
+							</div>
+						</div>
+					</div>
+					<div style="display:none" class="form-group">
+						<label class="col-sm-2 control-label">审批人ID:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.pendingUserId"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group" id="pendingUser">
+						<label class="col-sm-2 control-label">审批人:</label>
+						<div class="col-sm-6">
+							<input readonly="true"  aria-required="true" class="form-control input-sm" type="text" ng-model="data.pendingUserName"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+						 <a class="btn btn-primary btn-mini" ng-click="userDialog()">
+							<span>选择</span>
+						</a>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">支持的服务:</label>
+						<div class="col-sm-6">
+							<input class="inputText" ht-diccheckbox="data.supportService" dickey="hyszcfw" type="hidden" ng-model="data.supportService"   />
+							<!-- <input aria-required="true" class="form-control input-sm" type="text" ng-model="data.supportService"   ht-validate="{required:false,maxlength:128}"  /> -->
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">会议室地址:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.location"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">会议室容量:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="number" min="0" ng-model="data.capacity"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-2 control-label">会议室备注:</label>
+						<div class="col-sm-6">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.memo"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-6 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit" >保存</button>
+							<button class="btn btn-white" type="button" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

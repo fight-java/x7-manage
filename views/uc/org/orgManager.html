@@ -1,0 +1,56 @@
+<div class="row animated fadeInRight full-height" ng-controller="orgManagerCtrl">
+	<div class="col-md-2 catogry-div full-height">
+		<div class="panel panel-default full-height">
+            <div class="panel-heading">
+            	组织树
+            </div>
+            <div class="panel-body full-height">
+            	<div class="row form-group">
+            		<div class="col-md-12">
+            			<select class="form-control input-sm" ng-model="currentDemItem" ng-options="dem.id as dem.demName for dem in dems"></select>
+            		</div>
+            	</div>
+            	<div class="row border-top p-w-sm">
+            		<div class="full-height-scroll">
+				        <ul ht-tree="treeConfig" ng-model="orgTreeData" tree="orgTree"
+				       		before-right-click="beforeRightClick(treeNode)"
+				       		tree-context-menu="contextMenu"
+				       		menu-click="menuClick(menu, treeNode)"
+	                        tree-events="onClick:orgTree_click;onExpand:orgTree_expand"></ul>
+				    </div>
+            	</div>
+            </div>
+        </div>
+	</div>
+	<div class="col-md-10 full-height" ng-show="org != ''" style="padding-top: 5px">
+       <div class="tabs-container">
+           <uib-tabset active="tabActive">
+               <uib-tab heading="{{orgActionTitle}}">
+              	 <div class="panel-body ">
+                   <div ng-include="'views/uc/org/orgEdit.html'"></div>
+                 </div>
+               </uib-tab>
+               <uib-tab heading="组织人员">
+              		<div class="panel-body">
+                 		<div ng-include="'views/uc/org/orgUserList.html'"></div>
+                 	</div>
+               </uib-tab>
+               <uib-tab heading="组织岗位">
+               		<div class="panel-body ">
+                   		<div ng-include="'views/uc/org/orgPostList.html'"></div>
+                   	</div>
+               </uib-tab>
+               <uib-tab heading="组织参数">
+               		<div class="panel-body ">
+                  	 	<div ng-include="'views/uc/org/orgParamsEdit.html'"></div>
+                   	</div>
+               </uib-tab>
+               <uib-tab heading="组织分级管理设置">
+               		<div class="panel-body">
+                   		<div ng-include="'views/uc/org/orgAuthList.html'"></div>
+                  	</div>
+               </uib-tab>
+           </uib-tabset>
+		</div>
+	</div>
+</div>

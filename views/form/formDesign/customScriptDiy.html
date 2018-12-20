@@ -1,0 +1,17 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll ng-controller="customScriptDiyCtrl">
+	<div class="ibox-title no-borders">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<p><span><strong>备注：</strong></span>当点击按钮时会触发执行当前脚本，脚本运行环境中已注入ng相关服务和对象供脚本使用：$scope, $rootScope, $filter, baseService , dialogService, bpm, $compile, $state, $q, $ocLazyLoad, $timeout, $sessionStorage, $sce，
+						$labelObj（按钮前面的输入框），ngModelPath(当前控件对应的ngModel字段路径，如：data.csbd.zdy)，脚本返回值将设置为该控件对应字段的值。
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="diyScript" required=""></ui-codemirror>
+				</div>
+			</div>
+		</form>
+</div>

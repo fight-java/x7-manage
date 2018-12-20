@@ -1,0 +1,214 @@
+<div class="white-bg border-left animated fadeInRight" style="padding:10px" ng-controller="flowAutoTaskCtrl">
+    <div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+		<div class="ibox-tools">
+			<a ng-click="close()"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+	<uib-tabset>
+     <uib-tab ng-show="contextMap.message" ng-click="chooseTaskType('message')"  heading="消息任务节点"> 
+      <div>
+			 <div style="height: 34px;margin: 10px;" class="form-group"><label style="text-align: right;line-height: 34px;" class="col-sm-4 control-label">外部数据类</label>
+				<div class="col-sm-8">
+					<input  required="" aria-required="true" ng-model="nodeMessage.externalClass" type="text"  style="display: inline-block; width: 320px" class="form-control">
+					<a  title="该类必须实现IExternalData接口，程序会为你提供流程的一些信息<br>该实现类，通过已知流程信息，提供数据 map(String,Object)<br>系统会通过map中的key匹配文本消息中$&#123;key}的动态数据。"
+					     class="fa fa-exclamation-circle" style="text-decoration: none;"  href="javascript:;" >　</a>
+				</div>
+			</div>
+			 <uib-tabset>
+		          <uib-tab  heading="富文本消息"> 
+				    <table class="table table-bordered" style="width: 100%">
+						<tr>
+							<th width="20%"><span>通知类型</span> </th>
+							<td>
+								<input type="checkbox" ht-checkbox ng-model="nodeMessage.htmlSetting.msgType" value="inner" id="message_"><label for="message_" class="normal_label">站内消息</label>&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" ht-checkbox ng-model="nodeMessage.htmlSetting.msgType" value="mail" id="email_"><label for="email_" class="normal_label">邮件</label>
+							</td>
+						</tr>
+						<tr>
+							<th width="20%"><span>接收人配置:</span></th>
+							<td style="padding-top: 0px !important;">
+								<div  style="min-height:60px">
+									<table class="table table-bordered" style="text-align:left;">
+										<thead>
+										<tr>
+											<th width="60px">序号</th>
+											<th>条件</th>           
+											<th width="60px">批次</th>
+											<th width="120px">操作</th>
+										</tr>
+										</thead>
+										<tr ng-repeat="userRule in nodeMessage.htmlSetting.ruleList">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}} </td>
+										<td><input type="text" size="5" ng-model="userRule.groupNo"> </td> 
+										<td>
+											<a ng-click="addUserCondition('htmlSetting',$index)" class="btn-sm btn-success">修改</a>
+											<a ng-click="deleteAttr('htmlSetting',$index)" class="btn-sm btn-danger">删除</a>
+										</td>
+										</tr> 
+										<tr><td style="text-align: left;" colspan="4"> 
+										<a class="btn-sm btn-primary" href="javascript:;" ng-click="addUserCondition('htmlSetting')" >新增</a>
+										 </td></tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th width="20%"><span>标题:</span></th>
+							<td>
+								<input class="form-control" type="text" ng-model="nodeMessage.htmlSetting.subject" style="width: 320px">
+							</td>
+						</tr>
+						<tr>
+							<th width="20%">
+								<span>文本:</span>
+								<div id="varTree"></div>
+							</th>
+							<td>
+								<textarea id="content" style="height:274px;width:99%;"></textarea> 
+								<!--  <div id="content" ht-editor="getContentTxt" config="editorConfig" ng-model="nodeMessage.htmlSetting.content" style="height:274px;width:613px;" ></div>  -->
+							</td>
+						</tr>
+				    </table> 
+		       </uib-tab>
+		       <uib-tab   heading="普通消息"> 
+			    <table class="table table-bordered" style="width: 100%">
+					<tr>
+						<th width="20%"><span>通知类型</span> </th>
+						<td>
+							<input type="checkbox" ht-checkbox ng-model="nodeMessage.plainTextSetting.msgType" value="sms" id="duanxin"><label for="duanxin" class="normal_label">短信</label>
+						</td> 
+					</tr>
+					<tr>
+						<th width="20%"><span>接收人配置:</span></th>
+						<td>
+						<div style="min-height:60px">
+								<table style="text-align:left;" class="table table-bordered">
+									<tr>
+										<th width="60px">序号</th>
+										<th>条件</th>           
+										<th width="60px">批次</th>
+										<th width="120px">操作</th>
+									</tr>
+									<tr ng-repeat="userRule in nodeMessage.plainTextSetting.ruleList">
+										<td>{{$index+1}}</td>
+										<td>{{userRule.description}} </td>
+										<td><input type="text" size="5" ng-model="userRule.groupNo" > </td> 
+										<td>
+											<a ng-click="addUserCondition('plainTextSetting',$index)" >修改</a>
+											<a ng-click="deleteAttr('plainTextSetting',$index)" >删除</a>
+										</td>
+									</tr> 
+									<tr>
+										<td style="text-align: left;" colspan="4"> 
+											<a class="btn-sm btn-primary" href="javascript:;" ng-click="addUserCondition('plainTextSetting')" >新增</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th width="20%"><span>文本:</span></th>
+						<td>
+							<textarea ng-model="nodeMessage.plainTextSetting.content" style="height:188px;width:580px;" ></textarea> 
+						</td>
+					</tr>
+			    </table>  
+		    </uib-tab>
+		   </uib-tabset>
+		    </div> 
+		   </uib-tab>
+   <uib-tab ng-show="contextMap.scriptNode" ng-click="chooseTaskType('scriptNode')"  heading="脚本任务节点">
+   <table class="table table-bordered">
+		<tr>
+			<th width="20%"><span>脚本描述</span> </th>
+			<td>
+				这个在脚本任务触发时执行，用户可以使用<span class="red">execution</span>做操作。
+				 例如设置流程变量:execution.setVariable("total", 100);
+			</td>
+		</tr>
+		<tr>
+			<th width="20%"><span>脚本:</span></th>
+			<td><div>
+				 <a class="btn btn-primary btn-xs" onclick="selectScript()">常用脚本</a>
+				 <a class="btn btn-primary btn-xs" onclick="selectConditionScript()">条件脚本</a>
+				 <a id="showTreeBtn" class="btn btn-primary btn-xs">可选变量</a> 
+				 </div>
+				 <textarea name="scriptNode" id="scriptNode" ng-model="scriptJson.script" codemirror="true" mirrorheight="200px" rows="10" cols="80" ></textarea>
+			</td>
+		</tr>
+    </table> 
+    </uib-tab>
+    <uib-tab ng-show="contextMap.webService"  ng-click="chooseTaskType('webService')"  heading="webservice任务节点">
+    <table style="width:98%;margin:5px;" class="table table-bordered">
+				 	<tr>
+						<th style="width: 15%;">名称</th>
+						<td><input ng-model="nodeDefJson.name" readonly="readonly" ht-validate="{required:true}" class="form-control" style="display: inline-block; width: 170px">
+						<a class="btn btn-primary fa fa-search" ng-click="chooseServiceSet()">选择</a>
+							</td>
+						<th style="width: 15%;">别名</th>
+						<td>{{serviceSet.alias}} </td>
+					</tr>
+					<tr>
+						<th>wsdl地址</th>
+						<td colspan="3">{{serviceSet.url}}</td>
+					</tr>
+					<tr>
+						<th>方法名</th>
+						<td>{{serviceSet.methodName}}</td>
+						<th>名称空间</th>
+						<td>{{serviceSet.namespace}}</td>
+					</tr>
+					
+					<tr rowspan="{{params.length+1}}">
+						<th>参数设置</th>
+						<td colspan="3">
+							<div ng-repeat="param in nodeDefJson.params" ng-switch="param.type" class="form-inline">
+								<div class="form-group">
+									<label>{{param.desc}} </label> 
+									<select class="form-control" ng-model="param.bindType" placeholder="参数绑定类型" ht-validate="{required:true}">
+									  <option value="">请选择参数类型</option>
+									  <option value="var">流程变量</option>
+									  <option value="bo">BO值</option>
+									  <option value="script">脚本</option>
+									</select>
+									<select class="form-control" ng-model="param.bindValue" ng-options="(field.path+'.'+field.name) as field.desc group by field.tableName for field in boData" ng-if="param.bindType=='bo'"  ht-validate="{required:true}">
+									<option value="">请选择BO值</option>
+									</select>
+									<select class="form-control" ng-model="param.bindValue" ng-options="var.name as var.desc for var in flowVar" ng-if="param.bindType=='var'"  ht-validate="{required:true}">
+									<option value="">请选择流程变量</option>
+									</select>
+									<textarea placeholder="执行脚本" ng-model="param.bindValue" ng-if="param.bindType=='script'" class="form-control"  ht-validate="{required:true}"></textarea>
+								</div>
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>输出处理<a class="fa bigger-120 fa-info-circle" ht-tip="{style:{width:'500px'}}" 
+									title="1、返回值为JSONObject,list类型为jsonArray  data<br>
+										2、可以从invokeResult 获取返回信息<br>
+										3、可以通过pluginSession 获取节点信息或者设置流程变量<br>
+										eg:pluginSession.getBpmDelegateExecution().setVariable(variableName,value);
+									"></a></th>
+						<td colspan="3" rowspan="3">
+							<div>
+									<a class="btn btn-primary btn-xs" ng-click="selectScript()">常用脚本</a>
+									<a class="btn btn-primary btn-xs"  ng-click="selectConditionScript()">条件脚本</a>
+									<a class="varTree btn btn-primary btn-xs" id="tempTree">可选变量</a>
+							</div>
+							<textarea name="webService" id="webService" codemirror="true" mirrorheight="200px" rows="10" cols="80" >{{nodeDefJson.outPutScript}}</textarea>
+						</td>
+					</tr>
+				</table>
+		</uib-tab>		
+   </uib-tabset>
+   <div class="form-group">
+		<div class="col-sm-12 col-sm-offset-8">
+			<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+			<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="editOrgPostCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal"  ng-submit="saveOrgPost()">
+					<div class="form-group" style="display: none;" id="jobCode">
+						<label class="col-sm-2 control-label">职务名称*:</label>
+						<div class="col-sm-10">
+							<select chosen id="states" class="chosen-select"  tabindex="4" ng-model="data.jobCode" ng-options="selectItem.code as selectItem.name for selectItem in jobs">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">岗位名称*:</label>
+						<div class="col-sm-10">
+							<input aria-required="true" required="" maxlength="30" class="form-control input-sm" type="text" ng-model="data.name"  ht-validate="{required:true,maxlength:30,flowkeyrule:true}" class="form-control input-sm"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">岗位编码*:</label>
+						<div class="col-sm-10">
+							<input aria-required="true" required="" ht-pinyin="data.name" maxlength="30" class="form-control input-sm" type="text" ng-model="data.code" ng-disabled="pageParam.title == '编辑岗位'"  ht-validate="{required:true,maxlength:30,flowkeyrule:true}" class="form-control input-sm"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

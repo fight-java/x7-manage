@@ -1,0 +1,29 @@
+<div class="animated fadeInRight full-height-scroll" full-scroll ng-controller="sysDictDataEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-2 control-label"> 项名称: *</label>
+						<div class="col-sm-10"><input type="text" required="" aria-required="true" class="form-control" ng-model="data.dataDict.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label"> 项值: *</label>
+						<div class="col-sm-10"><input type="text" required="" aria-required="true" class="form-control" ng-model="data.dataDict.key"></div>
+						<div class="col-sm-10 col-sm-offset-2">当前数据字典中必须唯一</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-10 col-sm-offset-2">
+							<button class="btn btn-primary" type="submit" ng-click="isExist()">保存</button>
+							<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

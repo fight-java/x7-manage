@@ -1,0 +1,83 @@
+<style>
+	div.file{display:inline-block;width:100px;height:30px;line-height:30px;position:relative;overflow:hidden;}
+	div.file input{position:absolute;left:0px;top:0px;zoom:1;filter:alpha(opacity=0);opacity:0;font-size:20px;margin-left:-240px}
+</style>
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="userEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<div class="text-center">
+                     <div class="cropArea" style="width: 100%;height: 300px">
+                         <img style="width: 300px;height: 300px;border-radius: 50%;" ng-src="{{showPortrait}}" />
+                     </div>
+				</div>
+            </div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="save()">
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">姓名*:</label>
+							<div class="col-sm-4">
+								<input aria-required="true" required="" disabled="disabled" class="form-control input-sm" type="text" ng-model="data.fullname"   ht-validate="{required:true,maxlength:30}"  />
+							</div>
+							<label class="col-sm-2 control-label">帐号*:</label>
+							<div class="col-sm-4">
+								<input aria-required="true" required="" disabled="disabled"  class="form-control input-sm" type="text" ng-model="data.account" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">手机:</label>
+							<div class="col-sm-4">
+									<input class="form-control input-sm" disabled="disabled"  type="text" ng-model="data.mobile"   ht-validate="{required:true,maxlength:30}"/>
+							</div>
+							<label class="col-sm-2 control-label">邮箱:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" disabled="disabled"  type="text" ng-model="data.email" ht-validate="{required:true,maxlength:30,flowkeyrule:true}" />
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">性别:</label>
+							<div class="col-sm-4">
+								<select class="form-control input-sm" disabled="disabled"  ng-model="data.sex"> 
+									<option ng-selected="data.enabled=='男'" value="男">男</option>
+									<option ng-selected="data.enabled=='女'" value="女">女</option>
+								</select>								</div>
+							<label class="col-sm-2 control-label">地址:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" disabled="disabled"  type="text" ng-model="data.address"   ht-validate="{required:true,maxlength:30}"/>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">状态:</label>
+							<div class="col-sm-4">
+								<select class="form-control input-sm" disabled="disabled"  ng-model="data.status"> 
+									<option ng-selected="data.status=='1'" value="1">正常</option>
+									<option ng-selected="data.status=='0'" value="0">禁用</option>
+									<option ng-selected="data.status=='-2'" value="-2">离职</option>
+								</select>
+							</div>
+							
+							<label ng-if="data.status=='-2'" class="col-sm-2 control-label">离职日期:</label>
+							<div ng-if="data.status=='-2'" class="col-sm-4">
+								<input type="date" date="" view="date" disabled="disabled" format="YYYY-MM-DD" class="form-control" ng-model="data.leaveDate" >
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

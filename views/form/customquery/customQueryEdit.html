@@ -1,0 +1,156 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll
+	ng-controller="customQueryEditCtrl">
+	<div class="ibox-title no-borders">
+		<form class="form-horizontal m-t-md" ng-submit="save()">
+
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">名称*:</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-model="prop.name"
+							required="" />
+				</div>
+				<label class="control-label col-sm-2">别名*:</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ht-pinyin="prop.name" ng-model="prop.alias"
+							required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">分页:</label>
+				<div class="col-md-4">
+					<div class="radio radio-info radio-inline">
+						<input type="radio" id="needPage1" ng-model="prop.needPage"
+							value="1"> <label for="needPage1">是</label>
+					</div>
+					<div class="radio radio-info radio-inline">
+						<input type="radio" id="needPage2" ng-model="prop.needPage"
+							value="0"> <label for="needPage2">否</label>
+					</div>
+				</div>
+				<label class="control-label col-sm-2" ng-if="prop.needPage=='1'">分页大小:</label>
+				<div class="col-md-4" ng-if="prop.needPage=='1'">
+					<input type="text" class="form-control" ng-model="prop.pageSize" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据来源:</label>
+				<div class="col-md-4">
+					<div class="radio radio-info radio-inline">
+						<input type="radio" id="dsType1" ng-checked="!prop.dsType||prop.dsType=='dataSource'" ng-model="prop.dsType"
+							value="dataSource"> <label for="dsType1">数据源</label>
+					</div>
+					<div class="radio radio-info radio-inline">
+						<input type="radio" id="dsType2" ng-model="prop.dsType"
+							value="restful"> <label for="dsType2">REST接口</label>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-if="prop.dsType=='dataSource' ">
+				<label class="col-sm-2 control-label" ng-if="prop.id==''">数据源:</label>
+				<div class="col-md-4" ng-if="prop.id==''">
+					<select class="form-control m-b" ng-model="prop.dsalias"
+						ng-options="m.alias as m.name for m in dataSourcesInBean"></select>
+				</div>
+				<label class="control-label col-sm-2" ng-if="prop.id==''">查询表(视图):</label>
+				<div class="col-md-4" ng-if="prop.id==''">
+					<div class="col-md-6">
+						<select class="form-control m-b" ng-model="prop.isTable"
+							ng-options="m.value as m.key for m in isTableList" ></select> 
+					</div>
+					<div class="input-group col-md-6 tools-panel" style="margin-top:0px;">
+						<input type="text" ng-model="prop.objName" class="form-control input-sm m-b" /> 
+						<span class="input-group-addon" ng-click="getByDsObjectName()">
+							<i class="fa fa-search"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" ng-if="prop.dsType=='dataSource'" >
+				<label class="col-sm-2 control-label">选择表或视图:</label>
+				<div class="col-md-4">
+					<div class="col-md-3">
+						<a ng-click="showSettingDialog();" ng-if="prop.objName!=null"
+							href="javascript:;" class="btn btn-primary fa fa-edit">设置列</a> 
+					</div>
+					<div class="col-md-9" ng-if="prop.id!=''">
+						<span>对象名称：{{prop.objName}}所属数据源：{{prop.dsalias}}</span>
+					</div>
+					<div class="col-md-9">
+						<select ng-if="prop.isTable==1&&tableOrViewList.length>0" class="form-control m-b" ng-if="prop.id==''"
+							ng-model="prop.objName"
+							ng-options="m.name as (m.name+'('+m.comment+')') for m in tableOrViewList">
+						</select>
+					</div>
+					<div class="col-md-9">
+						<select class="form-control m-b" ng-model="prop.objName" ng-if="prop.isTable==0"
+							ng-options="m.name as m.name for m in tableOrViewList">
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6"></div>
+			</div>
+			
+			<div class="form-group" ng-if="prop.dsType=='restful'" >
+				<label class="col-sm-2 control-label">请求地址:</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-model="prop.url" />
+				</div>
+				<label class="col-sm-2 control-label">请求类型:</label>
+				<div class="col-md-4">
+					<div class="col-md-8">
+						<div class="radio radio-info radio-inline">
+							<input type="radio" id="requestType1" ng-init="prop.requestType=prop.requestType?prop.requestType:'POST'" ng-checked="!prop.requestType||prop.requestType=='POST'" ng-model="prop.requestType"
+								value="POST"> <label for="requestType1">POST</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+							<input type="radio" id="requestType2" ng-model="prop.requestType"
+								value="GET"> <label for="requestType2">GET</label>
+						</div>
+					</div>
+					<div ng-if="prop.requestType=='POST'" class="col-md-4">
+						<span class="pull-left btn btn-info btn-sm" ng-click="showSetParamDialog()">参数模板设置</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group" ng-if="prop.dsType=='restful'" >
+				<label class="col-sm-2 control-label">数据源:</label>
+				<div class="col-md-4">
+					<a ng-click="showSettingDialog();"
+							href="javascript:;" class="btn btn-primary fa fa-edit">设置列</a> 
+				</div>
+			
+			</div>
+			
+			<div class="form-group" ng-show="prop.needPage=='1'" ng-if="prop.dsType=='restful'" >
+				<label class="col-sm-2 control-label">页号（key）:</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-init="prop.pageKey=prop.pageKey?prop.pageKey:'page'" ng-model="prop.pageKey" />
+				</div>
+				<label class="col-sm-2 control-label">分页大小(key):</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-init="prop.pageSizeKey=prop.pageSizeKey?prop.pageSizeKey:'pageSize'" ng-model="prop.pageSizeKey" />
+				</div>
+			</div>
+			
+			<div class="form-group" ng-show="prop.needPage=='1'" ng-if="prop.dsType=='restful'" >
+				<label class="col-sm-2 control-label">总条数（key）:</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-init="prop.totalKey=prop.totalKey?prop.totalKey:'total'" ng-model="prop.totalKey" />
+				</div>
+				<label class="col-sm-2 control-label">列表(key):</label>
+				<div class="col-md-4">
+					<input type="text" class="form-control" ng-init="prop.listKey=prop.listKey?prop.listKey:'rows'" ng-model="prop.listKey" />
+				</div>
+			</div>
+
+			 <div class="text-center">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                        <button class="btn" type="button" ng-click="close()">返回</button>
+             </div>
+		</form>
+	</div>
+</div>

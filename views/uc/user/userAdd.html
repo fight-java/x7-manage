@@ -1,0 +1,84 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="userEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<div class="text-center">
+                     <div class="cropArea" style="width: 100%;height: 300px">
+                         <img-crop area-type="" image="myImage" result-image="myCroppedImage"></img-crop>
+                     </div>
+                     <div class="file-select-div">上传头像<input type="file" id="fileInput" style="display: unset;" accept="image/*"/></div>
+				</div>
+            </div>
+			<div class="ibox-content">
+				<form class="form-horizontal" ng-submit="save()">
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">姓名*:</label>
+							<div class="col-sm-4">
+								<input aria-required="true" maxlength="30" required="" class="form-control input-sm" type="text" ng-model="data.fullname"   ht-validate="{required:true,maxlength:30}"  />
+							</div>
+							<label class="col-sm-2 control-label">帐号*:</label>
+							<div class="col-sm-4">
+								<input aria-required="true" ht-pinyin="data.fullname" fullpinyin="1" maxlength="30" required="" class="form-control input-sm" type="text" ng-model="data.account" ng-disabled="pageParam.action == 'edit'"  ht-validate="{required:true,maxlength:30,flowkeyrule:true}" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">密码*:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" aria-required="true" required="" type="password" ng-model="data.password"   ht-validate="{required:true,maxlength:30}"/>
+							</div>
+							<label class="col-sm-2 control-label">手机:</label>
+							<div class="col-sm-4">
+									<input class="form-control input-sm" type="tel" pattern="[0-9]{11}"  ng-model="data.mobile"   ht-validate="{required:true,maxlength:30}"/>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">邮箱:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" type="email" ng-model="data.email" ht-validate="{required:true,maxlength:30,flowkeyrule:true}" />
+							</div>
+							<label class="col-sm-2 control-label">性别:</label>
+							<div class="col-sm-4">
+								<select class="form-control input-sm" ng-model="data.sex"> 
+									<option ng-selected="data.enabled=='男'" value="男">男</option>
+									<option ng-selected="data.enabled=='女'" value="女">女</option>
+								</select>								</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<label class="col-sm-2 control-label">地址:</label>
+							<div class="col-sm-4">
+								<input class="form-control input-sm" type="text" ng-model="data.address"   ht-validate="{required:true,maxlength:30}"/>
+							</div>
+							<label class="col-sm-2 control-label">状态:</label>
+							<div class="col-sm-4">
+								<select class="form-control input-sm" ng-model="data.status"> 
+									<option ng-selected="data.status=='1'" value="1">正常</option>
+									<option ng-selected="data.status=='0'" value="0">禁用</option>
+									<option ng-selected="data.status=='0'" value="-2">离职</option>
+								</select>								</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit" >保存</button>
+							<button class="btn btn-white" type="button" ng-click="close()">取消</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

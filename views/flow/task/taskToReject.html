@@ -1,0 +1,143 @@
+
+
+<script type="text/javascript">
+	$(function() {
+		$(".nodeChoice").hide();
+		$("[name='rejectMode']").click(function() {
+
+			$("#destination").val("");
+			var me = $(this), val = me.val();
+			$("#actionName").val(val);
+			//退回方式
+
+			showNodeChoice();
+		});
+
+		$("[name='backHandMode']").click(function() {
+			showNodeChoice();
+		});
+	});
+
+	function showNodeChoice() {
+		//退回方式
+		var rejectRadio = $("input[name='rejectMode']:checked");
+		var rejectMode = rejectRadio.val();
+		var backHandMode = $("input[name='backHandMode']:checked").val()||theBackMode;
+		if (rejectRadio.attr("showDestination")) {
+			rejectMode = "rejectToDestination" //驳回指定节点与驳回使用同一handle ，区别有没有destination
+		}
+
+		$("#destination").val("");
+		if (rejectMode == "backToStart"||rejectRadio.attr("id") == "rejectPreAct") {
+			$(".nodeChoice").hide();
+		} else {
+			if (backHandMode == "direct") {
+				$("#nodeChoice1").hide();
+				$("#nodeChoice2").show();
+			} else {
+	
+				
+				//按流程图走
+				$("#nodeChoice1").show();
+				$("#nodeChoice2").hide();
+			}
+		}
+	}
+
+	function showResponse(responseText) {
+		$.topCall.closeProgress();
+		var data = JSON.parse(responseText);
+		var script = "var tempFunction = function(data){ " + window.parent.curent_btn_after_script_ + "};"
+		var afterScriptPassed = eval(script + "tempFunction(data);");
+
+		var resultMessage = new com.hotent.form.ResultMessage(responseText);
+		if (resultMessage.isSuccess()) {
+			refreshWelcomeList();//刷新首页信息列表
+			$.topCall.message({
+				base : {
+					type : 'alert',
+					title : '温馨提示',
+					msg : resultMessage.getMessage(),
+					fn : function(r) {
+
+						try {
+							window.parent.opener.refreshTargetGrid("grid");
+							if (afterScriptPassed !== false)
+								window.parent.close();
+						} catch (err) {
+							window.parent.close();
+						}
+
+					}
+				}
+			});
+		} else {
+			$.topCall.error(resultMessage.getMessage(), resultMessage.getCause());
+		}
+	}
+	
+	function refreshWelcomeList(){
+		try {
+			window.parent.opener.location.reload();
+		 } catch(err){}
+	}
+</script>
+
+<div ng-controller="toRejectCtrl">
+<div class="toolbar-panel  col-md-12">
+	<form id="agreeForm">
+		<table cellspacing="0" class="table-form">
+			<tr ng-if="!canRejectToStart&&backNode==''">
+				<th width="20%" style="text-align: right; font-size: 14px; font-weight: normal; padding-right: 5px;  ">驳回方式:</th>
+				<td>
+					<div ng-if="canRejectPreAct && canReject" class="radio radio-info radio-inline">
+						<input type="radio" id="rejectPreAct" ng-model="rejectMode" ng-click="rejectModeClick()" name="rejectMode" value="reject" checked="checked" />
+						<label for="rejectPreAct"> 驳回上一步</label>
+					</div> 
+					<div ng-if="canRejectToAnyNode" class="radio radio-info radio-inline">
+						<input type="radio" id="rejectPreAct2" ng-model="rejectMode" ng-click="rejectModeClick()" name="rejectMode" showDestination="true" value="reject" />
+						<label for="rejectPreAct2"> 驳回指定节点</label>
+					</div> 
+				</td>
+			</tr>
+			<tr ng-if="backMode==''">
+				<th width="20%" style="text-align: right; font-size: 14px; font-weight: normal; padding-right: 5px;  ">返回方式:</th>
+				<td>
+					<label ng-if="isContains(backMode,'direct')" class="radio-inline"> <input type="radio" ng-model="backHandMode" ng-click="showNodeChoice()" name="backHandMode" value="direct" checked="checked" />回到本节点
+					</label>
+					<label ng-if="isContains(backMode,'normal')" class="radio-inline"> <input type="radio" ng-model="backHandMode" ng-click="showNodeChoice()" name="backHandMode" value="normal" ng-checked="data.backHandMode=='normal'||!isContains(backMode,'direct')" />按流程图执行
+					</label>
+			</tr>
+			
+
+			<tr ng-if="!canRejectToStart" id="nodeChoice1" class="nodeChoice">
+				<th width="20%" style="text-align: right; font-size: 14px; font-weight: normal; padding-right: 5px;  ">驳回到节点</br>(按流程图)
+				</th>
+				<td><select class="inputText" style="width: 400px;height: 30px" id='goMapUserNodeSelect'>
+						<option value="">请选择...</option>
+						<option ng-repeat="bpmExeStack in bpmExeStacksGoMapUserNode" value="{{bpmExeStack.nodeId}}">{{bpmExeStack.name}}</option>
+				</select></td>
+			</tr>
+			<tr id="nodeChoice2" ng-show="false" class="nodeChoice">
+				<th width="20%" style="text-align: right; font-size: 14px; font-weight: normal; padding-right: 5px;  ">驳回到节点</br>(直来直往)
+				</th>
+				<td><select class="inputText" style="width: 220px" id="userNodeSelect">
+						<option value="">请选择...</option>
+						<option ng-repeat="bpmExeStack in bpmExeStacksUserNode" value="{{bpmExeStack.nodeId}}">{{bpmExeStack.name}}</option>
+				</select></td>
+			</tr>
+
+			<tr>
+				<th width="20%" style="text-align: right; font-size: 14px; font-weight: normal; padding-right: 5px;  ">意见:</th>
+				<td><textarea style="width:400px;" ng-model="data.opinion" name="opinion" cols="60" rows="5" class="inputText" validate="{required:true}"></textarea></td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class="toolbar-panel  col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons">
+			<a role="button" ng-click="saveReject();" href="javascript:void(0);" class="btn btn-primary btn-sm fa fa-save">确定</a>
+			<button ng-click="closeEdit();" class="btn btn-default btn-sm  fa fa-close">取消</button>
+		</div>
+	</div>
+</div>

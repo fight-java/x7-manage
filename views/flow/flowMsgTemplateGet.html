@@ -1,0 +1,59 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowMsgTemplateGetCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div ng-model="data"  class="ibox-content" style="max-height: 580px;overflow-y: auto;">
+			<table class="table table-bordered"   cellspacing="0">
+					<tr style="width:20%">								
+						<th><span>模版名称:</span></th>
+						<td>{{sysMsgTemplate.name}}</td>
+					</tr>
+					<tr>								
+						<th><span>模板分类:</span></th>
+						<td>
+							{{statusObj[sysMsgTemplate.typeKey]}}
+						</td>
+					</tr>
+					<tr>								
+						<th><span>模版业务键:</span></th>
+						<td>{{sysMsgTemplate.key}}</td>
+					</tr>
+					<tr>								
+						<th><span>是否默认模板:</span></th>
+						<td ng-if="sysMsgTemplate.isDefault==1">
+						  是
+						</td>
+						<td ng-if="sysMsgTemplate.isDefault==0">
+						否
+						</td>
+					</tr>
+					<tr>								
+						<th><span>标题:</span></th>
+						<td>{{sysMsgTemplate.subject}}</td>
+					</tr>
+					<tr>								
+						<th><span>纯文本:</span></th>
+						<td>{{sysMsgTemplate.plain}}</td>
+					</tr>
+					<tr>								
+						<th><span>模版体HTML:</span></th>
+						<td>{{sysMsgTemplate.html}}</td>
+					</tr>
+					<tr>								
+						<th><span>创建时间:</span></th>
+						<td>{{sysMsgTemplate.createTime}}</td>		
+					</tr>
+					<tr>								
+						<th><span>更新时间:</span></th>
+						<td>{{sysMsgTemplate.updateTime}}</td>		
+					</tr>
+		</table>
+			</div>
+		</div>
+	</div>
+</div>

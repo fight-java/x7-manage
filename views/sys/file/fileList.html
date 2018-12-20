@@ -1,0 +1,87 @@
+<div class="white-bg animated fadeInRight full-height"
+	ng-controller="systemFileListCtrl">
+	<div class="col-md-2 border-right full-height no-padding-right">
+		<div class="full-height-scroll" full-scroll>
+			<ul ht-tree="treeConfig" ng-model="treeData" tree="treeInstance"
+				tree-context-menu="contextMenu"
+				before-right-click="beforeRightClick(treeNode)"
+				menu-click="menuClick(menu, treeNode)"
+				tree-events="onClick:tree_click"></ul>
+		</div>
+	</div>
+	<div class="col-md-10 no-padding">
+		<div class="ibox" ht-data-table="dataTable"
+			url="${portal}/system/file/v1/list">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon"> <i class="fa fa-search"></i>
+						</span> <input type="text" name="search" class="form-control input-sm"
+							placeholder="文件名，扩展名" title="通过文件名，扩展名查询"
+							ht-quick-search="fileName,extensionName">
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display: none;">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-md-1 control-label">文件名</label>
+						<div class="col-md-2">
+							<input type="text" placeholder="文件名" ht-query="extensionName"
+								class="form-control input-sm">
+						</div>
+						<label class="col-md-1 control-label">创建时间</label>
+						<div class="col-md-2">
+							<input date-range-picker clearable="true"
+								class="form-control input-sm date-picker" type="text"
+								ht-query="createTime" ng-model="createTime" operation="between" />
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-primary btn-sm" type="button" ht-search>
+								<i class="fa fa-search"></i> 查询
+							</button>
+							<button class="btn btn-default btn-sm" type="button" ht-reset>
+								<i class="fa fa-reply-all"></i> 重置
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover"
+					ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="50" ng-bind="$index+1" title="序号"></td>
+							<td ht-field="row.fileName" title="文件名" sortable="true"></td>
+							<td ht-field="row.extensionName" title="扩展名" sortable="true"></td>
+							<td class="col-md-1" ng-switch="row.storeType" sortable="true"
+								title="存储类型"><span class="badge badge-primary"
+								ng-switch-when="folder">磁盘</span> <span
+								class="badge badge-primary" ng-switch-when="database">数据库</span>
+								<span class="badge badge-primary" ng-switch-when="ftp">FTP服务器</span>
+							</td>
+							<td ht-field="row.creatorName" title="上传人" sortable="true"></td>
+							<td ht-field="row.createTime | date:'yyyy-MM-dd HH:mm:ss'"
+								title="创建时间" sortable="true"></td>
+							<td title="操作" class="col-md-2">
+								<button class="btn btn-info btn-sm" ng-click="download(row.id)">
+									<i class="fa fa-download"></i>下载
+								</button>
+								 <button class="btn btn-info btn-sm" ng-click="readOffice(row.id)">
+									<i class="fa fa-edit"></i>预览
+								</button>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="7"><i class="fa fa-info-circle"></i>
+								没有查询到符合条件的记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

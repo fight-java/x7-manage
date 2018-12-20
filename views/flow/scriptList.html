@@ -1,0 +1,50 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="scriptListCtrl">
+	<div class="ibox" ht-data-table="dataTable" url="${bpmRunTime}/runtime/script/v1/list">
+		<div class="ibox-title no-borders">
+			<div class="col-md-10 ">
+				<div class="col-md-5 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+						ng-click="openDetail('','add')">
+						<i class="fa fa-plus"></i> 新增
+					</button>
+					<button class="btn btn-danger btn-sm remove" 
+							ht-remove-array url="${bpmRunTime}/runtime/script/v1/remove">
+						<i class="fa fa-trash"></i> 删除
+					</button>
+				</div>
+				<div class="input-group col-md-3 tools-panel">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+					<input type="text" name="search" class="form-control input-sm" placeholder="名称，分类"
+						   title="名称，分类" ht-quick-search="name,memo">
+				</div>
+			</div>
+		</div>
+		<div class="ibox-footer">
+			<table class="table table-bordered table-striped table-hover" ht-table>
+				<tbody>
+				<tr ng-repeat="row in dataTable.rows track by $index">
+					<td width="30" class="center" selectable="true">
+						<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+					</td>
+					<td width="50" ng-bind="$index+1" title="序号"></td>
+					<td width="200" ht-field="row.name" title="名称" sortable="true"></td>
+					<td width="90" ng-switch="row.category" title="脚本类型" sortable="true">
+						<span class="badge badge-primary" ng-repeat="ategory in ategoryList" ng-if="ategory==row.category">{{ategory}}</span>
+					</td>
+					<td width="200" ht-field="row.memo" title="备注" sortable="true"></td>
+					<td width="150" title="操作">
+						<button ng-click="openDetail(row.id,'get')" class="btn btn-info btn-sm"><i class="fa fa-file-text"></i> 明细</button>
+						<button ng-click="openDetail(row.id,'edit')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> 编辑</button>
+					</td>
+				</tr>
+				<tr class="no-row">
+					<td colspan="7"><i class="fa fa-info-circle"></i> 没有查询到符合条件的记录</td>
+				</tr>
+				</tbody>
+			</table>
+			<div ht-pagination></div>
+		</div>
+	</div>
+</div>

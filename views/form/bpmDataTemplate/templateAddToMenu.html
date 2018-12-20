@@ -1,0 +1,37 @@
+<div class="animated fadeInRight full-height-scrol" full-scroll ng-controller="templateAddToMenuCtrl">
+	<div id="tempTree"></div>
+	<div class="ibox-title no-borders">
+		<form class="form-horizontal m-t-md">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">父节点*:</label>
+				<div class="col-md-9">
+					<input class="form-control" style="display:inline-block;" ng-model="parentMenuName" readonly="readonly" ng-click="setActiveParam(param,$event)" type="text" class="form-control input-sm"  placeholder="选择所属菜单" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-3">别名*:</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control" ng-change="onChangeAlias()" ng-model="data.alias"
+							required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-3">名称*:</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control"  ng-model="data.name"
+							required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-3">路径*:</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control" ng-model="data.path"
+							required="" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

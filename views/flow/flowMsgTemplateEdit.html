@@ -1,0 +1,92 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="flowMsgTemplateEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{pageParam.title}}</h5>
+				<div class="ibox-tools">
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div ng-model="data"  class="ibox-content" style="max-height: 580px;overflow-y: auto;">
+				  <form name="myForm" action="save" method="post">
+				<table class="table table-bordered"  cellspacing="0" >
+						<tr>								
+							<th style="width:20%"><span>模版名称:</span><span class="required">*</span></th>
+						 	<td>
+								<input class="form-control" type="text" id="name" name="name" ng-model="prop.template.name" ht-validate="{required:true,maxlength:765}"  />
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>模板分类:</span><span class="required">*</span></th>
+							<td>
+								<select class="form-control" id="typeKey" name="typeKey" ng-model="prop.template.typeKey" ng-change="changeType()" ng-options="e.value as e.key for e in typeSelect" ht-validate="{required:true}" ></select>
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>模版业务键:</span><span class="required">*</span></th>
+							<td>
+								<input class="form-control" type="text" id="key" name="key" ng-model="prop.template.key" ht-validate="{required:true}"  />
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>短信模板ID</span> </th>
+							<td>
+								<input class="form-control" type="text" id="smsTemplateNo" name="smsTemplateNo" ng-model="prop.template.smsTemplateNo"   />
+							</td>								
+						</tr>
+						
+						<tr>								
+							<th><span>语音模板ID:</span> </th>
+							<td>
+								<input class="form-control" type="text" id="voiceTemplateNo" name="voiceTemplateNo" ng-model="prop.template.voiceTemplateNo"  />
+							</td>								
+						</tr>
+						
+						<tr>								
+							<th><span>模板参数:</span></th>
+							<td>
+								<a href="javascript:void(0);" name="signResult" result='${instSubject}'>流程实例标题</a>
+								<a href="javascript:void(0);" name="signResult" result='${nodeName}'>节点名称</a>
+								<a href="javascript:void(0);" name="signResult" result='${taskSubject}'>任务标题</a>
+								<a href="javascript:void(0);" name="signResult" result='${cause}'>原因</a>
+								<a href="javascript:void(0);" name="signResult" result='${delegate}'>委托人</a>
+								<a href="javascript:void(0);" name="signResult" result='${agent}'>代理人</a>
+								<a href="javascript:void(0);" name="signResult" result='${receiver}'>收信人</a>
+								<a href="javascript:void(0);" name="signResult" result='${sender}'>发送人</a>
+								<br> 选择模板参数的时候，请注意光标位置(光标位置支持[标题，纯文本])。
+							</td>								
+						</tr>
+						
+						<tr>								
+							<th><span>标题:</span></th>
+							<td>
+								<textarea class="form-control"  codemirror="true"  mirrorheight="100px"  id="subject" name="subject" style="height: 100px; width: 50%" ng-model="prop.template.subject" ht-validate="{required:true,maxlength:384}"  ></textarea>
+							</td>								
+						</tr>
+						
+						<tr>								
+							<th><span>纯文本:</span></th>
+							<td>
+								<textarea class="form-control" codemirror="true"  mirrorheight="100px" id="plain" name="plain" style="height: 100px; width: 100%" ng-model="prop.template.plain"></textarea>
+							</td>								
+						</tr>
+						<tr>								
+							<th><span>模版体HTML:</span></th>
+							<td>
+							   <textarea id="htmlMsg" style="height:274px;width:99%;"></textarea> 
+								<!-- <script id="editor" type="text/plain"  style="width:100%;height:100%;"></script> -->
+								<!-- <ht-editor ng-model="reminder.htmlMsg" editorConfig ="editorConfig" style="width:600px"></ht-editor> -->
+							</td>								
+						</tr>
+				</table>
+			</form>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12 col-sm-offset-8">
+					<button class="btn btn-primary" type="submit" ng-click="save()">保存</button>
+					<button class="btn btn-white" type="submit" ng-click="close()">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

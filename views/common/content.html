@@ -1,0 +1,34 @@
+<!-- Wrapper-->
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <div ng-include="'views/common/navigation.html'" ></div>
+
+    <!-- Page wraper -->
+    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <div id="page-wrapper" class="gray-bg {{$state.current.name}}" fit-height>
+
+        <!-- Page wrapper -->
+        <div ng-include="'views/common/topnavbar.html'"></div>
+		<toaster-container></toaster-container>
+		
+		<div class="row white-bg border-bottom" style="padding:16px;">
+            <div class="col-lg-10" ncy-breadcrumb>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <!-- Main view  -->
+        <div class="fh-breadcrumb" ui-view>
+        </div>
+
+        <!-- Footer -->
+        <div ng-include="'views/common/footer.html'"></div>
+
+    </div>
+    <!-- End page wrapper-->
+
+    <!-- Right Sidebar -->
+    <div id="right-sidebar"></div>
+</div>
+<!-- End wrapper-->

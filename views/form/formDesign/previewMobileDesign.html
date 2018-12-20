@@ -1,0 +1,26 @@
+<div class="animated fadeInRight gray-bg full-height" id="previewMobile" ng-controller="previewMobileDesignCtrl">
+	<iframe ng-src="{{previewSrc}}" width="100%" height="99%" style="border: 1px solid #eee;">
+	</iframe>
+</div>
+<style>
+	#formHtml div.ibox-title{
+		border-top: 0;
+	}
+	#formHtml div.ibox-content{
+		overflow: auto;
+	}
+	.checkbox-inline, .radio-inline {
+		position: relative;
+		display: inline-block;
+		padding-left: 20px;
+		margin-bottom: 0;
+		font-weight: 400;
+		vertical-align: middle;
+		cursor: pointer;
+		margin-top: 4.5px;
+	}
+	.checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline {
+		margin-top: 4.5px;
+		margin-left: 10px;
+	}
+</style>
